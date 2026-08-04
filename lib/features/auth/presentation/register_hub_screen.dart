@@ -1,9 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
+import '../../../core/router/app_router.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/widgets/app_card.dart';
 
+@RoutePage()
 class RegisterHubScreen extends StatelessWidget {
   const RegisterHubScreen({super.key});
 
@@ -25,28 +27,28 @@ class RegisterHubScreen extends StatelessWidget {
             title: 'Employer',
             subtitle: 'Register your company and invite employees.',
             icon: Icons.business_outlined,
-            onTap: () => context.push('/register/employer'),
+            onTap: () => context.router.push(const RegisterEmployerRoute()),
           ),
           const SizedBox(height: AppSpacing.md),
           _RoleCard(
             title: 'Employee',
             subtitle: 'Join with your company invite code.',
             icon: Icons.badge_outlined,
-            onTap: () => context.push('/register/employee'),
+            onTap: () => context.router.push(const RegisterEmployeeRoute()),
           ),
           const SizedBox(height: AppSpacing.md),
           _RoleCard(
             title: 'Supplier',
             subtitle: 'Sell wholesale goods (requires admin approval).',
             icon: Icons.inventory_2_outlined,
-            onTap: () => context.push('/register/supplier'),
+            onTap: () => context.router.push(const RegisterSupplierRoute()),
           ),
           const SizedBox(height: AppSpacing.md),
           _RoleCard(
             title: 'Logistics',
             subtitle: 'Deliver orders (requires admin approval).',
             icon: Icons.local_shipping_outlined,
-            onTap: () => context.push('/register/logistics'),
+            onTap: () => context.router.push(const RegisterLogisticsRoute()),
           ),
         ],
       ),

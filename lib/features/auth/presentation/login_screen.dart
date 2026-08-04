@@ -1,13 +1,15 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
+import '../../../core/router/app_router.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/app_text_field.dart';
 import '../providers/auth_notifier.dart';
 import '../providers/auth_state.dart';
 
+@RoutePage()
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
@@ -50,7 +52,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
     ref.listen<AuthState>(authNotifierProvider, (previous, next) {
       if (next is AuthPendingApproval) {
-        context.go('/pending-approval');
+        context.router.replace(const PendingApprovalRoute());
       }
     });
 
@@ -95,7 +97,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               label: 'Create an account',
               expanded: true,
               variant: AppButtonVariant.text,
-              onPressed: loading ? null : () => context.push('/register'),
+              onPressed:
+                  loading ? null : () => context.router.push(const RegisterHubRoute()),
             ),
           ],
         ),

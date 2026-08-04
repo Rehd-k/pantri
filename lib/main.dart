@@ -14,7 +14,8 @@ class MainApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final router = ref.watch(goRouterProvider);
+    final router = ref.watch(appRouterProvider);
+    final authRefresh = ref.watch(authRouteRefreshProvider);
 
     return MaterialApp.router(
       title: 'Pantri',
@@ -22,7 +23,9 @@ class MainApp extends ConsumerWidget {
       theme: AppTheme.light(),
       darkTheme: AppTheme.dark(),
       themeMode: ThemeMode.system,
-      routerConfig: router,
+      routerConfig: router.config(
+        reevaluateListenable: authRefresh,
+      ),
     );
   }
 }

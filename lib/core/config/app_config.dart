@@ -5,6 +5,6 @@ abstract final class AppConfig {
   /// iOS simulator / desktop: use http://localhost:3000
   static const String apiBaseUrl = String.fromEnvironment(
     'API_BASE_URL',
-    defaultValue: 'http://localhost:3000/api/v1',
+    defaultValue: 'http://192.168.1.180:3000/api/v1',
   );
 }

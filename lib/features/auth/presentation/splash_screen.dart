@@ -1,10 +1,12 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/app_spacing.dart';
 import '../providers/auth_notifier.dart';
 
-/// Bootstraps session from secure storage then redirects via GoRouter.
+/// Bootstraps session from secure storage then redirects via AutoRoute guards.
+@RoutePage()
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
 

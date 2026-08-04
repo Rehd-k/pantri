@@ -1,9 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
+import '../../../core/router/app_router.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/widgets/app_button.dart';
 
+@RoutePage()
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
 
@@ -40,14 +42,14 @@ class WelcomeScreen extends StatelessWidget {
               AppButton(
                 label: 'Log in',
                 expanded: true,
-                onPressed: () => context.push('/login'),
+                onPressed: () => context.router.push(const LoginRoute()),
               ),
               const SizedBox(height: AppSpacing.md),
               AppButton(
                 label: 'Get started',
                 expanded: true,
                 variant: AppButtonVariant.outlined,
-                onPressed: () => context.push('/register'),
+                onPressed: () => context.router.push(const RegisterHubRoute()),
               ),
               const SizedBox(height: AppSpacing.lg),
             ],

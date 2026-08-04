@@ -20,8 +20,14 @@ abstract class AuthUser with _$AuthUser {
     required UserRole role,
     @JsonKey(fromJson: UserStatus.fromApi, toJson: _statusToJson)
     required UserStatus status,
+    String? employerId,
+    String? employerName,
+    String? employerInviteCode,
+    /// @deprecated Use [employerId].
     String? companyId,
+    /// @deprecated Use [employerName].
     String? companyName,
+    /// @deprecated Use [employerInviteCode].
     String? companyInviteCode,
     String? businessName,
     String? fleetName,
