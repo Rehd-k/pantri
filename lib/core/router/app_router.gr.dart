@@ -571,6 +571,62 @@ class EmployerHomeRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [HealthQuestionnaireScreen]
+class HealthQuestionnaireRoute
+    extends PageRouteInfo<HealthQuestionnaireRouteArgs> {
+  HealthQuestionnaireRoute({
+    Key? key,
+    bool embeddedInTab = false,
+    List<PageRouteInfo>? children,
+  }) : super(
+         HealthQuestionnaireRoute.name,
+         args: HealthQuestionnaireRouteArgs(
+           key: key,
+           embeddedInTab: embeddedInTab,
+         ),
+         initialChildren: children,
+       );
+
+  static const String name = 'HealthQuestionnaireRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<HealthQuestionnaireRouteArgs>(
+        orElse: () => const HealthQuestionnaireRouteArgs(),
+      );
+      return HealthQuestionnaireScreen(
+        key: args.key,
+        embeddedInTab: args.embeddedInTab,
+      );
+    },
+  );
+}
+
+class HealthQuestionnaireRouteArgs {
+  const HealthQuestionnaireRouteArgs({this.key, this.embeddedInTab = false});
+
+  final Key? key;
+
+  final bool embeddedInTab;
+
+  @override
+  String toString() {
+    return 'HealthQuestionnaireRouteArgs{key: $key, embeddedInTab: $embeddedInTab}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! HealthQuestionnaireRouteArgs) return false;
+    return key == other.key && embeddedInTab == other.embeddedInTab;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ embeddedInTab.hashCode;
+}
+
+/// generated route for
 /// [LoginScreen]
 class LoginRoute extends PageRouteInfo<void> {
   const LoginRoute({List<PageRouteInfo>? children})

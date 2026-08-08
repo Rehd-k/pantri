@@ -13,6 +13,7 @@ import '../cart/providers/cart_notifier.dart';
 import '../home/presentation/home_screen.dart';
 import '../home/providers/home_providers.dart';
 import '../marketplace/presentation/marketplace_screen.dart';
+import '../nutrition/presentation/daily_meal_plan_screen.dart';
 import '../packages/presentation/packages_screen.dart';
 import '../wishlist/presentation/saved_items_screen.dart';
 import 'employee_bottom_nav.dart';
@@ -29,9 +30,9 @@ const _employeeDestinations = [
     selectedIcon: Icons.storefront,
   ),
   EmployeeNavDestination(
-    label: 'Recipes',
-    icon: Icons.menu_book_outlined,
-    selectedIcon: Icons.menu_book,
+    label: 'Meals',
+    icon: Icons.restaurant_menu_outlined,
+    selectedIcon: Icons.restaurant_menu,
   ),
   EmployeeNavDestination(
     label: 'Wallet',
@@ -112,11 +113,7 @@ class _EmployeeShellState extends ConsumerState<EmployeeShell> {
               );
             },
           ),
-          const _ComingSoonTab(
-            icon: Icons.menu_book_outlined,
-            title: 'Recipes',
-            message: 'Personalized recipes will appear here soon.',
-          ),
+          const MealsTab(),
           const _ComingSoonTab(
             icon: Icons.account_balance_wallet_outlined,
             title: 'Wallet',
@@ -234,6 +231,28 @@ class _EmployeeProfileTab extends ConsumerWidget {
                   Expanded(
                     child: Text(
                       'Saved Items',
+                      style: Theme.of(context).textTheme.titleSmall,
+                    ),
+                  ),
+                  const Icon(Icons.chevron_right),
+                ],
+              ),
+            ),
+            const SizedBox(height: AppSpacing.md),
+            AppCard(
+              onTap: () {
+                ref.read(employeeTabIndexProvider.notifier).setIndex(2);
+              },
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.restaurant_menu_outlined,
+                    color: colorScheme.secondary,
+                  ),
+                  const SizedBox(width: AppSpacing.md),
+                  Expanded(
+                    child: Text(
+                      'Meals & questionnaire',
                       style: Theme.of(context).textTheme.titleSmall,
                     ),
                   ),

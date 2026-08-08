@@ -158,11 +158,9 @@ class HomeScreen extends ConsumerWidget {
                           .setIndex(2);
                     },
                     onNutrition: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Nutrition coming soon'),
-                        ),
-                      );
+                      ref
+                          .read(employeeTabIndexProvider.notifier)
+                          .setIndex(2);
                     },
                   ),
                 ]),

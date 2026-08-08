@@ -50,7 +50,7 @@ class QuickActionsRow extends StatelessWidget {
             Expanded(
               child: _QuickActionTile(
                 icon: Icons.restaurant_outlined,
-                label: 'Recipes',
+                label: 'Meals',
                 onTap: onRecipes,
               ),
             ),

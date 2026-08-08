@@ -23,6 +23,7 @@ import '../../features/checkout/presentation/admin_companies_screen.dart';
 import '../../features/checkout/presentation/admin_pickup_points_screen.dart';
 import '../../features/credit/presentation/credit_account_screen.dart';
 import '../../features/delivery_settings/presentation/admin_delivery_settings_screen.dart';
+import '../../features/nutrition/presentation/health_questionnaire_screen.dart';
 import '../../features/packages/presentation/admin_discount_tiers_screen.dart';
 import '../../features/packages/presentation/admin_package_form_screen.dart';
 import '../../features/packages/presentation/admin_packages_screen.dart';
@@ -64,6 +65,7 @@ class AuthRouteGuard extends AutoRouteGuard {
 
   static const _employeeRoutes = {
     CreditAccountRoute.name,
+    HealthQuestionnaireRoute.name,
   };
 
   @override
@@ -237,6 +239,10 @@ class AppRouter extends RootStackRouter {
         AutoRoute(
           page: CreditAccountRoute.page,
           path: '/employee/credit-account',
+        ),
+        AutoRoute(
+          page: HealthQuestionnaireRoute.page,
+          path: '/employee/nutrition/questionnaire',
         ),
         AutoRoute(page: SupplierHomeRoute.page, path: '/supplier/home'),
         AutoRoute(page: LogisticsHomeRoute.page, path: '/logistics/home'),
