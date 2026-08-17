@@ -63,11 +63,11 @@ class CartNotifier extends Notifier<CartState> {
     }
   }
 
-  Future<void> addProduct(String productId, {int quantity = 1}) async {
+  Future<void> addProduct(String packId, {int quantity = 1}) async {
     state = CartLoading(previous: _currentCart);
     try {
       final cart = await _repo.addItem(
-        productId: productId,
+        packId: packId,
         quantity: quantity,
       );
       state = CartLoaded(cart);
@@ -80,15 +80,15 @@ class CartNotifier extends Notifier<CartState> {
     }
   }
 
-  Future<void> setQuantity(String productId, int quantity) async {
+  Future<void> setQuantity(String packId, int quantity) async {
     if (quantity < 1) {
-      await removeProduct(productId);
+      await removeProduct(packId);
       return;
     }
     state = CartLoading(previous: _currentCart);
     try {
       final cart = await _repo.updateItem(
-        productId: productId,
+        packId: packId,
         quantity: quantity,
       );
       state = CartLoaded(cart);
@@ -100,10 +100,10 @@ class CartNotifier extends Notifier<CartState> {
     }
   }
 
-  Future<void> removeProduct(String productId) async {
+  Future<void> removeProduct(String packId) async {
     state = CartLoading(previous: _currentCart);
     try {
-      final cart = await _repo.removeItem(productId);
+      final cart = await _repo.removeItem(packId);
       state = CartLoaded(cart);
     } catch (e) {
       state = CartError(

@@ -6,16 +6,6 @@ import '../../features/shell/employee_shell.dart';
 import '../../features/shell/role_home_shell.dart';
 
 @RoutePage()
-class EmployerHomePage extends StatelessWidget {
-  const EmployerHomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const RoleHomeShell(role: UserRole.employer);
-  }
-}
-
-@RoutePage()
 class EmployeeHomePage extends StatelessWidget {
   const EmployeeHomePage({super.key});
 

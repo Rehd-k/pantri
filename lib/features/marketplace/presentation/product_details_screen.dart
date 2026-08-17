@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../../core/network/api_exception.dart';
+import '../../../core/config/app_config.dart';
 import '../../../core/theme/app_radius.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/utils/money_kobo.dart';
@@ -15,10 +16,12 @@ import '../../wishlist/data/wishlist_repository.dart';
 import '../../wishlist/providers/wishlist_providers.dart';
 import '../data/marketplace_repository.dart';
 import '../domain/marketplace_product.dart';
+import '../domain/measure_models.dart';
 import '../domain/perfect_for_item.dart';
 import '../domain/product_review.dart';
 import '../domain/rating_distribution.dart';
 import '../providers/marketplace_providers.dart';
+import '../../inventory/presentation/pantry_screen.dart';
 import 'compare_products_screen.dart';
 
 class ProductDetailsScreen extends ConsumerStatefulWidget {
@@ -33,10 +36,32 @@ class ProductDetailsScreen extends ConsumerStatefulWidget {
 
 class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
   int _quantity = 1;
+  String? _selectedPackId;
   String _reviewSort = 'recent';
   int _reviewTake = 10;
   bool _adding = false;
   bool _wishlistBusy = false;
+
+  ProductPack? _packFor(MarketplaceProduct product) {
+    final packs = product.activePacks.isNotEmpty
+        ? product.activePacks
+        : product.packs;
+    if (packs.isEmpty) return null;
+    for (final pack in packs) {
+      if (pack.id == _selectedPackId) return pack;
+    }
+    return product.cheapestPack ?? packs.first;
+  }
+
+  String? _packHint(ProductPack pack) {
+    if (pack.amountMg != null && pack.amountMg! >= 150000) {
+      return '~${pack.amountMg! ~/ 150000} Pantra Cups';
+    }
+    if (pack.amountMl != null && pack.amountMl! >= 250) {
+      return '~${pack.amountMl! ~/ 250} Pantra Pours';
+    }
+    return null;
+  }
 
   Future<void> _toggleWishlist(bool currentlySaved) async {
     if (_wishlistBusy) return;
@@ -53,9 +78,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(e is ApiException ? e.message : e.toString()),
-        ),
+        SnackBar(content: Text(e is ApiException ? e.message : e.toString())),
       );
     } finally {
       if (mounted) setState(() => _wishlistBusy = false);
@@ -63,12 +86,12 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
   }
 
   Future<void> _openComparePicker(MarketplaceProduct product) async {
-    final list = await ref.read(marketplaceRepositoryProvider).listActiveProducts(
-          subcategoryId: product.subcategoryId,
-          take: 40,
-        );
-    final others =
-        list.items.where((p) => p.id != product.id).toList(growable: false);
+    final list = await ref
+        .read(marketplaceRepositoryProvider)
+        .listActiveProducts(subcategoryId: product.subcategoryId, take: 40);
+    final others = list.items
+        .where((p) => p.id != product.id)
+        .toList(growable: false);
     if (!mounted) return;
     if (others.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -88,10 +111,9 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                 padding: const EdgeInsets.all(AppSpacing.lg),
                 child: Text(
                   'Compare with',
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleMedium
-                      ?.copyWith(fontWeight: FontWeight.w700),
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
               for (final item in others)
@@ -121,10 +143,8 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
     if (picked == null || !mounted) return;
     await Navigator.of(context).push(
       MaterialPageRoute<void>(
-        builder: (_) => CompareProductsScreen(
-          productIdA: product.id,
-          productIdB: picked,
-        ),
+        builder: (_) =>
+            CompareProductsScreen(productIdA: product.id, productIdB: picked),
       ),
     );
   }
@@ -157,214 +177,283 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
         ),
         data: (product) {
           final wishlisted = savedAsync.value ?? false;
+          final selectedPack = _packFor(product);
+          final packs = product.activePacks.isNotEmpty
+              ? product.activePacks
+              : product.packs;
+          final heroImage =
+              selectedPack != null && selectedPack.imageUrl.isNotEmpty
+              ? selectedPack.imageUrl
+              : product.imageUrl;
           return Column(
-          children: [
-            Expanded(
-              child: CustomScrollView(
-                slivers: [
-                  SliverAppBar(
-                    pinned: true,
-                    title: Text(
-                      '${product.name} ${product.packageLabel}'.trim(),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    actions: [
-                      IconButton(
-                        tooltip: 'Compare',
-                        onPressed: () => _openComparePicker(product),
-                        icon: const Icon(Icons.compare_arrows),
+            children: [
+              Expanded(
+                child: CustomScrollView(
+                  slivers: [
+                    SliverAppBar(
+                      pinned: true,
+                      title: Text(
+                        selectedPack == null
+                            ? product.name
+                            : '${product.name} ${selectedPack.packageLabel}',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      IconButton(
-                        tooltip: 'Share',
-                        onPressed: () {
-                          Share.share(
-                            '${product.name} ${product.packageLabel} — '
-                            '${MoneyKobo.formatNaira(product.priceKobo)} on Pantri',
-                          );
-                        },
-                        icon: const Icon(Icons.ios_share_outlined),
-                      ),
-                      IconButton(
-                        tooltip: 'Wishlist',
-                        onPressed: _wishlistBusy
-                            ? null
-                            : () => _toggleWishlist(wishlisted),
-                        icon: Icon(
-                          wishlisted
-                              ? Icons.favorite
-                              : Icons.favorite_border,
-                          color: wishlisted
-                              ? Theme.of(context).colorScheme.error
-                              : null,
+                      actions: [
+                        IconButton(
+                          tooltip: 'Compare',
+                          onPressed: () => _openComparePicker(product),
+                          icon: const Icon(Icons.compare_arrows),
                         ),
-                      ),
-                    ],
-                  ),
-                  SliverToBoxAdapter(
-                    child: _ProductHero(product: product),
-                  ),
-                  SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(
-                        AppSpacing.lg,
-                        AppSpacing.md,
-                        AppSpacing.lg,
-                        AppSpacing.xl,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Text(
-                            '${product.name} ${product.packageLabel}'.trim(),
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineSmall
-                                ?.copyWith(fontWeight: FontWeight.w800),
+                        IconButton(
+                          tooltip: 'Share',
+                          onPressed: () {
+                            Share.share(
+                              '${product.name} ${selectedPack?.packageLabel ?? ''} — '
+                              '${MoneyKobo.formatNaira(selectedPack?.priceKobo ?? product.fromPriceKobo)} on Pantri\n'
+                              '${AppConfig.shareBaseUrl}/products/${product.id}',
+                              subject: product.name,
+                            );
+                          },
+                          icon: const Icon(Icons.ios_share_outlined),
+                        ),
+                        IconButton(
+                          tooltip: 'Wishlist',
+                          onPressed: _wishlistBusy
+                              ? null
+                              : () => _toggleWishlist(wishlisted),
+                          icon: Icon(
+                            wishlisted ? Icons.favorite : Icons.favorite_border,
+                            color: wishlisted
+                                ? Theme.of(context).colorScheme.error
+                                : null,
                           ),
-                          const SizedBox(height: AppSpacing.sm),
-                          _RatingRow(
-                            rating: product.averageRating,
-                            reviewCount: product.reviewCount,
-                          ),
-                          const SizedBox(height: AppSpacing.lg),
-                          _PriceCard(product: product),
-                          const SizedBox(height: AppSpacing.md),
-                          _MetaChips(product: product),
-                          if (product.description.isNotEmpty) ...[
-                            const SizedBox(height: AppSpacing.xl),
+                        ),
+                      ],
+                    ),
+                    SliverToBoxAdapter(
+                      child: _ProductHero(imageUrl: heroImage),
+                    ),
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(
+                          AppSpacing.lg,
+                          AppSpacing.md,
+                          AppSpacing.lg,
+                          AppSpacing.xl,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
                             Text(
-                              'About this item',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleMedium
-                                  ?.copyWith(fontWeight: FontWeight.w700),
+                              product.name,
+                              style: Theme.of(context).textTheme.headlineSmall
+                                  ?.copyWith(fontWeight: FontWeight.w800),
                             ),
                             const SizedBox(height: AppSpacing.sm),
+                            _RatingRow(
+                              rating: product.averageRating,
+                              reviewCount: product.reviewCount,
+                            ),
+                            if (packs.isNotEmpty) ...[
+                              const SizedBox(height: AppSpacing.lg),
+                              Text(
+                                'Pack size',
+                                style: Theme.of(context).textTheme.titleSmall
+                                    ?.copyWith(fontWeight: FontWeight.w700),
+                              ),
+                              const SizedBox(height: AppSpacing.sm),
+                              Wrap(
+                                spacing: AppSpacing.sm,
+                                runSpacing: AppSpacing.sm,
+                                children: [
+                                  for (final pack in packs)
+                                    ChoiceChip(
+                                      label: Text(
+                                        '${pack.packageLabel}'
+                                        '${pack.brand.isNotEmpty ? ' · ${pack.brand}' : ''}',
+                                      ),
+                                      selected: selectedPack?.id == pack.id,
+                                      onSelected: (_) {
+                                        setState(
+                                          () => _selectedPackId = pack.id,
+                                        );
+                                      },
+                                    ),
+                                ],
+                              ),
+                              if (selectedPack != null &&
+                                  _packHint(selectedPack) != null) ...[
+                                const SizedBox(height: AppSpacing.sm),
+                                Text(
+                                  _packHint(selectedPack)!,
+                                  style: Theme.of(context).textTheme.bodySmall
+                                      ?.copyWith(
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.onSurfaceVariant,
+                                      ),
+                                ),
+                              ],
+                            ],
+                            const SizedBox(height: AppSpacing.lg),
+                            _PriceCard(product: product, pack: selectedPack),
+                            const SizedBox(height: AppSpacing.md),
+                            _MetaChips(product: product),
+                            if (product.description.isNotEmpty) ...[
+                              const SizedBox(height: AppSpacing.xl),
+                              Text(
+                                'About this item',
+                                style: Theme.of(context).textTheme.titleMedium
+                                    ?.copyWith(fontWeight: FontWeight.w700),
+                              ),
+                              const SizedBox(height: AppSpacing.sm),
+                              Text(
+                                product.description,
+                                style: Theme.of(context).textTheme.bodyMedium,
+                              ),
+                            ],
+                            const SizedBox(height: AppSpacing.md),
+                            AppButton(
+                              label: 'Add to my pantry',
+                              variant: AppButtonVariant.outlined,
+                              icon: Icons.kitchen_outlined,
+                              expanded: true,
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute<void>(
+                                    builder: (_) => AddPantryItemScreen(
+                                      initialProductId: product.id,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                            if (product.nutritionFacts.isNotEmpty) ...[
+                              const SizedBox(height: AppSpacing.xl),
+                              _NutritionSection(facts: product.nutritionFacts),
+                            ],
+                            if (product.perfectFor.isNotEmpty) ...[
+                              const SizedBox(height: AppSpacing.xl),
+                              _PerfectForSection(items: product.perfectFor),
+                            ],
+                            const SizedBox(height: AppSpacing.xl),
                             Text(
-                              product.description,
-                              style: Theme.of(context).textTheme.bodyMedium,
+                              'Product Reviews',
+                              style: Theme.of(context).textTheme.titleMedium
+                                  ?.copyWith(fontWeight: FontWeight.w700),
                             ),
-                          ],
-                          if (product.nutritionFacts.isNotEmpty) ...[
-                            const SizedBox(height: AppSpacing.xl),
-                            _NutritionSection(facts: product.nutritionFacts),
-                          ],
-                          if (product.perfectFor.isNotEmpty) ...[
-                            const SizedBox(height: AppSpacing.xl),
-                            _PerfectForSection(items: product.perfectFor),
-                          ],
-                          const SizedBox(height: AppSpacing.xl),
-                          Text(
-                            'Product Reviews',
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleMedium
-                                ?.copyWith(fontWeight: FontWeight.w700),
-                          ),
-                          const SizedBox(height: AppSpacing.md),
-                          reviewsAsync.when(
-                            loading: () => const Padding(
-                              padding: EdgeInsets.all(AppSpacing.xl),
-                              child: Center(child: CircularProgressIndicator()),
-                            ),
-                            error: (error, _) => Text(
-                              error is ApiException
-                                  ? error.message
-                                  : error.toString(),
-                            ),
-                            data: (reviews) => _ReviewsBlock(
-                              productId: widget.productId,
-                              reviews: reviews,
-                              sort: _reviewSort,
-                              onSortChanged: (value) {
-                                setState(() {
-                                  _reviewSort = value;
-                                  _reviewTake = 10;
-                                });
-                              },
-                              onLoadMore: reviews.items.length < reviews.total
-                                  ? () => setState(() => _reviewTake += 10)
-                                  : null,
-                              onWriteReview: reviews.hasReviewed
-                                  ? null
-                                  : () => _openWriteReview(product),
-                              onToggleHelpful: (review) async {
-                                try {
-                                  await ref
-                                      .read(marketplaceRepositoryProvider)
-                                      .toggleReviewHelpful(
-                                        widget.productId,
-                                        review.id,
-                                      );
-                                  ref.invalidate(
-                                    productReviewsProvider(
-                                      ProductReviewsParams(
-                                        productId: widget.productId,
-                                        sort: _reviewSort,
-                                        take: _reviewTake,
+                            const SizedBox(height: AppSpacing.md),
+                            reviewsAsync.when(
+                              loading: () => const Padding(
+                                padding: EdgeInsets.all(AppSpacing.xl),
+                                child: Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                              ),
+                              error: (error, _) => Text(
+                                error is ApiException
+                                    ? error.message
+                                    : error.toString(),
+                              ),
+                              data: (reviews) => _ReviewsBlock(
+                                productId: widget.productId,
+                                reviews: reviews,
+                                sort: _reviewSort,
+                                onSortChanged: (value) {
+                                  setState(() {
+                                    _reviewSort = value;
+                                    _reviewTake = 10;
+                                  });
+                                },
+                                onLoadMore: reviews.items.length < reviews.total
+                                    ? () => setState(() => _reviewTake += 10)
+                                    : null,
+                                onWriteReview: reviews.hasReviewed
+                                    ? null
+                                    : () => _openWriteReview(product),
+                                onToggleHelpful: (review) async {
+                                  try {
+                                    await ref
+                                        .read(marketplaceRepositoryProvider)
+                                        .toggleReviewHelpful(
+                                          widget.productId,
+                                          review.id,
+                                        );
+                                    ref.invalidate(
+                                      productReviewsProvider(
+                                        ProductReviewsParams(
+                                          productId: widget.productId,
+                                          sort: _reviewSort,
+                                          take: _reviewTake,
+                                        ),
                                       ),
-                                    ),
-                                  );
-                                  ref.invalidate(
-                                    productDetailProvider(widget.productId),
-                                  );
-                                } catch (e) {
-                                  if (!context.mounted) return;
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        e is ApiException
-                                            ? e.message
-                                            : e.toString(),
+                                    );
+                                    ref.invalidate(
+                                      productDetailProvider(widget.productId),
+                                    );
+                                  } catch (e) {
+                                    if (!context.mounted) return;
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          e is ApiException
+                                              ? e.message
+                                              : e.toString(),
+                                        ),
                                       ),
-                                    ),
-                                  );
-                                }
-                              },
+                                    );
+                                  }
+                                },
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: AppSpacing.xxl),
-                        ],
+                            const SizedBox(height: AppSpacing.xxl),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            _StickyCartBar(
-              quantity: _quantity,
-              loading: _adding,
-              onMinus: _quantity > 1
-                  ? () => setState(() => _quantity -= 1)
-                  : null,
-              onPlus: () => setState(() => _quantity += 1),
-              onAdd: () => _addToCart(product),
-            ),
-          ],
-        );
+              _StickyCartBar(
+                quantity: _quantity,
+                loading: _adding,
+                onMinus: _quantity > 1
+                    ? () => setState(() => _quantity -= 1)
+                    : null,
+                onPlus: () => setState(() => _quantity += 1),
+                onAdd: () => _addToCart(product),
+              ),
+            ],
+          );
         },
       ),
     );
   }
 
   Future<void> _addToCart(MarketplaceProduct product) async {
+    final pack = _packFor(product);
+    if (pack == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('This product has no sellable packs')),
+      );
+      return;
+    }
     setState(() => _adding = true);
     try {
-      await ref.read(cartNotifierProvider.notifier).addProduct(
-            product.id,
-            quantity: _quantity,
-          );
+      await ref
+          .read(cartNotifierProvider.notifier)
+          .addProduct(pack.id, quantity: _quantity);
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Added ${product.name} to cart')),
+        SnackBar(
+          content: Text('Added ${product.name} ${pack.packageLabel} to cart'),
+        ),
       );
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(e is ApiException ? e.message : e.toString()),
-        ),
+        SnackBar(content: Text(e is ApiException ? e.message : e.toString())),
       );
     } finally {
       if (mounted) setState(() => _adding = false);
@@ -379,10 +468,9 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
     );
     if (result == null) return;
     try {
-      await ref.read(marketplaceRepositoryProvider).createProductReview(
-            widget.productId,
-            result,
-          );
+      await ref
+          .read(marketplaceRepositoryProvider)
+          .createProductReview(widget.productId, result);
       ref.invalidate(productDetailProvider(widget.productId));
       ref.invalidate(
         productReviewsProvider(
@@ -394,31 +482,29 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
         ),
       );
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Review submitted')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Review submitted')));
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(e is ApiException ? e.message : e.toString()),
-        ),
+        SnackBar(content: Text(e is ApiException ? e.message : e.toString())),
       );
     }
   }
 }
 
 class _ProductHero extends StatelessWidget {
-  const _ProductHero({required this.product});
+  const _ProductHero({required this.imageUrl});
 
-  final MarketplaceProduct product;
+  final String imageUrl;
 
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
       aspectRatio: 1.15,
       child: Image.network(
-        product.imageUrl,
+        imageUrl,
         fit: BoxFit.cover,
         width: double.infinity,
         errorBuilder: (_, __, ___) => ColoredBox(
@@ -447,8 +533,8 @@ class _RatingRow extends StatelessWidget {
             half
                 ? Icons.star_half
                 : filled
-                    ? Icons.star
-                    : Icons.star_border,
+                ? Icons.star
+                : Icons.star_border,
             size: 18,
             color: const Color(0xFFE6A800),
           );
@@ -466,14 +552,18 @@ class _RatingRow extends StatelessWidget {
 }
 
 class _PriceCard extends StatelessWidget {
-  const _PriceCard({required this.product});
+  const _PriceCard({required this.product, this.pack});
 
   final MarketplaceProduct product;
+  final ProductPack? pack;
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final savings = product.retailPriceKobo - product.priceKobo;
+    final priceKobo = pack?.priceKobo ?? product.fromPriceKobo;
+    final retailPriceKobo =
+        pack?.retailPriceKobo ?? product.fromRetailPriceKobo;
+    final savings = retailPriceKobo - priceKobo;
     final claimed = product.bulkAllocationClaimedPercent.clamp(0, 100);
 
     return AppCard(
@@ -483,17 +573,17 @@ class _PriceCard extends StatelessWidget {
           Text(
             'WHOLESALE PRICE',
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  letterSpacing: 0.8,
-                  color: colorScheme.onSurfaceVariant,
-                ),
+              letterSpacing: 0.8,
+              color: colorScheme.onSurfaceVariant,
+            ),
           ),
           const SizedBox(height: AppSpacing.xs),
           Text(
-            MoneyKobo.formatNaira(product.priceKobo),
+            MoneyKobo.formatNaira(priceKobo),
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  color: colorScheme.tertiary,
-                  fontWeight: FontWeight.w800,
-                ),
+              color: colorScheme.tertiary,
+              fontWeight: FontWeight.w800,
+            ),
           ),
           const SizedBox(height: AppSpacing.sm),
           Wrap(
@@ -501,11 +591,11 @@ class _PriceCard extends StatelessWidget {
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               Text(
-                'Retail: ${MoneyKobo.formatNaira(product.retailPriceKobo)}',
+                'Retail: ${MoneyKobo.formatNaira(retailPriceKobo)}',
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      decoration: TextDecoration.lineThrough,
-                      color: colorScheme.onSurfaceVariant,
-                    ),
+                  decoration: TextDecoration.lineThrough,
+                  color: colorScheme.onSurfaceVariant,
+                ),
               ),
               if (savings > 0)
                 Container(
@@ -520,9 +610,9 @@ class _PriceCard extends StatelessWidget {
                   child: Text(
                     'Save ${MoneyKobo.formatNaira(savings)}',
                     style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                          color: const Color(0xFF1B7A4E),
-                          fontWeight: FontWeight.w700,
-                        ),
+                      color: const Color(0xFF1B7A4E),
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
             ],
@@ -541,8 +631,8 @@ class _PriceCard extends StatelessWidget {
           Text(
             '$claimed% of bulk allocation claimed',
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: colorScheme.onSurfaceVariant,
-                ),
+              color: colorScheme.onSurfaceVariant,
+            ),
           ),
         ],
       ),
@@ -584,7 +674,11 @@ class _MetaChips extends StatelessWidget {
       );
     }
     if (chips.isEmpty) return const SizedBox.shrink();
-    return Wrap(spacing: AppSpacing.sm, runSpacing: AppSpacing.sm, children: chips);
+    return Wrap(
+      spacing: AppSpacing.sm,
+      runSpacing: AppSpacing.sm,
+      children: chips,
+    );
   }
 
   Widget _chip(
@@ -615,9 +709,9 @@ class _MetaChips extends StatelessWidget {
           Text(
             label,
             style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                  color: accent ? colorScheme.tertiary : null,
-                  fontWeight: accent ? FontWeight.w600 : null,
-                ),
+              color: accent ? colorScheme.tertiary : null,
+              fontWeight: accent ? FontWeight.w600 : null,
+            ),
           ),
         ],
       ),
@@ -639,10 +733,9 @@ class _NutritionSection extends StatelessWidget {
           children: [
             Text(
               'Nutritional Facts',
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium
-                  ?.copyWith(fontWeight: FontWeight.w700),
+              style: Theme.of(
+                context,
+              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
             ),
             const SizedBox(width: AppSpacing.xs),
             Icon(
@@ -677,8 +770,8 @@ class _NutritionSection extends StatelessWidget {
         Text(
           '*Per 100g serving',
           style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-              ),
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
+          ),
         ),
       ],
     );
@@ -699,10 +792,9 @@ class _PerfectForSection extends StatelessWidget {
           children: [
             Text(
               'Perfect For',
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium
-                  ?.copyWith(fontWeight: FontWeight.w700),
+              style: Theme.of(
+                context,
+              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
             ),
             const SizedBox(width: AppSpacing.xs),
             Icon(
@@ -724,8 +816,9 @@ class _PerfectForSection extends StatelessWidget {
                   height: 48,
                   fit: BoxFit.cover,
                   errorBuilder: (_, __, ___) => CircleAvatar(
-                    backgroundColor:
-                        Theme.of(context).colorScheme.surfaceContainerHighest,
+                    backgroundColor: Theme.of(
+                      context,
+                    ).colorScheme.surfaceContainerHighest,
                     child: const Icon(Icons.restaurant, size: 20),
                   ),
                 ),
@@ -737,10 +830,9 @@ class _PerfectForSection extends StatelessWidget {
                   children: [
                     Text(
                       item.title,
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleSmall
-                          ?.copyWith(fontWeight: FontWeight.w700),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                     Text(
                       item.description,
@@ -792,10 +884,9 @@ class _ReviewsBlock extends StatelessWidget {
           children: [
             Text(
               'Reviews',
-              style: Theme.of(context)
-                  .textTheme
-                  .titleSmall
-                  ?.copyWith(fontWeight: FontWeight.w700),
+              style: Theme.of(
+                context,
+              ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700),
             ),
             const Spacer(),
             DropdownButtonHideUnderline(
@@ -803,7 +894,10 @@ class _ReviewsBlock extends StatelessWidget {
                 value: sort,
                 items: const [
                   DropdownMenuItem(value: 'recent', child: Text('Most Recent')),
-                  DropdownMenuItem(value: 'helpful', child: Text('Most Helpful')),
+                  DropdownMenuItem(
+                    value: 'helpful',
+                    child: Text('Most Helpful'),
+                  ),
                 ],
                 onChanged: (value) {
                   if (value != null) onSortChanged(value);
@@ -825,8 +919,8 @@ class _ReviewsBlock extends StatelessWidget {
           Text(
             'No reviews yet. Be the first to review this product.',
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
           )
         else
           for (final review in reviews.items) ...[
@@ -870,10 +964,9 @@ class _ReviewSummaryCard extends StatelessWidget {
         children: [
           Text(
             averageRating.toStringAsFixed(1),
-            style: Theme.of(context)
-                .textTheme
-                .displaySmall
-                ?.copyWith(fontWeight: FontWeight.w800),
+            style: Theme.of(
+              context,
+            ).textTheme.displaySmall?.copyWith(fontWeight: FontWeight.w800),
           ),
           const SizedBox(height: AppSpacing.xs),
           Row(
@@ -891,25 +984,23 @@ class _ReviewSummaryCard extends StatelessWidget {
           Text(
             'Based on $reviewCount reviews.',
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
           ),
           const SizedBox(height: AppSpacing.lg),
           for (final (stars, count) in bars) ...[
             Row(
               children: [
-                SizedBox(
-                  width: 56,
-                  child: Text('$stars Star'),
-                ),
+                SizedBox(width: 56, child: Text('$stars Star')),
                 Expanded(
                   child: ClipRRect(
                     borderRadius: AppRadius.borderSm,
                     child: LinearProgressIndicator(
                       value: count / total,
                       minHeight: 8,
-                      backgroundColor:
-                          Theme.of(context).colorScheme.surfaceContainerHighest,
+                      backgroundColor: Theme.of(
+                        context,
+                      ).colorScheme.surfaceContainerHighest,
                       color: const Color(0xFFE6A800),
                     ),
                   ),
@@ -934,10 +1025,7 @@ class _ReviewSummaryCard extends StatelessWidget {
 }
 
 class _ReviewCard extends StatelessWidget {
-  const _ReviewCard({
-    required this.review,
-    required this.onToggleHelpful,
-  });
+  const _ReviewCard({required this.review, required this.onToggleHelpful});
 
   final ProductReview review;
   final Future<void> Function(ProductReview review) onToggleHelpful;
@@ -946,7 +1034,7 @@ class _ReviewCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final initials =
         '${review.author.firstName.isNotEmpty ? review.author.firstName[0] : ''}'
-        '${review.author.lastName.isNotEmpty ? review.author.lastName[0] : ''}'
+                '${review.author.lastName.isNotEmpty ? review.author.lastName[0] : ''}'
             .toUpperCase();
     final created = DateTime.tryParse(review.createdAt);
     final ago = created == null ? '' : _relativeTime(created);
@@ -958,8 +1046,7 @@ class _ReviewCard extends StatelessWidget {
           Row(
             children: [
               CircleAvatar(
-                backgroundColor:
-                    Theme.of(context).colorScheme.primaryContainer,
+                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
                 child: Text(initials.isEmpty ? '?' : initials),
               ),
               const SizedBox(width: AppSpacing.md),
@@ -973,9 +1060,7 @@ class _ReviewCard extends StatelessWidget {
                           child: Text(
                             '${review.author.firstName} ${review.author.lastName}'
                                 .trim(),
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleSmall
+                            style: Theme.of(context).textTheme.titleSmall
                                 ?.copyWith(fontWeight: FontWeight.w700),
                           ),
                         ),
@@ -991,10 +1076,8 @@ class _ReviewCard extends StatelessWidget {
                       Text(
                         ago,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSurfaceVariant,
-                            ),
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        ),
                       ),
                   ],
                 ),
@@ -1086,15 +1169,11 @@ class _StickyCartBar extends StatelessWidget {
                     ),
                     Text(
                       '$quantity',
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleMedium
-                          ?.copyWith(fontWeight: FontWeight.w700),
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
-                    IconButton(
-                      onPressed: onPlus,
-                      icon: const Icon(Icons.add),
-                    ),
+                    IconButton(onPressed: onPlus, icon: const Icon(Icons.add)),
                   ],
                 ),
               ),
@@ -1111,7 +1190,9 @@ class _StickyCartBar extends StatelessWidget {
                       : const Icon(Icons.shopping_cart_outlined),
                   label: const Text('Add to Cart'),
                   style: FilledButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: AppSpacing.md,
+                    ),
                   ),
                 ),
               ),
@@ -1158,10 +1239,9 @@ class _WriteReviewSheetState extends State<_WriteReviewSheet> {
         children: [
           Text(
             'Review ${widget.productName}',
-            style: Theme.of(context)
-                .textTheme
-                .titleMedium
-                ?.copyWith(fontWeight: FontWeight.w700),
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
           ),
           const SizedBox(height: AppSpacing.md),
           Row(
@@ -1188,9 +1268,9 @@ class _WriteReviewSheetState extends State<_WriteReviewSheet> {
             onPressed: () {
               final body = _bodyController.text.trim();
               if (body.isEmpty) return;
-              Navigator.of(context).pop(
-                CreateReviewRequest(rating: _rating, body: body),
-              );
+              Navigator.of(
+                context,
+              ).pop(CreateReviewRequest(rating: _rating, body: body));
             },
           ),
         ],

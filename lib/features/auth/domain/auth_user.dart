@@ -23,14 +23,20 @@ abstract class AuthUser with _$AuthUser {
     String? employerId,
     String? employerName,
     String? employerInviteCode,
+
     /// @deprecated Use [employerId].
     String? companyId,
+
     /// @deprecated Use [employerName].
     String? companyName,
+
     /// @deprecated Use [employerInviteCode].
     String? companyInviteCode,
     String? businessName,
     String? fleetName,
+    String? employeeId,
+    String? verificationStatus,
+    String? phone,
   }) = _AuthUser;
 
   factory AuthUser.fromJson(Map<String, dynamic> json) =>

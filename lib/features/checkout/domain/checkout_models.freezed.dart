@@ -1955,7 +1955,7 @@ as String,
 /// @nodoc
 mixin _$CheckoutOrderItem {
 
- String get productId; String get name; int get quantity; int get unitPriceKobo; int get lineTotalKobo;
+ String get productId; String? get packId; String get brand; String get packageLabel; String get name; int get quantity; int get unitPriceKobo; int get lineTotalKobo;
 /// Create a copy of CheckoutOrderItem
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1968,16 +1968,16 @@ $CheckoutOrderItemCopyWith<CheckoutOrderItem> get copyWith => _$CheckoutOrderIte
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CheckoutOrderItem&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.name, name) || other.name == name)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.unitPriceKobo, unitPriceKobo) || other.unitPriceKobo == unitPriceKobo)&&(identical(other.lineTotalKobo, lineTotalKobo) || other.lineTotalKobo == lineTotalKobo));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CheckoutOrderItem&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.packId, packId) || other.packId == packId)&&(identical(other.brand, brand) || other.brand == brand)&&(identical(other.packageLabel, packageLabel) || other.packageLabel == packageLabel)&&(identical(other.name, name) || other.name == name)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.unitPriceKobo, unitPriceKobo) || other.unitPriceKobo == unitPriceKobo)&&(identical(other.lineTotalKobo, lineTotalKobo) || other.lineTotalKobo == lineTotalKobo));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,productId,name,quantity,unitPriceKobo,lineTotalKobo);
+int get hashCode => Object.hash(runtimeType,productId,packId,brand,packageLabel,name,quantity,unitPriceKobo,lineTotalKobo);
 
 @override
 String toString() {
-  return 'CheckoutOrderItem(productId: $productId, name: $name, quantity: $quantity, unitPriceKobo: $unitPriceKobo, lineTotalKobo: $lineTotalKobo)';
+  return 'CheckoutOrderItem(productId: $productId, packId: $packId, brand: $brand, packageLabel: $packageLabel, name: $name, quantity: $quantity, unitPriceKobo: $unitPriceKobo, lineTotalKobo: $lineTotalKobo)';
 }
 
 
@@ -1988,7 +1988,7 @@ abstract mixin class $CheckoutOrderItemCopyWith<$Res>  {
   factory $CheckoutOrderItemCopyWith(CheckoutOrderItem value, $Res Function(CheckoutOrderItem) _then) = _$CheckoutOrderItemCopyWithImpl;
 @useResult
 $Res call({
- String productId, String name, int quantity, int unitPriceKobo, int lineTotalKobo
+ String productId, String? packId, String brand, String packageLabel, String name, int quantity, int unitPriceKobo, int lineTotalKobo
 });
 
 
@@ -2005,9 +2005,12 @@ class _$CheckoutOrderItemCopyWithImpl<$Res>
 
 /// Create a copy of CheckoutOrderItem
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? productId = null,Object? name = null,Object? quantity = null,Object? unitPriceKobo = null,Object? lineTotalKobo = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? productId = null,Object? packId = freezed,Object? brand = null,Object? packageLabel = null,Object? name = null,Object? quantity = null,Object? unitPriceKobo = null,Object? lineTotalKobo = null,}) {
   return _then(_self.copyWith(
 productId: null == productId ? _self.productId : productId // ignore: cast_nullable_to_non_nullable
+as String,packId: freezed == packId ? _self.packId : packId // ignore: cast_nullable_to_non_nullable
+as String?,brand: null == brand ? _self.brand : brand // ignore: cast_nullable_to_non_nullable
+as String,packageLabel: null == packageLabel ? _self.packageLabel : packageLabel // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,quantity: null == quantity ? _self.quantity : quantity // ignore: cast_nullable_to_non_nullable
 as int,unitPriceKobo: null == unitPriceKobo ? _self.unitPriceKobo : unitPriceKobo // ignore: cast_nullable_to_non_nullable
@@ -2097,10 +2100,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String productId,  String name,  int quantity,  int unitPriceKobo,  int lineTotalKobo)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String productId,  String? packId,  String brand,  String packageLabel,  String name,  int quantity,  int unitPriceKobo,  int lineTotalKobo)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CheckoutOrderItem() when $default != null:
-return $default(_that.productId,_that.name,_that.quantity,_that.unitPriceKobo,_that.lineTotalKobo);case _:
+return $default(_that.productId,_that.packId,_that.brand,_that.packageLabel,_that.name,_that.quantity,_that.unitPriceKobo,_that.lineTotalKobo);case _:
   return orElse();
 
 }
@@ -2118,10 +2121,10 @@ return $default(_that.productId,_that.name,_that.quantity,_that.unitPriceKobo,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String productId,  String name,  int quantity,  int unitPriceKobo,  int lineTotalKobo)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String productId,  String? packId,  String brand,  String packageLabel,  String name,  int quantity,  int unitPriceKobo,  int lineTotalKobo)  $default,) {final _that = this;
 switch (_that) {
 case _CheckoutOrderItem():
-return $default(_that.productId,_that.name,_that.quantity,_that.unitPriceKobo,_that.lineTotalKobo);case _:
+return $default(_that.productId,_that.packId,_that.brand,_that.packageLabel,_that.name,_that.quantity,_that.unitPriceKobo,_that.lineTotalKobo);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -2138,10 +2141,10 @@ return $default(_that.productId,_that.name,_that.quantity,_that.unitPriceKobo,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String productId,  String name,  int quantity,  int unitPriceKobo,  int lineTotalKobo)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String productId,  String? packId,  String brand,  String packageLabel,  String name,  int quantity,  int unitPriceKobo,  int lineTotalKobo)?  $default,) {final _that = this;
 switch (_that) {
 case _CheckoutOrderItem() when $default != null:
-return $default(_that.productId,_that.name,_that.quantity,_that.unitPriceKobo,_that.lineTotalKobo);case _:
+return $default(_that.productId,_that.packId,_that.brand,_that.packageLabel,_that.name,_that.quantity,_that.unitPriceKobo,_that.lineTotalKobo);case _:
   return null;
 
 }
@@ -2153,10 +2156,13 @@ return $default(_that.productId,_that.name,_that.quantity,_that.unitPriceKobo,_t
 @JsonSerializable()
 
 class _CheckoutOrderItem implements CheckoutOrderItem {
-  const _CheckoutOrderItem({required this.productId, required this.name, required this.quantity, required this.unitPriceKobo, required this.lineTotalKobo});
+  const _CheckoutOrderItem({required this.productId, this.packId, this.brand = '', this.packageLabel = '', required this.name, required this.quantity, required this.unitPriceKobo, required this.lineTotalKobo});
   factory _CheckoutOrderItem.fromJson(Map<String, dynamic> json) => _$CheckoutOrderItemFromJson(json);
 
 @override final  String productId;
+@override final  String? packId;
+@override@JsonKey() final  String brand;
+@override@JsonKey() final  String packageLabel;
 @override final  String name;
 @override final  int quantity;
 @override final  int unitPriceKobo;
@@ -2175,16 +2181,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CheckoutOrderItem&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.name, name) || other.name == name)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.unitPriceKobo, unitPriceKobo) || other.unitPriceKobo == unitPriceKobo)&&(identical(other.lineTotalKobo, lineTotalKobo) || other.lineTotalKobo == lineTotalKobo));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CheckoutOrderItem&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.packId, packId) || other.packId == packId)&&(identical(other.brand, brand) || other.brand == brand)&&(identical(other.packageLabel, packageLabel) || other.packageLabel == packageLabel)&&(identical(other.name, name) || other.name == name)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.unitPriceKobo, unitPriceKobo) || other.unitPriceKobo == unitPriceKobo)&&(identical(other.lineTotalKobo, lineTotalKobo) || other.lineTotalKobo == lineTotalKobo));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,productId,name,quantity,unitPriceKobo,lineTotalKobo);
+int get hashCode => Object.hash(runtimeType,productId,packId,brand,packageLabel,name,quantity,unitPriceKobo,lineTotalKobo);
 
 @override
 String toString() {
-  return 'CheckoutOrderItem(productId: $productId, name: $name, quantity: $quantity, unitPriceKobo: $unitPriceKobo, lineTotalKobo: $lineTotalKobo)';
+  return 'CheckoutOrderItem(productId: $productId, packId: $packId, brand: $brand, packageLabel: $packageLabel, name: $name, quantity: $quantity, unitPriceKobo: $unitPriceKobo, lineTotalKobo: $lineTotalKobo)';
 }
 
 
@@ -2195,7 +2201,7 @@ abstract mixin class _$CheckoutOrderItemCopyWith<$Res> implements $CheckoutOrder
   factory _$CheckoutOrderItemCopyWith(_CheckoutOrderItem value, $Res Function(_CheckoutOrderItem) _then) = __$CheckoutOrderItemCopyWithImpl;
 @override @useResult
 $Res call({
- String productId, String name, int quantity, int unitPriceKobo, int lineTotalKobo
+ String productId, String? packId, String brand, String packageLabel, String name, int quantity, int unitPriceKobo, int lineTotalKobo
 });
 
 
@@ -2212,9 +2218,12 @@ class __$CheckoutOrderItemCopyWithImpl<$Res>
 
 /// Create a copy of CheckoutOrderItem
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? productId = null,Object? name = null,Object? quantity = null,Object? unitPriceKobo = null,Object? lineTotalKobo = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? productId = null,Object? packId = freezed,Object? brand = null,Object? packageLabel = null,Object? name = null,Object? quantity = null,Object? unitPriceKobo = null,Object? lineTotalKobo = null,}) {
   return _then(_CheckoutOrderItem(
 productId: null == productId ? _self.productId : productId // ignore: cast_nullable_to_non_nullable
+as String,packId: freezed == packId ? _self.packId : packId // ignore: cast_nullable_to_non_nullable
+as String?,brand: null == brand ? _self.brand : brand // ignore: cast_nullable_to_non_nullable
+as String,packageLabel: null == packageLabel ? _self.packageLabel : packageLabel // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,quantity: null == quantity ? _self.quantity : quantity // ignore: cast_nullable_to_non_nullable
 as int,unitPriceKobo: null == unitPriceKobo ? _self.unitPriceKobo : unitPriceKobo // ignore: cast_nullable_to_non_nullable

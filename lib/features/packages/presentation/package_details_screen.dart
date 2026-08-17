@@ -31,7 +31,7 @@ class _PackageDetailsScreenState extends ConsumerState<PackageDetailsScreen> {
   List<PackageItemInput> _itemsPayload(PantryPackage pkg) => pkg.items
       .map(
         (i) => PackageItemInput(
-          productId: i.productId,
+          packId: i.packId,
           quantity: i.quantity,
           sortOrder: i.sortOrder,
         ),

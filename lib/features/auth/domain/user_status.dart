@@ -5,10 +5,10 @@ enum UserStatus {
   suspended;
 
   String get apiValue => switch (this) {
-        UserStatus.active => 'ACTIVE',
-        UserStatus.pendingApproval => 'PENDING_APPROVAL',
-        UserStatus.suspended => 'SUSPENDED',
-      };
+    UserStatus.active => 'ACTIVE',
+    UserStatus.pendingApproval => 'PENDING_APPROVAL',
+    UserStatus.suspended => 'SUSPENDED',
+  };
 
   static UserStatus fromApi(String value) {
     return UserStatus.values.firstWhere(

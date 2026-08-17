@@ -19,16 +19,16 @@ class CartRepository {
 
   Future<Cart> getCart() => _api.getCart();
 
-  Future<Cart> addItem({required String productId, int quantity = 1}) =>
-      _api.addItem(productId: productId, quantity: quantity);
+  Future<Cart> addItem({required String packId, int quantity = 1}) =>
+      _api.addItem(packId: packId, quantity: quantity);
 
   Future<Cart> updateItem({
-    required String productId,
+    required String packId,
     required int quantity,
   }) =>
-      _api.updateItem(productId: productId, quantity: quantity);
+      _api.updateItem(packId: packId, quantity: quantity);
 
-  Future<Cart> removeItem(String productId) => _api.removeItem(productId);
+  Future<Cart> removeItem(String packId) => _api.removeItem(packId);
 
   Future<Cart> clearCart() => _api.clearCart();
 }

@@ -26,13 +26,3 @@ final minePackagesProvider =
     FutureProvider.autoDispose<MinePackagesResponse>((ref) async {
   return ref.watch(packagesRepositoryProvider).listMine();
 });
-
-final adminPackagesProvider =
-    FutureProvider.autoDispose<List<PackageListItem>>((ref) async {
-  return ref.watch(packagesRepositoryProvider).adminListPackages();
-});
-
-final adminDiscountTiersProvider =
-    FutureProvider.autoDispose<List<DiscountTier>>((ref) async {
-  return ref.watch(packagesRepositoryProvider).adminListTiers();
-});

@@ -6,6 +6,7 @@ import '../../../core/theme/app_spacing.dart';
 import '../../../core/utils/money_kobo.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../marketplace/domain/marketplace_product.dart';
+import '../../marketplace/domain/measure_models.dart';
 import '../../marketplace/presentation/marketplace_search_screen.dart';
 import '../data/packages_repository.dart';
 import '../domain/package_models.dart';
@@ -36,7 +37,7 @@ class _CustomizePackageScreenState
   List<PackageItemInput> get _payload => _items
       .map(
         (i) => PackageItemInput(
-          productId: i.productId,
+          packId: i.packId,
           quantity: i.quantity,
           sortOrder: i.sortOrder,
         ),
@@ -73,37 +74,86 @@ class _CustomizePackageScreenState
       ),
     );
     if (product == null) return;
+    if (!mounted) return;
 
-    final existingIndex =
-        _items.indexWhere((i) => i.productId == product.id);
+    final pack = await _pickPack(context, product);
+    if (pack == null || !mounted) return;
+
+    final existingIndex = _items.indexWhere((i) => i.packId == pack.id);
     setState(() {
       if (existingIndex >= 0) {
         final existing = _items[existingIndex];
         _items[existingIndex] = existing.copyWith(
           quantity: existing.quantity + 1,
-          lineWholesaleKobo: product.priceKobo * (existing.quantity + 1),
-          lineRetailKobo: product.retailPriceKobo * (existing.quantity + 1),
+          lineWholesaleKobo: pack.priceKobo * (existing.quantity + 1),
+          lineRetailKobo: pack.retailPriceKobo * (existing.quantity + 1),
         );
       } else {
         _items.add(
           PackageItem(
-            id: 'local-${product.id}',
+            id: 'local-${pack.id}',
+            packId: pack.id,
             productId: product.id,
             quantity: 1,
             sortOrder: _items.length,
             name: product.name,
-            brand: product.brand,
-            packageLabel: product.packageLabel,
-            imageUrl: product.imageUrl,
-            priceKobo: product.priceKobo,
-            retailPriceKobo: product.retailPriceKobo,
-            lineWholesaleKobo: product.priceKobo,
-            lineRetailKobo: product.retailPriceKobo,
+            brand: pack.brand,
+            packageLabel: pack.packageLabel,
+            imageUrl: pack.imageUrl.isNotEmpty ? pack.imageUrl : product.imageUrl,
+            priceKobo: pack.priceKobo,
+            retailPriceKobo: pack.retailPriceKobo,
+            lineWholesaleKobo: pack.priceKobo,
+            lineRetailKobo: pack.retailPriceKobo,
           ),
         );
       }
     });
     await _refreshPreview();
+  }
+
+  Future<ProductPack?> _pickPack(
+    BuildContext context,
+    MarketplaceProduct product,
+  ) async {
+    final packs = product.activePacks.isNotEmpty
+        ? product.activePacks
+        : product.packs;
+    if (packs.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('This product has no sellable packs')),
+      );
+      return null;
+    }
+    if (packs.length == 1) return packs.first;
+    return showModalBottomSheet<ProductPack>(
+      context: context,
+      builder: (context) {
+        return SafeArea(
+          child: ListView(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(AppSpacing.lg),
+                child: Text(
+                  'Choose pack size',
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium
+                      ?.copyWith(fontWeight: FontWeight.w700),
+                ),
+              ),
+              for (final pack in packs)
+                ListTile(
+                  title: Text('${product.name} · ${pack.packageLabel}'),
+                  subtitle: Text(
+                    '${pack.brand} · ${MoneyKobo.formatNaira(pack.priceKobo)}',
+                  ),
+                  onTap: () => Navigator.of(context).pop(pack),
+                ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   @override

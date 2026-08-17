@@ -43,37 +43,6 @@ class PackagesRepository {
     List<PackageItemInput>? items,
   }) =>
       _api.subscribe(id, items: items);
-
-  Future<List<PackageListItem>> adminListPackages() =>
-      _api.adminListPackages();
-
-  Future<PantryPackage> adminCreatePackage(
-    CreateAdminPackageRequest request,
-  ) =>
-      _api.adminCreatePackage(request);
-
-  Future<PantryPackage> adminUpdatePackage(
-    String id,
-    UpdateAdminPackageRequest request,
-  ) =>
-      _api.adminUpdatePackage(id, request);
-
-  Future<PantryPackage> adminDeactivatePackage(String id) =>
-      _api.adminDeactivatePackage(id);
-
-  Future<List<DiscountTier>> adminListTiers() => _api.adminListTiers();
-
-  Future<DiscountTier> adminCreateTier(CreateDiscountTierRequest request) =>
-      _api.adminCreateTier(request);
-
-  Future<DiscountTier> adminUpdateTier(
-    String id,
-    UpdateDiscountTierRequest request,
-  ) =>
-      _api.adminUpdateTier(id, request);
-
-  Future<DiscountTier> adminDeactivateTier(String id) =>
-      _api.adminDeactivateTier(id);
 }
 
 final packagesApiProvider = Provider<PackagesApi>((ref) {

@@ -21,27 +21,6 @@ class CheckoutRepository {
 
   Future<CheckoutResponse> checkout(CheckoutRequest request) =>
       _api.checkout(request);
-
-  Future<List<CompanyListItem>> adminListCompanies() =>
-      _api.adminListCompanies();
-
-  Future<List<PickupPoint>> adminListPickupPoints(String companyId) =>
-      _api.adminListPickupPoints(companyId);
-
-  Future<PickupPoint> adminCreatePickupPoint(
-    String companyId,
-    CreatePickupPointRequest request,
-  ) =>
-      _api.adminCreatePickupPoint(companyId, request);
-
-  Future<PickupPoint> adminUpdatePickupPoint(
-    String id,
-    UpdatePickupPointRequest request,
-  ) =>
-      _api.adminUpdatePickupPoint(id, request);
-
-  Future<PickupPoint> adminDeactivatePickupPoint(String id) =>
-      _api.adminDeactivatePickupPoint(id);
 }
 
 final checkoutApiProvider = Provider<CheckoutApi>((ref) {

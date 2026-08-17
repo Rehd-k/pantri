@@ -7,12 +7,12 @@ enum UserRole {
   logistics;
 
   String get apiValue => switch (this) {
-        UserRole.admin => 'ADMIN',
-        UserRole.employer => 'EMPLOYER',
-        UserRole.employee => 'EMPLOYEE',
-        UserRole.supplier => 'SUPPLIER',
-        UserRole.logistics => 'LOGISTICS',
-      };
+    UserRole.admin => 'ADMIN',
+    UserRole.employer => 'EMPLOYER',
+    UserRole.employee => 'EMPLOYEE',
+    UserRole.supplier => 'SUPPLIER',
+    UserRole.logistics => 'LOGISTICS',
+  };
 
   static UserRole fromApi(String value) {
     return UserRole.values.firstWhere(

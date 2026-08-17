@@ -300,10 +300,23 @@ class _MarketplaceSearchScreenState
                                 widget.onProductPicked?.call(product);
                               }
                             : () async {
+                          final packId = product.cheapestPack?.id;
+                          if (packId == null) {
+                            if (context.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    'This product has no sellable packs',
+                                  ),
+                                ),
+                              );
+                            }
+                            return;
+                          }
                           try {
                             await ref
                                 .read(cartNotifierProvider.notifier)
-                                .addProduct(product.id);
+                                .addProduct(packId);
                             if (context.mounted) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(

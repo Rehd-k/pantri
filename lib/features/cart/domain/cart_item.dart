@@ -10,6 +10,7 @@ part 'cart_item.g.dart';
 abstract class CartItem with _$CartItem {
   const factory CartItem({
     required String id,
+    required String packId,
     required String productId,
     required String name,
     required String brand,

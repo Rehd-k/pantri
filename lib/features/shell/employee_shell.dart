@@ -4,16 +4,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/widgets/app_button.dart';
 import '../../core/widgets/app_card.dart';
-import '../../core/widgets/app_empty_state.dart';
 import '../auth/providers/auth_notifier.dart';
 import '../auth/providers/auth_state.dart';
 import '../cart/presentation/cart_fab.dart';
 import '../cart/presentation/cart_screen.dart';
 import '../cart/providers/cart_notifier.dart';
+import '../credit/presentation/credit_account_screen.dart';
 import '../home/presentation/home_screen.dart';
 import '../home/providers/home_providers.dart';
 import '../marketplace/presentation/marketplace_screen.dart';
 import '../nutrition/presentation/daily_meal_plan_screen.dart';
+import '../orders/presentation/orders_screen.dart';
 import '../packages/presentation/packages_screen.dart';
 import '../wishlist/presentation/saved_items_screen.dart';
 import 'employee_bottom_nav.dart';
@@ -35,9 +36,9 @@ const _employeeDestinations = [
     selectedIcon: Icons.restaurant_menu,
   ),
   EmployeeNavDestination(
-    label: 'Wallet',
-    icon: Icons.account_balance_wallet_outlined,
-    selectedIcon: Icons.account_balance_wallet,
+    label: 'Credit',
+    icon: Icons.credit_score_outlined,
+    selectedIcon: Icons.credit_score,
   ),
   EmployeeNavDestination(
     label: 'Profile',
@@ -75,35 +76,39 @@ class _EmployeeShellState extends ConsumerState<EmployeeShell> {
 
   void _openCart() {
     _marketplaceNavKey.currentState?.push(
-      MaterialPageRoute<void>(
-        builder: (_) => const CartScreen(),
-      ),
+      MaterialPageRoute<void>(builder: (_) => const CartScreen()),
     );
   }
 
   void _openPackages() {
-    ref.read(employeeTabIndexProvider.notifier).setIndex(1);
+    ref
+        .read(employeeTabIndexProvider.notifier)
+        .setIndex(EmployeeTabs.marketplace);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _marketplaceNavKey.currentState?.push(
-        MaterialPageRoute<void>(
-          builder: (_) => const PackagesScreen(),
-        ),
+        MaterialPageRoute<void>(builder: (_) => const PackagesScreen()),
       );
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final index = ref.watch(employeeTabIndexProvider).clamp(
-          0,
-          _employeeDestinations.length - 1,
-        );
+    final index = ref
+        .watch(employeeTabIndexProvider)
+        .clamp(0, _employeeDestinations.length - 1);
 
     return Scaffold(
       body: IndexedStack(
         index: index,
         children: [
-          HomeScreen(onOpenPackages: _openPackages),
+          HomeScreen(
+            onOpenPackages: _openPackages,
+            onOpenOrders: () {
+              Navigator.of(context).push(
+                MaterialPageRoute<void>(builder: (_) => const OrdersScreen()),
+              );
+            },
+          ),
           Navigator(
             key: _marketplaceNavKey,
             onGenerateRoute: (settings) {
@@ -114,15 +119,11 @@ class _EmployeeShellState extends ConsumerState<EmployeeShell> {
             },
           ),
           const MealsTab(),
-          const _ComingSoonTab(
-            icon: Icons.account_balance_wallet_outlined,
-            title: 'Wallet',
-            message: 'Payroll deductions and balances will appear here soon.',
-          ),
+          const CreditAccountScreen(),
           const _EmployeeProfileTab(),
         ],
       ),
-      floatingActionButton: index == 1
+      floatingActionButton: index == EmployeeTabs.marketplace
           ? CartFab(onPressed: _openCart)
           : null,
       bottomNavigationBar: EmployeeBottomNav(
@@ -131,29 +132,6 @@ class _EmployeeShellState extends ConsumerState<EmployeeShell> {
         onDestinationSelected: (i) {
           ref.read(employeeTabIndexProvider.notifier).setIndex(i);
         },
-      ),
-    );
-  }
-}
-
-class _ComingSoonTab extends StatelessWidget {
-  const _ComingSoonTab({
-    required this.icon,
-    required this.title,
-    required this.message,
-  });
-
-  final IconData icon;
-  final String title;
-  final String message;
-
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: AppEmptyState(
-        icon: icon,
-        title: title,
-        message: message,
       ),
     );
   }
@@ -174,9 +152,9 @@ class _EmployeeProfileTab extends ConsumerWidget {
         children: [
           Text(
             'Profile',
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.w800,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w800),
           ),
           const SizedBox(height: AppSpacing.xl),
           if (user != null) ...[
@@ -188,9 +166,9 @@ class _EmployeeProfileTab extends ConsumerWidget {
                 '${user.firstName.isNotEmpty ? user.firstName[0] : ''}'
                         '${user.lastName.isNotEmpty ? user.lastName[0] : ''}'
                     .toUpperCase(),
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.w700,
-                    ),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
               ),
             ),
             const SizedBox(height: AppSpacing.lg),
@@ -202,8 +180,8 @@ class _EmployeeProfileTab extends ConsumerWidget {
             Text(
               user.email,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: colorScheme.onSurfaceVariant,
-                  ),
+                color: colorScheme.onSurfaceVariant,
+              ),
             ),
             if (user.companyName != null) ...[
               const SizedBox(height: AppSpacing.sm),
@@ -216,6 +194,27 @@ class _EmployeeProfileTab extends ConsumerWidget {
             AppCard(
               onTap: () {
                 Navigator.of(context).push(
+                  MaterialPageRoute<void>(builder: (_) => const OrdersScreen()),
+                );
+              },
+              child: Row(
+                children: [
+                  Icon(Icons.receipt_long_outlined, color: colorScheme.primary),
+                  const SizedBox(width: AppSpacing.md),
+                  Expanded(
+                    child: Text(
+                      'My orders',
+                      style: Theme.of(context).textTheme.titleSmall,
+                    ),
+                  ),
+                  const Icon(Icons.chevron_right),
+                ],
+              ),
+            ),
+            const SizedBox(height: AppSpacing.md),
+            AppCard(
+              onTap: () {
+                Navigator.of(context).push(
                   MaterialPageRoute<void>(
                     builder: (_) => const SavedItemsScreen(),
                   ),
@@ -223,10 +222,7 @@ class _EmployeeProfileTab extends ConsumerWidget {
               },
               child: Row(
                 children: [
-                  Icon(
-                    Icons.favorite_outline,
-                    color: colorScheme.tertiary,
-                  ),
+                  Icon(Icons.favorite_outline, color: colorScheme.tertiary),
                   const SizedBox(width: AppSpacing.md),
                   Expanded(
                     child: Text(
@@ -241,7 +237,9 @@ class _EmployeeProfileTab extends ConsumerWidget {
             const SizedBox(height: AppSpacing.md),
             AppCard(
               onTap: () {
-                ref.read(employeeTabIndexProvider.notifier).setIndex(2);
+                ref
+                    .read(employeeTabIndexProvider.notifier)
+                    .setIndex(EmployeeTabs.meals);
               },
               child: Row(
                 children: [

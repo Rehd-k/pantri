@@ -24,6 +24,7 @@ class _RegisterEmployeeScreenState
   final _email = TextEditingController();
   final _password = TextEditingController();
   final _inviteCode = TextEditingController();
+  final _phone = TextEditingController();
   String? _localError;
 
   @override
@@ -33,6 +34,7 @@ class _RegisterEmployeeScreenState
     _email.dispose();
     _password.dispose();
     _inviteCode.dispose();
+    _phone.dispose();
     super.dispose();
   }
 
@@ -49,12 +51,15 @@ class _RegisterEmployeeScreenState
       );
       return;
     }
-    await ref.read(authNotifierProvider.notifier).registerEmployee(
+    await ref
+        .read(authNotifierProvider.notifier)
+        .registerEmployee(
           email: _email.text,
           password: _password.text,
           firstName: _firstName.text,
           lastName: _lastName.text,
           inviteCode: _inviteCode.text,
+          phone: _phone.text,
         );
   }
 
@@ -99,7 +104,14 @@ class _RegisterEmployeeScreenState
             const SizedBox(height: AppSpacing.lg),
             AppTextField(
               controller: _inviteCode,
-              label: 'Company invite code',
+              label: 'Your invite code',
+              enabled: !loading,
+            ),
+            const SizedBox(height: AppSpacing.lg),
+            AppTextField(
+              controller: _phone,
+              label: 'Phone (optional)',
+              keyboardType: TextInputType.phone,
               enabled: !loading,
             ),
             if (error != null) ...[

@@ -51,7 +51,9 @@ class _RegisterSupplierScreenState
       );
       return;
     }
-    await ref.read(authNotifierProvider.notifier).registerSupplier(
+    await ref
+        .read(authNotifierProvider.notifier)
+        .registerSupplier(
           email: _email.text,
           password: _password.text,
           firstName: _firstName.text,

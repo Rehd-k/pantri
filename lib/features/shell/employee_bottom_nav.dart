@@ -3,6 +3,15 @@ import 'package:flutter/material.dart';
 import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_spacing.dart';
 
+/// Employee shell tab indexes (Home=0 … Profile=4).
+abstract final class EmployeeTabs {
+  static const home = 0;
+  static const marketplace = 1;
+  static const meals = 2;
+  static const credit = 3;
+  static const profile = 4;
+}
+
 class EmployeeNavDestination {
   const EmployeeNavDestination({
     required this.label,

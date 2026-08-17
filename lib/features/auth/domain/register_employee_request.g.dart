@@ -14,6 +14,7 @@ _RegisterEmployeeRequest _$RegisterEmployeeRequestFromJson(
   firstName: json['firstName'] as String,
   lastName: json['lastName'] as String,
   inviteCode: json['inviteCode'] as String,
+  phone: json['phone'] as String?,
 );
 
 Map<String, dynamic> _$RegisterEmployeeRequestToJson(
@@ -24,4 +25,5 @@ Map<String, dynamic> _$RegisterEmployeeRequestToJson(
   'firstName': instance.firstName,
   'lastName': instance.lastName,
   'inviteCode': instance.inviteCode,
+  'phone': instance.phone,
 };

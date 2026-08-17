@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$WishlistItem {
 
- String get id; String get productId; String get name; String get brand; String get packageLabel; String get imageUrl; int get priceKobo; int get retailPriceKobo; int get bulkAllocationClaimedPercent; int get priceKoboAtSave; bool get priceDropped; int get dropAmountKobo; String get savedAt;
+ String get id; String get productId; String? get packId; String get name; String get brand; String get packageLabel; String get imageUrl; int get priceKobo; int get retailPriceKobo; int get bulkAllocationClaimedPercent; int get priceKoboAtSave; bool get priceDropped; int get dropAmountKobo; String get savedAt;
 /// Create a copy of WishlistItem
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $WishlistItemCopyWith<WishlistItem> get copyWith => _$WishlistItemCopyWithImpl<W
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is WishlistItem&&(identical(other.id, id) || other.id == id)&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.name, name) || other.name == name)&&(identical(other.brand, brand) || other.brand == brand)&&(identical(other.packageLabel, packageLabel) || other.packageLabel == packageLabel)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.priceKobo, priceKobo) || other.priceKobo == priceKobo)&&(identical(other.retailPriceKobo, retailPriceKobo) || other.retailPriceKobo == retailPriceKobo)&&(identical(other.bulkAllocationClaimedPercent, bulkAllocationClaimedPercent) || other.bulkAllocationClaimedPercent == bulkAllocationClaimedPercent)&&(identical(other.priceKoboAtSave, priceKoboAtSave) || other.priceKoboAtSave == priceKoboAtSave)&&(identical(other.priceDropped, priceDropped) || other.priceDropped == priceDropped)&&(identical(other.dropAmountKobo, dropAmountKobo) || other.dropAmountKobo == dropAmountKobo)&&(identical(other.savedAt, savedAt) || other.savedAt == savedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is WishlistItem&&(identical(other.id, id) || other.id == id)&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.packId, packId) || other.packId == packId)&&(identical(other.name, name) || other.name == name)&&(identical(other.brand, brand) || other.brand == brand)&&(identical(other.packageLabel, packageLabel) || other.packageLabel == packageLabel)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.priceKobo, priceKobo) || other.priceKobo == priceKobo)&&(identical(other.retailPriceKobo, retailPriceKobo) || other.retailPriceKobo == retailPriceKobo)&&(identical(other.bulkAllocationClaimedPercent, bulkAllocationClaimedPercent) || other.bulkAllocationClaimedPercent == bulkAllocationClaimedPercent)&&(identical(other.priceKoboAtSave, priceKoboAtSave) || other.priceKoboAtSave == priceKoboAtSave)&&(identical(other.priceDropped, priceDropped) || other.priceDropped == priceDropped)&&(identical(other.dropAmountKobo, dropAmountKobo) || other.dropAmountKobo == dropAmountKobo)&&(identical(other.savedAt, savedAt) || other.savedAt == savedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,productId,name,brand,packageLabel,imageUrl,priceKobo,retailPriceKobo,bulkAllocationClaimedPercent,priceKoboAtSave,priceDropped,dropAmountKobo,savedAt);
+int get hashCode => Object.hash(runtimeType,id,productId,packId,name,brand,packageLabel,imageUrl,priceKobo,retailPriceKobo,bulkAllocationClaimedPercent,priceKoboAtSave,priceDropped,dropAmountKobo,savedAt);
 
 @override
 String toString() {
-  return 'WishlistItem(id: $id, productId: $productId, name: $name, brand: $brand, packageLabel: $packageLabel, imageUrl: $imageUrl, priceKobo: $priceKobo, retailPriceKobo: $retailPriceKobo, bulkAllocationClaimedPercent: $bulkAllocationClaimedPercent, priceKoboAtSave: $priceKoboAtSave, priceDropped: $priceDropped, dropAmountKobo: $dropAmountKobo, savedAt: $savedAt)';
+  return 'WishlistItem(id: $id, productId: $productId, packId: $packId, name: $name, brand: $brand, packageLabel: $packageLabel, imageUrl: $imageUrl, priceKobo: $priceKobo, retailPriceKobo: $retailPriceKobo, bulkAllocationClaimedPercent: $bulkAllocationClaimedPercent, priceKoboAtSave: $priceKoboAtSave, priceDropped: $priceDropped, dropAmountKobo: $dropAmountKobo, savedAt: $savedAt)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $WishlistItemCopyWith<$Res>  {
   factory $WishlistItemCopyWith(WishlistItem value, $Res Function(WishlistItem) _then) = _$WishlistItemCopyWithImpl;
 @useResult
 $Res call({
- String id, String productId, String name, String brand, String packageLabel, String imageUrl, int priceKobo, int retailPriceKobo, int bulkAllocationClaimedPercent, int priceKoboAtSave, bool priceDropped, int dropAmountKobo, String savedAt
+ String id, String productId, String? packId, String name, String brand, String packageLabel, String imageUrl, int priceKobo, int retailPriceKobo, int bulkAllocationClaimedPercent, int priceKoboAtSave, bool priceDropped, int dropAmountKobo, String savedAt
 });
 
 
@@ -65,11 +65,12 @@ class _$WishlistItemCopyWithImpl<$Res>
 
 /// Create a copy of WishlistItem
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? productId = null,Object? name = null,Object? brand = null,Object? packageLabel = null,Object? imageUrl = null,Object? priceKobo = null,Object? retailPriceKobo = null,Object? bulkAllocationClaimedPercent = null,Object? priceKoboAtSave = null,Object? priceDropped = null,Object? dropAmountKobo = null,Object? savedAt = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? productId = null,Object? packId = freezed,Object? name = null,Object? brand = null,Object? packageLabel = null,Object? imageUrl = null,Object? priceKobo = null,Object? retailPriceKobo = null,Object? bulkAllocationClaimedPercent = null,Object? priceKoboAtSave = null,Object? priceDropped = null,Object? dropAmountKobo = null,Object? savedAt = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,productId: null == productId ? _self.productId : productId // ignore: cast_nullable_to_non_nullable
-as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String,packId: freezed == packId ? _self.packId : packId // ignore: cast_nullable_to_non_nullable
+as String?,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,brand: null == brand ? _self.brand : brand // ignore: cast_nullable_to_non_nullable
 as String,packageLabel: null == packageLabel ? _self.packageLabel : packageLabel // ignore: cast_nullable_to_non_nullable
 as String,imageUrl: null == imageUrl ? _self.imageUrl : imageUrl // ignore: cast_nullable_to_non_nullable
@@ -165,10 +166,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String productId,  String name,  String brand,  String packageLabel,  String imageUrl,  int priceKobo,  int retailPriceKobo,  int bulkAllocationClaimedPercent,  int priceKoboAtSave,  bool priceDropped,  int dropAmountKobo,  String savedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String productId,  String? packId,  String name,  String brand,  String packageLabel,  String imageUrl,  int priceKobo,  int retailPriceKobo,  int bulkAllocationClaimedPercent,  int priceKoboAtSave,  bool priceDropped,  int dropAmountKobo,  String savedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _WishlistItem() when $default != null:
-return $default(_that.id,_that.productId,_that.name,_that.brand,_that.packageLabel,_that.imageUrl,_that.priceKobo,_that.retailPriceKobo,_that.bulkAllocationClaimedPercent,_that.priceKoboAtSave,_that.priceDropped,_that.dropAmountKobo,_that.savedAt);case _:
+return $default(_that.id,_that.productId,_that.packId,_that.name,_that.brand,_that.packageLabel,_that.imageUrl,_that.priceKobo,_that.retailPriceKobo,_that.bulkAllocationClaimedPercent,_that.priceKoboAtSave,_that.priceDropped,_that.dropAmountKobo,_that.savedAt);case _:
   return orElse();
 
 }
@@ -186,10 +187,10 @@ return $default(_that.id,_that.productId,_that.name,_that.brand,_that.packageLab
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String productId,  String name,  String brand,  String packageLabel,  String imageUrl,  int priceKobo,  int retailPriceKobo,  int bulkAllocationClaimedPercent,  int priceKoboAtSave,  bool priceDropped,  int dropAmountKobo,  String savedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String productId,  String? packId,  String name,  String brand,  String packageLabel,  String imageUrl,  int priceKobo,  int retailPriceKobo,  int bulkAllocationClaimedPercent,  int priceKoboAtSave,  bool priceDropped,  int dropAmountKobo,  String savedAt)  $default,) {final _that = this;
 switch (_that) {
 case _WishlistItem():
-return $default(_that.id,_that.productId,_that.name,_that.brand,_that.packageLabel,_that.imageUrl,_that.priceKobo,_that.retailPriceKobo,_that.bulkAllocationClaimedPercent,_that.priceKoboAtSave,_that.priceDropped,_that.dropAmountKobo,_that.savedAt);case _:
+return $default(_that.id,_that.productId,_that.packId,_that.name,_that.brand,_that.packageLabel,_that.imageUrl,_that.priceKobo,_that.retailPriceKobo,_that.bulkAllocationClaimedPercent,_that.priceKoboAtSave,_that.priceDropped,_that.dropAmountKobo,_that.savedAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -206,10 +207,10 @@ return $default(_that.id,_that.productId,_that.name,_that.brand,_that.packageLab
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String productId,  String name,  String brand,  String packageLabel,  String imageUrl,  int priceKobo,  int retailPriceKobo,  int bulkAllocationClaimedPercent,  int priceKoboAtSave,  bool priceDropped,  int dropAmountKobo,  String savedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String productId,  String? packId,  String name,  String brand,  String packageLabel,  String imageUrl,  int priceKobo,  int retailPriceKobo,  int bulkAllocationClaimedPercent,  int priceKoboAtSave,  bool priceDropped,  int dropAmountKobo,  String savedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _WishlistItem() when $default != null:
-return $default(_that.id,_that.productId,_that.name,_that.brand,_that.packageLabel,_that.imageUrl,_that.priceKobo,_that.retailPriceKobo,_that.bulkAllocationClaimedPercent,_that.priceKoboAtSave,_that.priceDropped,_that.dropAmountKobo,_that.savedAt);case _:
+return $default(_that.id,_that.productId,_that.packId,_that.name,_that.brand,_that.packageLabel,_that.imageUrl,_that.priceKobo,_that.retailPriceKobo,_that.bulkAllocationClaimedPercent,_that.priceKoboAtSave,_that.priceDropped,_that.dropAmountKobo,_that.savedAt);case _:
   return null;
 
 }
@@ -221,11 +222,12 @@ return $default(_that.id,_that.productId,_that.name,_that.brand,_that.packageLab
 @JsonSerializable()
 
 class _WishlistItem implements WishlistItem {
-  const _WishlistItem({required this.id, required this.productId, required this.name, required this.brand, required this.packageLabel, required this.imageUrl, required this.priceKobo, required this.retailPriceKobo, required this.bulkAllocationClaimedPercent, required this.priceKoboAtSave, required this.priceDropped, required this.dropAmountKobo, required this.savedAt});
+  const _WishlistItem({required this.id, required this.productId, this.packId, required this.name, required this.brand, required this.packageLabel, required this.imageUrl, required this.priceKobo, required this.retailPriceKobo, required this.bulkAllocationClaimedPercent, required this.priceKoboAtSave, required this.priceDropped, required this.dropAmountKobo, required this.savedAt});
   factory _WishlistItem.fromJson(Map<String, dynamic> json) => _$WishlistItemFromJson(json);
 
 @override final  String id;
 @override final  String productId;
+@override final  String? packId;
 @override final  String name;
 @override final  String brand;
 @override final  String packageLabel;
@@ -251,16 +253,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _WishlistItem&&(identical(other.id, id) || other.id == id)&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.name, name) || other.name == name)&&(identical(other.brand, brand) || other.brand == brand)&&(identical(other.packageLabel, packageLabel) || other.packageLabel == packageLabel)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.priceKobo, priceKobo) || other.priceKobo == priceKobo)&&(identical(other.retailPriceKobo, retailPriceKobo) || other.retailPriceKobo == retailPriceKobo)&&(identical(other.bulkAllocationClaimedPercent, bulkAllocationClaimedPercent) || other.bulkAllocationClaimedPercent == bulkAllocationClaimedPercent)&&(identical(other.priceKoboAtSave, priceKoboAtSave) || other.priceKoboAtSave == priceKoboAtSave)&&(identical(other.priceDropped, priceDropped) || other.priceDropped == priceDropped)&&(identical(other.dropAmountKobo, dropAmountKobo) || other.dropAmountKobo == dropAmountKobo)&&(identical(other.savedAt, savedAt) || other.savedAt == savedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _WishlistItem&&(identical(other.id, id) || other.id == id)&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.packId, packId) || other.packId == packId)&&(identical(other.name, name) || other.name == name)&&(identical(other.brand, brand) || other.brand == brand)&&(identical(other.packageLabel, packageLabel) || other.packageLabel == packageLabel)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.priceKobo, priceKobo) || other.priceKobo == priceKobo)&&(identical(other.retailPriceKobo, retailPriceKobo) || other.retailPriceKobo == retailPriceKobo)&&(identical(other.bulkAllocationClaimedPercent, bulkAllocationClaimedPercent) || other.bulkAllocationClaimedPercent == bulkAllocationClaimedPercent)&&(identical(other.priceKoboAtSave, priceKoboAtSave) || other.priceKoboAtSave == priceKoboAtSave)&&(identical(other.priceDropped, priceDropped) || other.priceDropped == priceDropped)&&(identical(other.dropAmountKobo, dropAmountKobo) || other.dropAmountKobo == dropAmountKobo)&&(identical(other.savedAt, savedAt) || other.savedAt == savedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,productId,name,brand,packageLabel,imageUrl,priceKobo,retailPriceKobo,bulkAllocationClaimedPercent,priceKoboAtSave,priceDropped,dropAmountKobo,savedAt);
+int get hashCode => Object.hash(runtimeType,id,productId,packId,name,brand,packageLabel,imageUrl,priceKobo,retailPriceKobo,bulkAllocationClaimedPercent,priceKoboAtSave,priceDropped,dropAmountKobo,savedAt);
 
 @override
 String toString() {
-  return 'WishlistItem(id: $id, productId: $productId, name: $name, brand: $brand, packageLabel: $packageLabel, imageUrl: $imageUrl, priceKobo: $priceKobo, retailPriceKobo: $retailPriceKobo, bulkAllocationClaimedPercent: $bulkAllocationClaimedPercent, priceKoboAtSave: $priceKoboAtSave, priceDropped: $priceDropped, dropAmountKobo: $dropAmountKobo, savedAt: $savedAt)';
+  return 'WishlistItem(id: $id, productId: $productId, packId: $packId, name: $name, brand: $brand, packageLabel: $packageLabel, imageUrl: $imageUrl, priceKobo: $priceKobo, retailPriceKobo: $retailPriceKobo, bulkAllocationClaimedPercent: $bulkAllocationClaimedPercent, priceKoboAtSave: $priceKoboAtSave, priceDropped: $priceDropped, dropAmountKobo: $dropAmountKobo, savedAt: $savedAt)';
 }
 
 
@@ -271,7 +273,7 @@ abstract mixin class _$WishlistItemCopyWith<$Res> implements $WishlistItemCopyWi
   factory _$WishlistItemCopyWith(_WishlistItem value, $Res Function(_WishlistItem) _then) = __$WishlistItemCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String productId, String name, String brand, String packageLabel, String imageUrl, int priceKobo, int retailPriceKobo, int bulkAllocationClaimedPercent, int priceKoboAtSave, bool priceDropped, int dropAmountKobo, String savedAt
+ String id, String productId, String? packId, String name, String brand, String packageLabel, String imageUrl, int priceKobo, int retailPriceKobo, int bulkAllocationClaimedPercent, int priceKoboAtSave, bool priceDropped, int dropAmountKobo, String savedAt
 });
 
 
@@ -288,11 +290,12 @@ class __$WishlistItemCopyWithImpl<$Res>
 
 /// Create a copy of WishlistItem
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? productId = null,Object? name = null,Object? brand = null,Object? packageLabel = null,Object? imageUrl = null,Object? priceKobo = null,Object? retailPriceKobo = null,Object? bulkAllocationClaimedPercent = null,Object? priceKoboAtSave = null,Object? priceDropped = null,Object? dropAmountKobo = null,Object? savedAt = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? productId = null,Object? packId = freezed,Object? name = null,Object? brand = null,Object? packageLabel = null,Object? imageUrl = null,Object? priceKobo = null,Object? retailPriceKobo = null,Object? bulkAllocationClaimedPercent = null,Object? priceKoboAtSave = null,Object? priceDropped = null,Object? dropAmountKobo = null,Object? savedAt = null,}) {
   return _then(_WishlistItem(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,productId: null == productId ? _self.productId : productId // ignore: cast_nullable_to_non_nullable
-as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String,packId: freezed == packId ? _self.packId : packId // ignore: cast_nullable_to_non_nullable
+as String?,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,brand: null == brand ? _self.brand : brand // ignore: cast_nullable_to_non_nullable
 as String,packageLabel: null == packageLabel ? _self.packageLabel : packageLabel // ignore: cast_nullable_to_non_nullable
 as String,imageUrl: null == imageUrl ? _self.imageUrl : imageUrl // ignore: cast_nullable_to_non_nullable

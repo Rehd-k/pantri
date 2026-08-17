@@ -217,10 +217,23 @@ class _SavedItemsScreenState extends ConsumerState<SavedItemsScreen> {
                           ? () => _toggleSelect(item.productId)
                           : null,
                       onAddToCart: () async {
+                        final packId = item.packId;
+                        if (packId == null || packId.isEmpty) {
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                  'This saved item has no sellable pack',
+                                ),
+                              ),
+                            );
+                          }
+                          return;
+                        }
                         try {
                           await ref
                               .read(cartNotifierProvider.notifier)
-                              .addProduct(item.productId);
+                              .addProduct(packId);
                           if (context.mounted) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(

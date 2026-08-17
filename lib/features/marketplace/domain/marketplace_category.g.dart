@@ -9,6 +9,7 @@ part of 'marketplace_category.dart';
 _MarketplaceCategory _$MarketplaceCategoryFromJson(Map<String, dynamic> json) =>
     _MarketplaceCategory(
       id: json['id'] as String,
+      slug: json['slug'] as String,
       name: json['name'] as String,
       imageUrl: json['imageUrl'] as String,
       accentColor: json['accentColor'] as String,
@@ -22,6 +23,7 @@ Map<String, dynamic> _$MarketplaceCategoryToJson(
   _MarketplaceCategory instance,
 ) => <String, dynamic>{
   'id': instance.id,
+  'slug': instance.slug,
   'name': instance.name,
   'imageUrl': instance.imageUrl,
   'accentColor': instance.accentColor,

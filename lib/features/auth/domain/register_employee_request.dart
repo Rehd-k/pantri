@@ -12,6 +12,7 @@ abstract class RegisterEmployeeRequest with _$RegisterEmployeeRequest {
     required String firstName,
     required String lastName,
     required String inviteCode,
+    String? phone,
   }) = _RegisterEmployeeRequest;
 
   factory RegisterEmployeeRequest.fromJson(Map<String, dynamic> json) =>

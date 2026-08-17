@@ -7,6 +7,21 @@ import 'api_exception.dart';
 
 final tokenStorageProvider = Provider<TokenStorage>((ref) => TokenStorage());
 
+class SessionInvalidation extends Notifier<int> {
+  @override
+  int build() => 0;
+
+  void invalidate() => state++;
+}
+
+final sessionInvalidationProvider = NotifierProvider<SessionInvalidation, int>(
+  SessionInvalidation.new,
+);
+
+bool _isCredentialPath(String path) {
+  return path.contains('/auth/login') || path.contains('/auth/register');
+}
+
 final dioProvider = Provider<Dio>((ref) {
   final tokenStorage = ref.watch(tokenStorageProvider);
   final dio = Dio(
@@ -27,7 +42,13 @@ final dioProvider = Provider<Dio>((ref) {
         }
         handler.next(options);
       },
-      onError: (error, handler) {
+      onError: (error, handler) async {
+        final status = error.response?.statusCode;
+        final path = error.requestOptions.path;
+        if (status == 401 && !_isCredentialPath(path)) {
+          await tokenStorage.clearToken();
+          ref.read(sessionInvalidationProvider.notifier).invalidate();
+        }
         handler.next(error);
       },
     ),
@@ -53,7 +74,8 @@ ApiException mapDioError(DioException error) {
     message = 'Unable to reach the server. Check your connection.';
   }
 
-  final isPending = statusCode == 403 &&
+  final isPending =
+      statusCode == 403 &&
       message.toLowerCase().contains('pending admin approval');
 
   return ApiException(

@@ -10,6 +10,7 @@ abstract class WishlistItem with _$WishlistItem {
   const factory WishlistItem({
     required String id,
     required String productId,
+    String? packId,
     required String name,
     required String brand,
     required String packageLabel,

@@ -7,4 +7,9 @@ abstract final class AppConfig {
     'API_BASE_URL',
     defaultValue: 'http://192.168.1.180:3000/api/v1',
   );
+
+  static const String shareBaseUrl = String.fromEnvironment(
+    'APP_SHARE_BASE_URL',
+    defaultValue: 'https://pantri.app',
+  );
 }

@@ -5,8 +5,10 @@ import 'package:share_plus/share_plus.dart';
 import '../../../core/network/api_exception.dart';
 import '../../../core/theme/app_radius.dart';
 import '../../../core/theme/app_spacing.dart';
+import '../../../core/utils/money_kobo.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../marketplace/domain/marketplace_product.dart';
+import '../../marketplace/domain/measure_models.dart';
 import '../../marketplace/presentation/marketplace_search_screen.dart';
 import '../data/imagekit_uploader.dart';
 import '../data/packages_repository.dart';
@@ -29,6 +31,7 @@ class _CreatePackageScreenState extends ConsumerState<CreatePackageScreen> {
   String? _coverUrl;
   final List<PackageItemInput> _items = [];
   final List<MarketplaceProduct> _selectedProducts = [];
+  final List<String> _selectedPackLabels = [];
   bool _uploading = false;
   bool _saving = false;
 
@@ -72,17 +75,63 @@ class _CreatePackageScreenState extends ConsumerState<CreatePackageScreen> {
       ),
     );
     if (product == null) return;
-    if (_items.any((i) => i.productId == product.id)) return;
+    if (!mounted) return;
+    final pack = await _pickPack(product);
+    if (pack == null || !mounted) return;
+    if (_items.any((i) => i.packId == pack.id)) return;
     setState(() {
       _selectedProducts.add(product);
+      _selectedPackLabels.add(pack.packageLabel);
       _items.add(
         PackageItemInput(
-          productId: product.id,
+          packId: pack.id,
           quantity: 1,
           sortOrder: _items.length,
         ),
       );
     });
+  }
+
+  Future<ProductPack?> _pickPack(MarketplaceProduct product) async {
+    final packs = product.activePacks.isNotEmpty
+        ? product.activePacks
+        : product.packs;
+    if (packs.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('This product has no sellable packs')),
+      );
+      return null;
+    }
+    if (packs.length == 1) return packs.first;
+    return showModalBottomSheet<ProductPack>(
+      context: context,
+      builder: (context) {
+        return SafeArea(
+          child: ListView(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(AppSpacing.lg),
+                child: Text(
+                  'Choose pack size',
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium
+                      ?.copyWith(fontWeight: FontWeight.w700),
+                ),
+              ),
+              for (final pack in packs)
+                ListTile(
+                  title: Text('${product.name} · ${pack.packageLabel}'),
+                  subtitle: Text(
+                    '${pack.brand} · ${MoneyKobo.formatNaira(pack.priceKobo)}',
+                  ),
+                  onTap: () => Navigator.of(context).pop(pack),
+                ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   Future<void> _save() async {
@@ -249,12 +298,13 @@ class _CreatePackageScreenState extends ConsumerState<CreatePackageScreen> {
             ListTile(
               contentPadding: EdgeInsets.zero,
               title: Text(_selectedProducts[i].name),
-              subtitle: Text(_selectedProducts[i].packageLabel),
+              subtitle: Text(_selectedPackLabels[i]),
               trailing: IconButton(
                 icon: const Icon(Icons.delete_outline),
                 onPressed: () {
                   setState(() {
                     _selectedProducts.removeAt(i);
+                    _selectedPackLabels.removeAt(i);
                     _items.removeAt(i);
                   });
                 },

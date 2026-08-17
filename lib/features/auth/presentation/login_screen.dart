@@ -37,18 +37,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       setState(() => _localError = 'Email and password are required.');
       return;
     }
-    await ref.read(authNotifierProvider.notifier).login(
-          email: email,
-          password: password,
-        );
+    await ref
+        .read(authNotifierProvider.notifier)
+        .login(email: email, password: password);
   }
 
   @override
   Widget build(BuildContext context) {
     final authState = ref.watch(authNotifierProvider);
     final loading = authState is AuthLoading;
-    final errorMessage = _localError ??
-        (authState is AuthError ? authState.message : null);
+    final errorMessage =
+        _localError ?? (authState is AuthError ? authState.message : null);
 
     ref.listen<AuthState>(authNotifierProvider, (previous, next) {
       if (next is AuthPendingApproval) {
@@ -97,8 +96,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               label: 'Create an account',
               expanded: true,
               variant: AppButtonVariant.text,
-              onPressed:
-                  loading ? null : () => context.router.push(const RegisterHubRoute()),
+              onPressed: loading
+                  ? null
+                  : () => context.router.push(const RegisterHubRoute()),
             ),
           ],
         ),

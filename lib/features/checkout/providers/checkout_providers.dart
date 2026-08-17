@@ -12,13 +12,3 @@ final employeePickupPointsProvider =
     FutureProvider.autoDispose<List<PickupPoint>>((ref) {
   return ref.watch(checkoutRepositoryProvider).listEmployeePickupPoints();
 });
-
-final adminCompaniesProvider =
-    FutureProvider.autoDispose<List<CompanyListItem>>((ref) {
-  return ref.watch(checkoutRepositoryProvider).adminListCompanies();
-});
-
-final adminPickupPointsProvider =
-    FutureProvider.autoDispose.family<List<PickupPoint>, String>((ref, companyId) {
-  return ref.watch(checkoutRepositoryProvider).adminListPickupPoints(companyId);
-});

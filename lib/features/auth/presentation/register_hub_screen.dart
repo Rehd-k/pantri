@@ -18,18 +18,8 @@ class RegisterHubScreen extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(AppSpacing.xl),
         children: [
-          Text(
-            'Choose your account type',
-            style: textTheme.titleMedium,
-          ),
+          Text('Choose your account type', style: textTheme.titleMedium),
           const SizedBox(height: AppSpacing.lg),
-          _RoleCard(
-            title: 'Employer',
-            subtitle: 'Register your company and invite employees.',
-            icon: Icons.business_outlined,
-            onTap: () => context.router.push(const RegisterEmployerRoute()),
-          ),
-          const SizedBox(height: AppSpacing.md),
           _RoleCard(
             title: 'Employee',
             subtitle: 'Join with your company invite code.',
@@ -87,8 +77,8 @@ class _RoleCard extends StatelessWidget {
                 Text(
                   subtitle,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: colorScheme.onSurfaceVariant,
-                      ),
+                    color: colorScheme.onSurfaceVariant,
+                  ),
                 ),
               ],
             ),

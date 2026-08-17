@@ -15,8 +15,7 @@ class PendingApprovalScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final authState = ref.watch(authNotifierProvider);
     final message = authState is AuthPendingApproval
-        ? (authState.message ??
-            'Your account is awaiting admin approval.')
+        ? (authState.message ?? 'Your account is awaiting admin approval.')
         : 'Your account is awaiting admin approval.';
 
     return Scaffold(
@@ -43,8 +42,8 @@ class PendingApprovalScreen extends ConsumerWidget {
                 message,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    ),
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
               ),
               const Spacer(),
               AppButton(

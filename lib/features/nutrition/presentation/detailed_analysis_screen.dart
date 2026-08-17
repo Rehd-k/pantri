@@ -2,7 +2,6 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:share_plus/share_plus.dart';
 
 import '../../../core/network/api_exception.dart';
 import '../../../core/theme/app_radius.dart';
@@ -14,6 +13,7 @@ import '../../home/providers/home_providers.dart';
 import '../domain/meal_analysis.dart';
 import '../domain/nutrition_models.dart';
 import '../providers/nutrition_providers.dart';
+import 'widgets/nutrition_share_card.dart';
 
 class DetailedAnalysisScreen extends ConsumerWidget {
   const DetailedAnalysisScreen({
@@ -29,6 +29,7 @@ class DetailedAnalysisScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final shareCardKey = GlobalKey();
     final planAsync = ref.watch(mealPlanDetailProvider(mealPlanId));
     final profileAsync = ref.watch(healthProfileProvider);
     final dashAsync = ref.watch(employeeDashboardProvider);
@@ -45,9 +46,10 @@ class DetailedAnalysisScreen extends ConsumerWidget {
               if (item == null) return const SizedBox.shrink();
               return IconButton(
                 icon: const Icon(Icons.share_outlined),
-                onPressed: () {
-                  Share.share(
-                    '${item.title}\n${item.rationale}'.trim(),
+                onPressed: () async {
+                  await shareNutritionCard(
+                    shareCardKey,
+                    fileName: 'pantri-${item.id}-analysis',
                     subject: 'Pantri meal analysis',
                   );
                 },
@@ -116,9 +118,9 @@ class DetailedAnalysisScreen extends ConsumerWidget {
                     Text(
                       analysis.dateLabel,
                       style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                            color: colorScheme.secondary,
-                            fontWeight: FontWeight.w700,
-                          ),
+                        color: colorScheme.secondary,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                   ],
                 ),
@@ -126,16 +128,16 @@ class DetailedAnalysisScreen extends ConsumerWidget {
                 Text(
                   analysis.title,
                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.w800,
-                        color: colorScheme.primary,
-                      ),
+                    fontWeight: FontWeight.w800,
+                    color: colorScheme.primary,
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.sm),
                 Text(
                   analysis.description,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: colorScheme.onSurfaceVariant,
-                      ),
+                    color: colorScheme.onSurfaceVariant,
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.md),
                 Wrap(
@@ -145,8 +147,8 @@ class DetailedAnalysisScreen extends ConsumerWidget {
                     for (final tag in analysis.tags)
                       Chip(
                         label: Text(tag),
-                        backgroundColor:
-                            colorScheme.secondaryContainer.withValues(alpha: 0.35),
+                        backgroundColor: colorScheme.secondaryContainer
+                            .withValues(alpha: 0.35),
                         labelStyle: TextStyle(
                           color: colorScheme.onSecondaryContainer,
                           fontWeight: FontWeight.w600,
@@ -159,6 +161,21 @@ class DetailedAnalysisScreen extends ConsumerWidget {
                 const SizedBox(height: AppSpacing.lg),
                 _GradeCard(analysis: analysis),
                 const SizedBox(height: AppSpacing.lg),
+                RepaintBoundary(
+                  key: shareCardKey,
+                  child: NutritionShareCard(
+                    title: analysis.title,
+                    subtitle: analysis.description,
+                    highlight: 'Health grade ${analysis.healthGrade}',
+                    metrics: {
+                      'Calories': '${analysis.calories} kcal',
+                      'Protein': '${analysis.proteinG}g',
+                      'Carbs': '${analysis.carbsG}g',
+                      'Fat': '${analysis.fatG}g',
+                    },
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.lg),
                 _MicrosCard(analysis: analysis),
                 const SizedBox(height: AppSpacing.lg),
                 _AiCard(analysis: analysis),
@@ -170,9 +187,7 @@ class DetailedAnalysisScreen extends ConsumerWidget {
                 _PersonalizeCard(
                   onTap: () {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Personalize coming soon'),
-                      ),
+                      const SnackBar(content: Text('Personalize coming soon')),
                     );
                   },
                 ),
@@ -233,17 +248,17 @@ class _GradeCard extends StatelessWidget {
           Text(
             'HEALTH GRADE',
             style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  color: colorScheme.onSurfaceVariant,
-                  letterSpacing: 1.2,
-                ),
+              color: colorScheme.onSurfaceVariant,
+              letterSpacing: 1.2,
+            ),
           ),
           Text(
             analysis.healthGrade,
             style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                  fontWeight: FontWeight.w900,
-                  color: colorScheme.secondary,
-                  height: 1,
-                ),
+              fontWeight: FontWeight.w900,
+              color: colorScheme.secondary,
+              height: 1,
+            ),
           ),
           const SizedBox(height: AppSpacing.sm),
           Row(
@@ -254,9 +269,9 @@ class _GradeCard extends StatelessWidget {
               Text(
                 analysis.gradeCaption,
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                      color: colorScheme.secondary,
-                      fontWeight: FontWeight.w700,
-                    ),
+                  color: colorScheme.secondary,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ],
           ),
@@ -319,9 +334,9 @@ class _MicroRow extends StatelessWidget {
             Expanded(
               child: Text(
                 micro.label,
-                style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                      fontWeight: FontWeight.w700,
-                    ),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700),
               ),
             ),
             Text.rich(
@@ -334,9 +349,9 @@ class _MicroRow extends StatelessWidget {
                   TextSpan(
                     text: ' / ${micro.dvPercent.round()}% DV',
                     style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                          color: color,
-                          fontWeight: FontWeight.w800,
-                        ),
+                      color: color,
+                      fontWeight: FontWeight.w800,
+                    ),
                   ),
                 ],
               ),
@@ -383,9 +398,9 @@ class _AiCard extends StatelessWidget {
               Text(
                 'AI Optimization',
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w800,
-                      color: colorScheme.onPrimaryContainer,
-                    ),
+                  fontWeight: FontWeight.w800,
+                  color: colorScheme.onPrimaryContainer,
+                ),
               ),
             ],
           ),
@@ -407,8 +422,8 @@ class _AiCard extends StatelessWidget {
                     tip.icon == 'add_circle'
                         ? Icons.add_circle_outline
                         : tip.icon == 'eco'
-                            ? Icons.eco_outlined
-                            : Icons.verified_outlined,
+                        ? Icons.eco_outlined
+                        : Icons.verified_outlined,
                     color: colorScheme.secondaryContainer,
                   ),
                   const SizedBox(width: AppSpacing.md),
@@ -418,7 +433,8 @@ class _AiCard extends StatelessWidget {
                       children: [
                         Text(
                           tip.title,
-                          style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          style: Theme.of(context).textTheme.titleSmall
+                              ?.copyWith(
                                 color: colorScheme.onPrimary,
                                 fontWeight: FontWeight.w700,
                               ),
@@ -426,7 +442,8 @@ class _AiCard extends StatelessWidget {
                         const SizedBox(height: 4),
                         Text(
                           tip.body,
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(
                                 color: colorScheme.onPrimaryContainer
                                     .withValues(alpha: 0.85),
                               ),
@@ -473,7 +490,8 @@ class _MacrosCard extends StatelessWidget {
                   children: [
                     Text(
                       '${analysis.calories}',
-                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      style: Theme.of(context).textTheme.headlineSmall
+                          ?.copyWith(
                             fontWeight: FontWeight.w900,
                             color: colorScheme.primary,
                           ),
@@ -481,10 +499,10 @@ class _MacrosCard extends StatelessWidget {
                     Text(
                       'KCAL',
                       style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                            color: colorScheme.onSurfaceVariant,
-                            fontWeight: FontWeight.w800,
-                            letterSpacing: 1,
-                          ),
+                        color: colorScheme.onSurfaceVariant,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: 1,
+                      ),
                     ),
                   ],
                 ),
@@ -540,15 +558,15 @@ class _MacroLegendRow extends StatelessWidget {
           child: Text(
             label,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
           ),
         ),
         Text(
           value,
-          style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                fontWeight: FontWeight.w700,
-              ),
+          style: Theme.of(
+            context,
+          ).textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w700),
         ),
       ],
     );
@@ -569,9 +587,9 @@ class _CreditCard extends StatelessWidget {
       trailing: Text(
         '$pct% used',
         style: Theme.of(context).textTheme.labelLarge?.copyWith(
-              color: colorScheme.secondary,
-              fontWeight: FontWeight.w800,
-            ),
+          color: colorScheme.secondary,
+          fontWeight: FontWeight.w800,
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -591,16 +609,16 @@ class _CreditCard extends StatelessWidget {
               Text(
                 'AVAILABLE',
                 style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                      color: colorScheme.onSurfaceVariant,
-                      fontWeight: FontWeight.w800,
-                    ),
+                  color: colorScheme.onSurfaceVariant,
+                  fontWeight: FontWeight.w800,
+                ),
               ),
               const Spacer(),
               Text(
                 '${MoneyKobo.formatNaira(analysis.creditAvailableKobo)} / ${MoneyKobo.formatNaira(analysis.creditLimitKobo)}',
-                style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                      fontWeight: FontWeight.w800,
-                    ),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w800),
               ),
             ],
           ),
@@ -608,9 +626,9 @@ class _CreditCard extends StatelessWidget {
           Text(
             'Payroll-backed revolving credit for nutrient-dense pantry stocking.',
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: colorScheme.onSurfaceVariant,
-                  fontStyle: FontStyle.italic,
-                ),
+              color: colorScheme.onSurfaceVariant,
+              fontStyle: FontStyle.italic,
+            ),
           ),
         ],
       ),
@@ -657,9 +675,9 @@ class _PersonalizeCard extends StatelessWidget {
                 Text(
                   'Complete your meal',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w800,
-                      ),
+                    color: Colors.white,
+                    fontWeight: FontWeight.w800,
+                  ),
                 ),
                 const Spacer(),
                 AppButton(
@@ -686,11 +704,11 @@ class _IngredientsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     return _SectionCard(
-      title: 'Ingredients & Sourcing',
+      title: 'Ingredients from your pantry',
       trailing: TextButton(
         onPressed: () {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Full report coming soon')),
+            const SnackBar(content: Text('Open Progress for the full report')),
           );
         },
         child: const Text('Full Report'),
@@ -701,8 +719,8 @@ class _IngredientsCard extends StatelessWidget {
             Text(
               'No linked catalog ingredients for this meal yet.',
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: colorScheme.onSurfaceVariant,
-                  ),
+                color: colorScheme.onSurfaceVariant,
+              ),
             )
           else
             for (final row in analysis.ingredients) ...[
@@ -729,13 +747,13 @@ class _IngredientsCard extends StatelessWidget {
                         children: [
                           Text(
                             row.name,
-                            style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                                  fontWeight: FontWeight.w700,
-                                ),
+                            style: Theme.of(context).textTheme.titleSmall
+                                ?.copyWith(fontWeight: FontWeight.w700),
                           ),
                           Text(
                             row.subtitle,
-                            style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                            style: Theme.of(context).textTheme.labelSmall
+                                ?.copyWith(
                                   color: colorScheme.onSurfaceVariant,
                                   fontWeight: FontWeight.w700,
                                   letterSpacing: 0.4,
@@ -747,11 +765,11 @@ class _IngredientsCard extends StatelessWidget {
                     Text(
                       row.badge,
                       style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                            color: row.isPrimary
-                                ? colorScheme.secondary
-                                : colorScheme.tertiary,
-                            fontWeight: FontWeight.w800,
-                          ),
+                        color: row.isPrimary
+                            ? colorScheme.secondary
+                            : colorScheme.tertiary,
+                        fontWeight: FontWeight.w800,
+                      ),
                     ),
                   ],
                 ),
@@ -764,11 +782,7 @@ class _IngredientsCard extends StatelessWidget {
 }
 
 class _SectionCard extends StatelessWidget {
-  const _SectionCard({
-    required this.title,
-    required this.child,
-    this.trailing,
-  });
+  const _SectionCard({required this.title, required this.child, this.trailing});
 
   final String title;
   final Widget child;
@@ -803,9 +817,9 @@ class _SectionCard extends StatelessWidget {
                 child: Text(
                   title,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w800,
-                        color: colorScheme.primary,
-                      ),
+                    fontWeight: FontWeight.w800,
+                    color: colorScheme.primary,
+                  ),
                 ),
               ),
               if (trailing != null) trailing!,

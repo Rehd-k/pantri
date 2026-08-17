@@ -189,6 +189,9 @@ abstract class CheckoutRequest with _$CheckoutRequest {
 abstract class CheckoutOrderItem with _$CheckoutOrderItem {
   const factory CheckoutOrderItem({
     required String productId,
+    String? packId,
+    @Default('') String brand,
+    @Default('') String packageLabel,
     required String name,
     required int quantity,
     required int unitPriceKobo,

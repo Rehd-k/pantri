@@ -10,6 +10,7 @@ _WishlistItem _$WishlistItemFromJson(Map<String, dynamic> json) =>
     _WishlistItem(
       id: json['id'] as String,
       productId: json['productId'] as String,
+      packId: json['packId'] as String?,
       name: json['name'] as String,
       brand: json['brand'] as String,
       packageLabel: json['packageLabel'] as String,
@@ -28,6 +29,7 @@ Map<String, dynamic> _$WishlistItemToJson(_WishlistItem instance) =>
     <String, dynamic>{
       'id': instance.id,
       'productId': instance.productId,
+      'packId': instance.packId,
       'name': instance.name,
       'brand': instance.brand,
       'packageLabel': instance.packageLabel,

@@ -18,16 +18,6 @@ final marketplaceBannersProvider =
   return ref.watch(marketplaceRepositoryProvider).listActiveBanners();
 });
 
-final adminCategoriesProvider =
-    FutureProvider.autoDispose<List<MarketplaceCategory>>((ref) async {
-  return ref.watch(marketplaceRepositoryProvider).listAdminCategories();
-});
-
-final adminBannersProvider =
-    FutureProvider.autoDispose<List<MarketplaceBanner>>((ref) async {
-  return ref.watch(marketplaceRepositoryProvider).listAdminBanners();
-});
-
 final activeSubcategoriesProvider = FutureProvider.autoDispose
     .family<List<MarketplaceSubcategory>, String>((ref, categoryId) async {
   return ref
@@ -65,18 +55,6 @@ final productSearchProvider = FutureProvider.autoDispose
         categoryId: params.categoryId,
         subcategoryId: params.subcategoryId,
       );
-});
-
-final adminSubcategoriesProvider = FutureProvider.autoDispose
-    .family<List<MarketplaceSubcategory>, String?>((ref, categoryId) async {
-  return ref
-      .watch(marketplaceRepositoryProvider)
-      .listAdminSubcategories(categoryId: categoryId);
-});
-
-final adminProductsProvider =
-    FutureProvider.autoDispose<ProductListResponse>((ref) async {
-  return ref.watch(marketplaceRepositoryProvider).listAdminProducts();
 });
 
 final productDetailProvider = FutureProvider.autoDispose

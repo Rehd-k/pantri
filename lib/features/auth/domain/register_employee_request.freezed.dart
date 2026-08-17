@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$RegisterEmployeeRequest {
 
- String get email; String get password; String get firstName; String get lastName; String get inviteCode;
+ String get email; String get password; String get firstName; String get lastName; String get inviteCode; String? get phone;
 /// Create a copy of RegisterEmployeeRequest
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $RegisterEmployeeRequestCopyWith<RegisterEmployeeRequest> get copyWith => _$Regi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is RegisterEmployeeRequest&&(identical(other.email, email) || other.email == email)&&(identical(other.password, password) || other.password == password)&&(identical(other.firstName, firstName) || other.firstName == firstName)&&(identical(other.lastName, lastName) || other.lastName == lastName)&&(identical(other.inviteCode, inviteCode) || other.inviteCode == inviteCode));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RegisterEmployeeRequest&&(identical(other.email, email) || other.email == email)&&(identical(other.password, password) || other.password == password)&&(identical(other.firstName, firstName) || other.firstName == firstName)&&(identical(other.lastName, lastName) || other.lastName == lastName)&&(identical(other.inviteCode, inviteCode) || other.inviteCode == inviteCode)&&(identical(other.phone, phone) || other.phone == phone));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,email,password,firstName,lastName,inviteCode);
+int get hashCode => Object.hash(runtimeType,email,password,firstName,lastName,inviteCode,phone);
 
 @override
 String toString() {
-  return 'RegisterEmployeeRequest(email: $email, password: $password, firstName: $firstName, lastName: $lastName, inviteCode: $inviteCode)';
+  return 'RegisterEmployeeRequest(email: $email, password: $password, firstName: $firstName, lastName: $lastName, inviteCode: $inviteCode, phone: $phone)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $RegisterEmployeeRequestCopyWith<$Res>  {
   factory $RegisterEmployeeRequestCopyWith(RegisterEmployeeRequest value, $Res Function(RegisterEmployeeRequest) _then) = _$RegisterEmployeeRequestCopyWithImpl;
 @useResult
 $Res call({
- String email, String password, String firstName, String lastName, String inviteCode
+ String email, String password, String firstName, String lastName, String inviteCode, String? phone
 });
 
 
@@ -65,14 +65,15 @@ class _$RegisterEmployeeRequestCopyWithImpl<$Res>
 
 /// Create a copy of RegisterEmployeeRequest
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? email = null,Object? password = null,Object? firstName = null,Object? lastName = null,Object? inviteCode = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? email = null,Object? password = null,Object? firstName = null,Object? lastName = null,Object? inviteCode = null,Object? phone = freezed,}) {
   return _then(_self.copyWith(
 email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
 as String,password: null == password ? _self.password : password // ignore: cast_nullable_to_non_nullable
 as String,firstName: null == firstName ? _self.firstName : firstName // ignore: cast_nullable_to_non_nullable
 as String,lastName: null == lastName ? _self.lastName : lastName // ignore: cast_nullable_to_non_nullable
 as String,inviteCode: null == inviteCode ? _self.inviteCode : inviteCode // ignore: cast_nullable_to_non_nullable
-as String,
+as String,phone: freezed == phone ? _self.phone : phone // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -157,10 +158,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String email,  String password,  String firstName,  String lastName,  String inviteCode)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String email,  String password,  String firstName,  String lastName,  String inviteCode,  String? phone)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _RegisterEmployeeRequest() when $default != null:
-return $default(_that.email,_that.password,_that.firstName,_that.lastName,_that.inviteCode);case _:
+return $default(_that.email,_that.password,_that.firstName,_that.lastName,_that.inviteCode,_that.phone);case _:
   return orElse();
 
 }
@@ -178,10 +179,10 @@ return $default(_that.email,_that.password,_that.firstName,_that.lastName,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String email,  String password,  String firstName,  String lastName,  String inviteCode)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String email,  String password,  String firstName,  String lastName,  String inviteCode,  String? phone)  $default,) {final _that = this;
 switch (_that) {
 case _RegisterEmployeeRequest():
-return $default(_that.email,_that.password,_that.firstName,_that.lastName,_that.inviteCode);case _:
+return $default(_that.email,_that.password,_that.firstName,_that.lastName,_that.inviteCode,_that.phone);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -198,10 +199,10 @@ return $default(_that.email,_that.password,_that.firstName,_that.lastName,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String email,  String password,  String firstName,  String lastName,  String inviteCode)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String email,  String password,  String firstName,  String lastName,  String inviteCode,  String? phone)?  $default,) {final _that = this;
 switch (_that) {
 case _RegisterEmployeeRequest() when $default != null:
-return $default(_that.email,_that.password,_that.firstName,_that.lastName,_that.inviteCode);case _:
+return $default(_that.email,_that.password,_that.firstName,_that.lastName,_that.inviteCode,_that.phone);case _:
   return null;
 
 }
@@ -213,7 +214,7 @@ return $default(_that.email,_that.password,_that.firstName,_that.lastName,_that.
 @JsonSerializable()
 
 class _RegisterEmployeeRequest implements RegisterEmployeeRequest {
-  const _RegisterEmployeeRequest({required this.email, required this.password, required this.firstName, required this.lastName, required this.inviteCode});
+  const _RegisterEmployeeRequest({required this.email, required this.password, required this.firstName, required this.lastName, required this.inviteCode, this.phone});
   factory _RegisterEmployeeRequest.fromJson(Map<String, dynamic> json) => _$RegisterEmployeeRequestFromJson(json);
 
 @override final  String email;
@@ -221,6 +222,7 @@ class _RegisterEmployeeRequest implements RegisterEmployeeRequest {
 @override final  String firstName;
 @override final  String lastName;
 @override final  String inviteCode;
+@override final  String? phone;
 
 /// Create a copy of RegisterEmployeeRequest
 /// with the given fields replaced by the non-null parameter values.
@@ -235,16 +237,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RegisterEmployeeRequest&&(identical(other.email, email) || other.email == email)&&(identical(other.password, password) || other.password == password)&&(identical(other.firstName, firstName) || other.firstName == firstName)&&(identical(other.lastName, lastName) || other.lastName == lastName)&&(identical(other.inviteCode, inviteCode) || other.inviteCode == inviteCode));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RegisterEmployeeRequest&&(identical(other.email, email) || other.email == email)&&(identical(other.password, password) || other.password == password)&&(identical(other.firstName, firstName) || other.firstName == firstName)&&(identical(other.lastName, lastName) || other.lastName == lastName)&&(identical(other.inviteCode, inviteCode) || other.inviteCode == inviteCode)&&(identical(other.phone, phone) || other.phone == phone));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,email,password,firstName,lastName,inviteCode);
+int get hashCode => Object.hash(runtimeType,email,password,firstName,lastName,inviteCode,phone);
 
 @override
 String toString() {
-  return 'RegisterEmployeeRequest(email: $email, password: $password, firstName: $firstName, lastName: $lastName, inviteCode: $inviteCode)';
+  return 'RegisterEmployeeRequest(email: $email, password: $password, firstName: $firstName, lastName: $lastName, inviteCode: $inviteCode, phone: $phone)';
 }
 
 
@@ -255,7 +257,7 @@ abstract mixin class _$RegisterEmployeeRequestCopyWith<$Res> implements $Registe
   factory _$RegisterEmployeeRequestCopyWith(_RegisterEmployeeRequest value, $Res Function(_RegisterEmployeeRequest) _then) = __$RegisterEmployeeRequestCopyWithImpl;
 @override @useResult
 $Res call({
- String email, String password, String firstName, String lastName, String inviteCode
+ String email, String password, String firstName, String lastName, String inviteCode, String? phone
 });
 
 
@@ -272,14 +274,15 @@ class __$RegisterEmployeeRequestCopyWithImpl<$Res>
 
 /// Create a copy of RegisterEmployeeRequest
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? email = null,Object? password = null,Object? firstName = null,Object? lastName = null,Object? inviteCode = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? email = null,Object? password = null,Object? firstName = null,Object? lastName = null,Object? inviteCode = null,Object? phone = freezed,}) {
   return _then(_RegisterEmployeeRequest(
 email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
 as String,password: null == password ? _self.password : password // ignore: cast_nullable_to_non_nullable
 as String,firstName: null == firstName ? _self.firstName : firstName // ignore: cast_nullable_to_non_nullable
 as String,lastName: null == lastName ? _self.lastName : lastName // ignore: cast_nullable_to_non_nullable
 as String,inviteCode: null == inviteCode ? _self.inviteCode : inviteCode // ignore: cast_nullable_to_non_nullable
-as String,
+as String,phone: freezed == phone ? _self.phone : phone // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 

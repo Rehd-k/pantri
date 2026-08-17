@@ -54,6 +54,7 @@ abstract class PackageCreator with _$PackageCreator {
 abstract class PackageItem with _$PackageItem {
   const factory PackageItem({
     required String id,
+    required String packId,
     required String productId,
     required int quantity,
     required int sortOrder,
@@ -151,7 +152,7 @@ abstract class MinePackagesResponse with _$MinePackagesResponse {
 @freezed
 abstract class PackageItemInput with _$PackageItemInput {
   const factory PackageItemInput({
-    required String productId,
+    required String packId,
     required int quantity,
     int? sortOrder,
   }) = _PackageItemInput;

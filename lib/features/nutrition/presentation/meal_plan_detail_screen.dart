@@ -47,8 +47,8 @@ class MealPlanDetailScreen extends ConsumerWidget {
                   label: Text(plan.status.replaceAll('_', ' ')),
                   backgroundColor: switch (plan.status) {
                     'APPROVED' => colorScheme.secondaryContainer,
-                    'PENDING_REVIEW' || 'GENERATING' =>
-                      colorScheme.tertiaryContainer,
+                    'PENDING_REVIEW' ||
+                    'GENERATING' => colorScheme.tertiaryContainer,
                     'REJECTED' || 'FAILED' => colorScheme.errorContainer,
                     _ => colorScheme.surfaceContainerHighest,
                   },
@@ -79,9 +79,8 @@ class MealPlanDetailScreen extends ConsumerWidget {
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute<void>(
-                        builder: (_) => PackageDetailsScreen(
-                          packageId: plan.packageId!,
-                        ),
+                        builder: (_) =>
+                            PackageDetailsScreen(packageId: plan.packageId!),
                       ),
                     );
                   },
@@ -104,8 +103,7 @@ class MealPlanDetailScreen extends ConsumerWidget {
                       ...day.items.map((item) {
                         final isAlt = item.matchType == 'ALTERNATIVE';
                         return Padding(
-                          padding:
-                              const EdgeInsets.only(bottom: AppSpacing.sm),
+                          padding: const EdgeInsets.only(bottom: AppSpacing.sm),
                           child: Material(
                             color: colorScheme.surfaceContainerLowest,
                             borderRadius: AppRadius.borderMd,
@@ -138,10 +136,10 @@ class MealPlanDetailScreen extends ConsumerWidget {
                                         Expanded(
                                           child: Text(
                                             item.title,
-                                            style:
-                                                textTheme.titleSmall?.copyWith(
-                                              fontWeight: FontWeight.w700,
-                                            ),
+                                            style: textTheme.titleSmall
+                                                ?.copyWith(
+                                                  fontWeight: FontWeight.w700,
+                                                ),
                                           ),
                                         ),
                                         Chip(
@@ -165,8 +163,8 @@ class MealPlanDetailScreen extends ConsumerWidget {
                                       item.productName != null
                                           ? '${item.productName} × ${item.quantity}'
                                           : item.requestedProductName.isEmpty
-                                              ? 'No catalog match'
-                                              : '${item.requestedProductName} (unmatched)',
+                                          ? 'No catalog match'
+                                          : '${item.requestedProductName} (unmatched)',
                                       style: textTheme.bodyMedium,
                                     ),
                                     if (item.rationale.isNotEmpty) ...[

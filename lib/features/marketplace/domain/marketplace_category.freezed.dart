@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$MarketplaceCategory {
 
- String get id; String get name; String get imageUrl; String get accentColor; int get sortOrder; bool get isActive; String get createdAt; String get updatedAt;
+ String get id; String get slug; String get name; String get imageUrl; String get accentColor; int get sortOrder; bool get isActive; String get createdAt; String get updatedAt;
 /// Create a copy of MarketplaceCategory
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $MarketplaceCategoryCopyWith<MarketplaceCategory> get copyWith => _$MarketplaceC
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MarketplaceCategory&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.accentColor, accentColor) || other.accentColor == accentColor)&&(identical(other.sortOrder, sortOrder) || other.sortOrder == sortOrder)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MarketplaceCategory&&(identical(other.id, id) || other.id == id)&&(identical(other.slug, slug) || other.slug == slug)&&(identical(other.name, name) || other.name == name)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.accentColor, accentColor) || other.accentColor == accentColor)&&(identical(other.sortOrder, sortOrder) || other.sortOrder == sortOrder)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,imageUrl,accentColor,sortOrder,isActive,createdAt,updatedAt);
+int get hashCode => Object.hash(runtimeType,id,slug,name,imageUrl,accentColor,sortOrder,isActive,createdAt,updatedAt);
 
 @override
 String toString() {
-  return 'MarketplaceCategory(id: $id, name: $name, imageUrl: $imageUrl, accentColor: $accentColor, sortOrder: $sortOrder, isActive: $isActive, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'MarketplaceCategory(id: $id, slug: $slug, name: $name, imageUrl: $imageUrl, accentColor: $accentColor, sortOrder: $sortOrder, isActive: $isActive, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $MarketplaceCategoryCopyWith<$Res>  {
   factory $MarketplaceCategoryCopyWith(MarketplaceCategory value, $Res Function(MarketplaceCategory) _then) = _$MarketplaceCategoryCopyWithImpl;
 @useResult
 $Res call({
- String id, String name, String imageUrl, String accentColor, int sortOrder, bool isActive, String createdAt, String updatedAt
+ String id, String slug, String name, String imageUrl, String accentColor, int sortOrder, bool isActive, String createdAt, String updatedAt
 });
 
 
@@ -65,9 +65,10 @@ class _$MarketplaceCategoryCopyWithImpl<$Res>
 
 /// Create a copy of MarketplaceCategory
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? imageUrl = null,Object? accentColor = null,Object? sortOrder = null,Object? isActive = null,Object? createdAt = null,Object? updatedAt = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? slug = null,Object? name = null,Object? imageUrl = null,Object? accentColor = null,Object? sortOrder = null,Object? isActive = null,Object? createdAt = null,Object? updatedAt = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,slug: null == slug ? _self.slug : slug // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,imageUrl: null == imageUrl ? _self.imageUrl : imageUrl // ignore: cast_nullable_to_non_nullable
 as String,accentColor: null == accentColor ? _self.accentColor : accentColor // ignore: cast_nullable_to_non_nullable
@@ -160,10 +161,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String name,  String imageUrl,  String accentColor,  int sortOrder,  bool isActive,  String createdAt,  String updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String slug,  String name,  String imageUrl,  String accentColor,  int sortOrder,  bool isActive,  String createdAt,  String updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _MarketplaceCategory() when $default != null:
-return $default(_that.id,_that.name,_that.imageUrl,_that.accentColor,_that.sortOrder,_that.isActive,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.slug,_that.name,_that.imageUrl,_that.accentColor,_that.sortOrder,_that.isActive,_that.createdAt,_that.updatedAt);case _:
   return orElse();
 
 }
@@ -181,10 +182,10 @@ return $default(_that.id,_that.name,_that.imageUrl,_that.accentColor,_that.sortO
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String name,  String imageUrl,  String accentColor,  int sortOrder,  bool isActive,  String createdAt,  String updatedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String slug,  String name,  String imageUrl,  String accentColor,  int sortOrder,  bool isActive,  String createdAt,  String updatedAt)  $default,) {final _that = this;
 switch (_that) {
 case _MarketplaceCategory():
-return $default(_that.id,_that.name,_that.imageUrl,_that.accentColor,_that.sortOrder,_that.isActive,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.slug,_that.name,_that.imageUrl,_that.accentColor,_that.sortOrder,_that.isActive,_that.createdAt,_that.updatedAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -201,10 +202,10 @@ return $default(_that.id,_that.name,_that.imageUrl,_that.accentColor,_that.sortO
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String name,  String imageUrl,  String accentColor,  int sortOrder,  bool isActive,  String createdAt,  String updatedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String slug,  String name,  String imageUrl,  String accentColor,  int sortOrder,  bool isActive,  String createdAt,  String updatedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _MarketplaceCategory() when $default != null:
-return $default(_that.id,_that.name,_that.imageUrl,_that.accentColor,_that.sortOrder,_that.isActive,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.slug,_that.name,_that.imageUrl,_that.accentColor,_that.sortOrder,_that.isActive,_that.createdAt,_that.updatedAt);case _:
   return null;
 
 }
@@ -216,10 +217,11 @@ return $default(_that.id,_that.name,_that.imageUrl,_that.accentColor,_that.sortO
 @JsonSerializable()
 
 class _MarketplaceCategory implements MarketplaceCategory {
-  const _MarketplaceCategory({required this.id, required this.name, required this.imageUrl, required this.accentColor, required this.sortOrder, required this.isActive, required this.createdAt, required this.updatedAt});
+  const _MarketplaceCategory({required this.id, required this.slug, required this.name, required this.imageUrl, required this.accentColor, required this.sortOrder, required this.isActive, required this.createdAt, required this.updatedAt});
   factory _MarketplaceCategory.fromJson(Map<String, dynamic> json) => _$MarketplaceCategoryFromJson(json);
 
 @override final  String id;
+@override final  String slug;
 @override final  String name;
 @override final  String imageUrl;
 @override final  String accentColor;
@@ -241,16 +243,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MarketplaceCategory&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.accentColor, accentColor) || other.accentColor == accentColor)&&(identical(other.sortOrder, sortOrder) || other.sortOrder == sortOrder)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MarketplaceCategory&&(identical(other.id, id) || other.id == id)&&(identical(other.slug, slug) || other.slug == slug)&&(identical(other.name, name) || other.name == name)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.accentColor, accentColor) || other.accentColor == accentColor)&&(identical(other.sortOrder, sortOrder) || other.sortOrder == sortOrder)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,imageUrl,accentColor,sortOrder,isActive,createdAt,updatedAt);
+int get hashCode => Object.hash(runtimeType,id,slug,name,imageUrl,accentColor,sortOrder,isActive,createdAt,updatedAt);
 
 @override
 String toString() {
-  return 'MarketplaceCategory(id: $id, name: $name, imageUrl: $imageUrl, accentColor: $accentColor, sortOrder: $sortOrder, isActive: $isActive, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'MarketplaceCategory(id: $id, slug: $slug, name: $name, imageUrl: $imageUrl, accentColor: $accentColor, sortOrder: $sortOrder, isActive: $isActive, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -261,7 +263,7 @@ abstract mixin class _$MarketplaceCategoryCopyWith<$Res> implements $Marketplace
   factory _$MarketplaceCategoryCopyWith(_MarketplaceCategory value, $Res Function(_MarketplaceCategory) _then) = __$MarketplaceCategoryCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String name, String imageUrl, String accentColor, int sortOrder, bool isActive, String createdAt, String updatedAt
+ String id, String slug, String name, String imageUrl, String accentColor, int sortOrder, bool isActive, String createdAt, String updatedAt
 });
 
 
@@ -278,9 +280,10 @@ class __$MarketplaceCategoryCopyWithImpl<$Res>
 
 /// Create a copy of MarketplaceCategory
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? imageUrl = null,Object? accentColor = null,Object? sortOrder = null,Object? isActive = null,Object? createdAt = null,Object? updatedAt = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? slug = null,Object? name = null,Object? imageUrl = null,Object? accentColor = null,Object? sortOrder = null,Object? isActive = null,Object? createdAt = null,Object? updatedAt = null,}) {
   return _then(_MarketplaceCategory(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,slug: null == slug ? _self.slug : slug // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,imageUrl: null == imageUrl ? _self.imageUrl : imageUrl // ignore: cast_nullable_to_non_nullable
 as String,accentColor: null == accentColor ? _self.accentColor : accentColor // ignore: cast_nullable_to_non_nullable

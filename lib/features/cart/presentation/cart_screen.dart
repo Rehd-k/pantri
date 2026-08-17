@@ -408,7 +408,7 @@ class _CartItemTile extends ConsumerWidget {
                         onPressed: !enabled
                             ? null
                             : () => notifier.setQuantity(
-                                  item.productId,
+                                  item.packId,
                                   item.quantity - 1,
                                 ),
                       ),
@@ -429,7 +429,7 @@ class _CartItemTile extends ConsumerWidget {
                         onPressed: !enabled
                             ? null
                             : () => notifier.setQuantity(
-                                  item.productId,
+                                  item.packId,
                                   item.quantity + 1,
                                 ),
                       ),
@@ -449,7 +449,7 @@ class _CartItemTile extends ConsumerWidget {
               tooltip: 'Remove',
               onPressed: !enabled
                   ? null
-                  : () => notifier.removeProduct(item.productId),
+                  : () => notifier.removeProduct(item.packId),
               icon: Icon(Icons.delete_outline, color: colorScheme.error),
             ),
           ],

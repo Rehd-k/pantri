@@ -79,4 +79,33 @@ class NutritionApi {
       throw mapDioError(e);
     }
   }
+
+  Future<CookMealResult> cookRecipe(String recipeId) async {
+    try {
+      final response = await _dio.post<Map<String, dynamic>>(
+        '/nutrition/recipes/$recipeId/cook',
+      );
+      return CookMealResult.fromJson(response.data!);
+    } on DioException catch (e) {
+      throw mapDioError(e);
+    }
+  }
+
+  Future<NutritionProgressReport> getProgress({
+    String? from,
+    String? to,
+  }) async {
+    try {
+      final response = await _dio.get<Map<String, dynamic>>(
+        '/nutrition/progress',
+        queryParameters: {
+          if (from != null) 'from': from,
+          if (to != null) 'to': to,
+        },
+      );
+      return NutritionProgressReport.fromJson(response.data!);
+    } on DioException catch (e) {
+      throw mapDioError(e);
+    }
+  }
 }

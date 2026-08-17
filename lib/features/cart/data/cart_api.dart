@@ -18,13 +18,13 @@ class CartApi {
   }
 
   Future<Cart> addItem({
-    required String productId,
+    required String packId,
     int quantity = 1,
   }) async {
     try {
       final response = await _dio.post<Map<String, dynamic>>(
         '/cart/items',
-        data: {'productId': productId, 'quantity': quantity},
+        data: {'packId': packId, 'quantity': quantity},
       );
       return Cart.fromJson(response.data!);
     } on DioException catch (e) {
@@ -33,12 +33,12 @@ class CartApi {
   }
 
   Future<Cart> updateItem({
-    required String productId,
+    required String packId,
     required int quantity,
   }) async {
     try {
       final response = await _dio.patch<Map<String, dynamic>>(
-        '/cart/items/$productId',
+        '/cart/items/$packId',
         data: {'quantity': quantity},
       );
       return Cart.fromJson(response.data!);
@@ -47,10 +47,10 @@ class CartApi {
     }
   }
 
-  Future<Cart> removeItem(String productId) async {
+  Future<Cart> removeItem(String packId) async {
     try {
       final response = await _dio.delete<Map<String, dynamic>>(
-        '/cart/items/$productId',
+        '/cart/items/$packId',
       );
       return Cart.fromJson(response.data!);
     } on DioException catch (e) {

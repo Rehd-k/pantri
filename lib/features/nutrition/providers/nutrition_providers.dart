@@ -23,6 +23,19 @@ final mealPlanDetailProvider =
   return ref.watch(nutritionRepositoryProvider).getMealPlan(id);
 });
 
+final nutritionProgressProvider = FutureProvider.autoDispose
+    .family<NutritionProgressReport, String>((ref, range) {
+  final now = DateTime.now().toUtc();
+  final today = DateTime.utc(now.year, now.month, now.day);
+  final from = range == 'week'
+      ? today.subtract(Duration(days: today.weekday - 1))
+      : today;
+  return ref.watch(nutritionRepositoryProvider).getProgress(
+        from: from.toIso8601String(),
+        to: today.toIso8601String(),
+      );
+});
+
 class QuestionnaireDraft {
   const QuestionnaireDraft({
     this.age = 28,

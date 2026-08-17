@@ -10,6 +10,7 @@ part 'marketplace_subcategory.g.dart';
 abstract class MarketplaceSubcategory with _$MarketplaceSubcategory {
   const factory MarketplaceSubcategory({
     required String id,
+    required String slug,
     required String categoryId,
     required String name,
     required int sortOrder,

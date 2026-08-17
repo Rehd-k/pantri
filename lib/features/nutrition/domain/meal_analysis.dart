@@ -227,28 +227,37 @@ class MealAnalysis {
       ),
     ];
 
+    final recipe = item.recipe;
     final slot = item.mealSlot.toLowerCase();
-    final ingredients = day.items
-        .where((row) => row.mealSlot.toLowerCase() == slot)
-        .map((row) {
-          final name = row.productName?.trim().isNotEmpty == true
-              ? row.productName!
-              : (row.requestedProductName.trim().isNotEmpty
-                    ? row.requestedProductName
-                    : row.title);
-          final origin = row.origin?.trim();
-          return MealIngredientRow(
-            name: name,
-            subtitle: origin != null && origin.isNotEmpty
-                ? origin.toUpperCase()
-                : (row.matchType == 'ALTERNATIVE'
-                      ? 'CATALOG ALTERNATIVE'
-                      : 'PANTRY CATALOG'),
-            badge: row.matchType == 'ALTERNATIVE' ? 'Alt' : 'Primary',
-            isPrimary: row.matchType != 'ALTERNATIVE',
-          );
-        })
-        .toList();
+    final ingredients = recipe != null && recipe.ingredients.isNotEmpty
+        ? recipe.ingredients
+            .map(
+              (ing) => MealIngredientRow(
+                name: ing.productName,
+                subtitle: ing.isShort
+                    ? 'SHORT IN PANTRY'
+                    : '${ing.quantity} ${ing.measureUnitLabel ?? 'units'}',
+                badge: ing.isShort ? 'Low' : 'Ready',
+                isPrimary: !ing.isShort,
+              ),
+            )
+            .toList()
+        : day.items
+            .where((row) => row.mealSlot.toLowerCase() == slot)
+            .map((row) {
+              final name = row.productName?.trim().isNotEmpty == true
+                  ? row.productName!
+                  : (row.requestedProductName.trim().isNotEmpty
+                        ? row.requestedProductName
+                        : row.title);
+              return MealIngredientRow(
+                name: name,
+                subtitle: 'PANTRY INGREDIENT',
+                badge: 'Recipe',
+                isPrimary: true,
+              );
+            })
+            .toList();
 
     final limit = credit?.creditLimitKobo ?? 0;
     final available = credit?.availableKobo ?? 0;

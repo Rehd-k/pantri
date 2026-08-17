@@ -9,11 +9,15 @@ import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/app_empty_state.dart';
 import '../../auth/providers/auth_notifier.dart';
 import '../../auth/providers/auth_state.dart';
-import '../../packages/presentation/package_details_screen.dart';
+import '../../inventory/presentation/pantry_screen.dart';
+import '../../inventory/presentation/restock_sheet.dart';
+import '../../inventory/providers/inventory_providers.dart';
+import '../data/nutrition_repository.dart';
 import '../domain/nutrition_models.dart';
 import '../providers/nutrition_providers.dart';
 import 'detailed_analysis_screen.dart';
 import 'health_questionnaire_screen.dart';
+import 'progress_report_screen.dart';
 
 /// Meals tab: questionnaire if no profile, otherwise the daily meal plan.
 class MealsTab extends ConsumerWidget {
@@ -24,9 +28,8 @@ class MealsTab extends ConsumerWidget {
     final profileAsync = ref.watch(healthProfileProvider);
 
     return profileAsync.when(
-      loading: () => const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      ),
+      loading: () =>
+          const Scaffold(body: Center(child: CircularProgressIndicator())),
       error: (e, _) => Scaffold(
         body: AppEmptyState(
           icon: Icons.error_outline,
@@ -58,7 +61,7 @@ class _DailyMealPlanScreenState extends ConsumerState<DailyMealPlanScreen> {
   @override
   void initState() {
     super.initState();
-    _selectedDayOffset = DateTime.now().weekday - 1;
+    _selectedDayOffset = 0;
   }
 
   @override
@@ -69,9 +72,6 @@ class _DailyMealPlanScreenState extends ConsumerState<DailyMealPlanScreen> {
     final user = auth is AuthAuthenticated ? auth.user : null;
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
-
-    final weekStart = _mondayOf(DateTime.now());
-    final selectedDate = weekStart.add(Duration(days: _selectedDayOffset));
 
     return Scaffold(
       body: SafeArea(
@@ -84,10 +84,61 @@ class _DailyMealPlanScreenState extends ConsumerState<DailyMealPlanScreen> {
           ),
           data: (plans) {
             final active = _pickActivePlan(plans);
+            final latest = plans.isEmpty ? null : plans.first;
             final profile = switch (profileAsync) {
               AsyncData(:final value) => value,
               _ => null,
             };
+            if (latest == null ||
+                latest.status == 'GENERATING' ||
+                latest.status == 'PENDING_REVIEW' ||
+                active == null) {
+              final generating = latest?.status == 'GENERATING';
+              return RefreshIndicator(
+                onRefresh: () async {
+                  ref.invalidate(mealPlansProvider);
+                  await ref.read(mealPlansProvider.future);
+                },
+                child: ListView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  padding: const EdgeInsets.all(AppSpacing.xl),
+                  children: [
+                    const SizedBox(height: AppSpacing.xxxl),
+                    Icon(
+                      generating
+                          ? Icons.auto_awesome_outlined
+                          : Icons.hourglass_top_rounded,
+                      size: 64,
+                      color: colorScheme.tertiary,
+                    ),
+                    const SizedBox(height: AppSpacing.xl),
+                    Text(
+                      generating
+                          ? 'Your meal plan is being created'
+                          : 'Your meal plan is almost ready',
+                      textAlign: TextAlign.center,
+                      style: textTheme.headlineSmall?.copyWith(
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.md),
+                    Text(
+                      generating
+                          ? 'Pantri is matching your nutrition goals with '
+                                'available pantry products and practical recipes.'
+                          : 'Our nutrition team is reviewing your personalized '
+                                'plan. It will appear here as soon as it is approved.',
+                      textAlign: TextAlign.center,
+                      style: textTheme.bodyLarge?.copyWith(
+                        color: colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.xl),
+                    const Center(child: LinearProgressIndicator()),
+                  ],
+                ),
+              );
+            }
             return RefreshIndicator(
               onRefresh: () async {
                 ref.invalidate(mealPlansProvider);
@@ -132,14 +183,38 @@ class _DailyMealPlanScreenState extends ConsumerState<DailyMealPlanScreen> {
                             ),
                           ),
                           IconButton(
+                            tooltip: 'My pantry',
                             onPressed: () {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Notifications coming soon'),
+                              Navigator.of(context).push(
+                                MaterialPageRoute<void>(
+                                  builder: (_) => const PantryScreen(),
                                 ),
                               );
                             },
-                            icon: const Icon(Icons.notifications_outlined),
+                            icon: const Icon(Icons.kitchen_outlined),
+                          ),
+                          IconButton(
+                            tooltip: 'Progress',
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute<void>(
+                                  builder: (_) => const ProgressReportScreen(),
+                                ),
+                              );
+                            },
+                            icon: const Icon(Icons.insights_outlined),
+                          ),
+                          IconButton(
+                            tooltip: 'Edit goals',
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute<void>(
+                                  builder: (_) =>
+                                      const HealthQuestionnaireScreen(),
+                                ),
+                              );
+                            },
+                            icon: const Icon(Icons.flag_outlined),
                           ),
                         ],
                       ),
@@ -169,54 +244,7 @@ class _DailyMealPlanScreenState extends ConsumerState<DailyMealPlanScreen> {
                       ),
                     ),
                   ),
-                  SliverToBoxAdapter(
-                    child: SizedBox(
-                      height: 96,
-                      child: ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                        padding: const EdgeInsets.fromLTRB(
-                          AppSpacing.xl,
-                          AppSpacing.md,
-                          AppSpacing.xl,
-                          AppSpacing.md,
-                        ),
-                        itemCount: 7,
-                        separatorBuilder: (_, __) =>
-                            const SizedBox(width: AppSpacing.sm),
-                        itemBuilder: (context, index) {
-                          final date = weekStart.add(Duration(days: index));
-                          final selected = index == _selectedDayOffset;
-                          return _DayChip(
-                            weekday: DateFormat('E').format(date).toUpperCase(),
-                            day: '${date.day}',
-                            selected: selected,
-                            onTap: () =>
-                                setState(() => _selectedDayOffset = index),
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                  if (active == null)
-                    SliverToBoxAdapter(
-                      child: Padding(
-                        padding: const EdgeInsets.all(AppSpacing.xl),
-                        child: AppEmptyState(
-                          icon: Icons.restaurant_menu_outlined,
-                          title: 'No meal plan yet',
-                          message:
-                              'Finish generating a plan from your questionnaire answers.',
-                        ),
-                      ),
-                    )
-                  else
-                    ..._planBody(
-                      context,
-                      ref,
-                      active,
-                      profile,
-                      selectedDate,
-                    ),
+                  ..._planBody(context, ref, active, profile),
                 ],
               ),
             );
@@ -231,12 +259,13 @@ class _DailyMealPlanScreenState extends ConsumerState<DailyMealPlanScreen> {
     WidgetRef ref,
     MealPlanSummary summary,
     HealthProfile? profile,
-    DateTime selectedDate,
   ) {
     final detailAsync = ref.watch(mealPlanDetailProvider(summary.id));
     final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
-    final targets = _DailyTargets.fromProfile(profile);
+    final targets = _DailyTargets.fromReport(
+      ref.watch(nutritionProgressProvider('today')).asData?.value,
+      profile,
+    );
 
     return [
       SliverToBoxAdapter(
@@ -248,8 +277,8 @@ class _DailyMealPlanScreenState extends ConsumerState<DailyMealPlanScreen> {
               label: Text(summary.status.replaceAll('_', ' ')),
               backgroundColor: switch (summary.status) {
                 'APPROVED' => colorScheme.secondaryContainer,
-                'PENDING_REVIEW' || 'GENERATING' =>
-                  colorScheme.tertiaryContainer,
+                'PENDING_REVIEW' ||
+                'GENERATING' => colorScheme.tertiaryContainer,
                 'REJECTED' || 'FAILED' => colorScheme.errorContainer,
                 _ => colorScheme.surfaceContainerHighest,
               },
@@ -285,7 +314,7 @@ class _DailyMealPlanScreenState extends ConsumerState<DailyMealPlanScreen> {
           ),
         ),
         data: (detail) {
-          final day = _dayForSelection(detail, selectedDate);
+          final day = _dayForSelection(detail);
           final meals = _groupPrimaryMeals(day);
 
           return SliverToBoxAdapter(
@@ -299,15 +328,33 @@ class _DailyMealPlanScreenState extends ConsumerState<DailyMealPlanScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  if (summary.status == 'PENDING_REVIEW') ...[
-                    Text(
-                      'Your plan is waiting for admin review. Meals below are a preview.',
-                      style: textTheme.bodyMedium?.copyWith(
-                        color: colorScheme.onSurfaceVariant,
-                      ),
+                  SizedBox(
+                    height: 72,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: detail.days.length,
+                      separatorBuilder: (_, __) =>
+                          const SizedBox(width: AppSpacing.sm),
+                      itemBuilder: (context, index) {
+                        final planDay = detail.days[index];
+                        final selectedIndex = _selectedDayOffset.clamp(
+                          0,
+                          detail.days.length - 1,
+                        );
+                        final dateLabel = _formatPlanDay(planDay);
+                        return _DayChip(
+                          weekday: planDay.label.isNotEmpty
+                              ? planDay.label
+                              : dateLabel.$1,
+                          day: dateLabel.$2,
+                          selected: index == selectedIndex,
+                          onTap: () =>
+                              setState(() => _selectedDayOffset = index),
+                        );
+                      },
                     ),
-                    const SizedBox(height: AppSpacing.lg),
-                  ],
+                  ),
+                  const SizedBox(height: AppSpacing.lg),
                   if (meals.isEmpty)
                     const AppEmptyState(
                       icon: Icons.no_meals_outlined,
@@ -319,35 +366,21 @@ class _DailyMealPlanScreenState extends ConsumerState<DailyMealPlanScreen> {
                       if (meal.slot.toLowerCase() == 'snack')
                         _SnackCard(
                           meal: meal,
-                          onBuy: () => _buyIngredients(context, detail),
+                          onCook: () =>
+                              _cookMeal(context, ref, detail.id, meal),
                           onAnalyze: () =>
                               _openAnalysis(context, detail.id, meal.id),
                         )
                       else
                         _MealCard(
                           meal: meal,
-                          onBuy: () => _buyIngredients(context, detail),
+                          onCook: () =>
+                              _cookMeal(context, ref, detail.id, meal),
                           onAnalyze: () =>
                               _openAnalysis(context, detail.id, meal.id),
                         ),
                       const SizedBox(height: AppSpacing.lg),
                     ],
-                  if (detail.status == 'APPROVED' &&
-                      detail.packageId != null)
-                    AppButton(
-                      label: 'Open full pantry package',
-                      variant: AppButtonVariant.outlined,
-                      expanded: true,
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute<void>(
-                            builder: (_) => PackageDetailsScreen(
-                              packageId: detail.packageId!,
-                            ),
-                          ),
-                        );
-                      },
-                    ),
                 ],
               ),
             ),
@@ -357,58 +390,92 @@ class _DailyMealPlanScreenState extends ConsumerState<DailyMealPlanScreen> {
     ];
   }
 
-  void _buyIngredients(BuildContext context, MealPlanDetail detail) {
-    if (detail.status == 'APPROVED' && detail.packageId != null) {
-      Navigator.of(context).push(
-        MaterialPageRoute<void>(
-          builder: (_) => PackageDetailsScreen(packageId: detail.packageId!),
+  Future<void> _cookMeal(
+    BuildContext context,
+    WidgetRef ref,
+    String mealPlanId,
+    _MealView meal,
+  ) async {
+    final recipe = meal.recipe;
+    if (recipe == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('This meal has no recipe yet.')),
+      );
+      return;
+    }
+    if (recipe.cookability != 'ready') {
+      final short = recipe.ingredients.where((i) => i.isShort).toList();
+      await showRestockSheet(context, ref);
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            short.isEmpty
+                ? 'Stock up the missing ingredients first.'
+                : 'Need more ${short.map((e) => e.productName).join(', ')}.',
+          ),
         ),
       );
       return;
     }
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          detail.status == 'PENDING_REVIEW'
-              ? 'Ingredients unlock after admin approval.'
-              : 'No shoppable package is linked yet.',
-        ),
-      ),
-    );
+    try {
+      final result = await ref
+          .read(nutritionRepositoryProvider)
+          .cookRecipe(recipe.id);
+      ref.invalidate(mealPlansProvider);
+      ref.invalidate(mealPlanDetailProvider(mealPlanId));
+      ref.invalidate(nutritionProgressProvider('today'));
+      ref.invalidate(householdStockProvider);
+      ref.invalidate(restockAlertsProvider);
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Meal logged toward your goals.')),
+      );
+      if (result.restockAlerts.isNotEmpty) {
+        await showRestockSheet(context, ref, alerts: result.restockAlerts);
+      }
+    } catch (e) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e is ApiException ? e.message : e.toString())),
+      );
+    }
   }
 
   void _openAnalysis(BuildContext context, String mealPlanId, String itemId) {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
-        builder: (_) => DetailedAnalysisScreen(
-          mealPlanId: mealPlanId,
-          itemId: itemId,
-        ),
+        builder: (_) =>
+            DetailedAnalysisScreen(mealPlanId: mealPlanId, itemId: itemId),
       ),
     );
   }
 
   MealPlanSummary? _pickActivePlan(List<MealPlanSummary> plans) {
-    MealPlanSummary? approved;
-    MealPlanSummary? pending;
     for (final plan in plans) {
       if (plan.status == 'APPROVED') {
-        approved ??= plan;
-      } else if (plan.status == 'PENDING_REVIEW' ||
-          plan.status == 'GENERATING') {
-        pending ??= plan;
+        return plan;
       }
     }
-    return approved ?? pending ?? (plans.isEmpty ? null : plans.first);
+    return null;
   }
 
-  MealPlanDay? _dayForSelection(MealPlanDetail detail, DateTime selectedDate) {
+  MealPlanDay? _dayForSelection(MealPlanDetail detail) {
     if (detail.days.isEmpty) return null;
-    final index = ((selectedDate.weekday - 1) % detail.days.length) + 1;
-    return detail.days.firstWhere(
-      (d) => d.dayIndex == index,
-      orElse: () => detail.days.first,
-    );
+    return detail.days[_selectedDayOffset.clamp(0, detail.days.length - 1)];
+  }
+
+  (String, String) _formatPlanDay(MealPlanDay planDay) {
+    final raw = planDay.planDate;
+    if (raw == null || raw.isEmpty) {
+      return ('Day', '${planDay.dayIndex}');
+    }
+    final parsed = DateTime.tryParse(raw);
+    if (parsed == null) {
+      return ('Day', '${planDay.dayIndex}');
+    }
+    const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    return (weekdays[parsed.weekday - 1], '${parsed.day}');
   }
 
   List<_MealView> _groupPrimaryMeals(MealPlanDay? day) {
@@ -431,11 +498,6 @@ class _DailyMealPlanScreenState extends ConsumerState<DailyMealPlanScreen> {
       result.add(_MealView.fromItem(item));
     }
     return result;
-  }
-
-  DateTime _mondayOf(DateTime date) {
-    return DateTime(date.year, date.month, date.day)
-        .subtract(Duration(days: date.weekday - 1));
   }
 
   String _initials(String? first, String? last) {
@@ -483,21 +545,21 @@ class _DayChip extends StatelessWidget {
             Text(
               weekday.length >= 3 ? weekday.substring(0, 3) : weekday,
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    color: selected
-                        ? colorScheme.onPrimaryContainer
-                        : colorScheme.onSurfaceVariant,
-                    fontWeight: FontWeight.w600,
-                  ),
+                color: selected
+                    ? colorScheme.onPrimaryContainer
+                    : colorScheme.onSurfaceVariant,
+                fontWeight: FontWeight.w600,
+              ),
             ),
             const SizedBox(height: 4),
             Text(
               day,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w800,
-                    color: selected
-                        ? colorScheme.onPrimaryContainer
-                        : colorScheme.onSurfaceVariant,
-                  ),
+                fontWeight: FontWeight.w800,
+                color: selected
+                    ? colorScheme.onPrimaryContainer
+                    : colorScheme.onSurfaceVariant,
+              ),
             ),
           ],
         ),
@@ -532,7 +594,22 @@ class _DailyTargets {
     return (calories / caloriesTarget).clamp(0.0, 1.0);
   }
 
-  factory _DailyTargets.fromProfile(HealthProfile? profile) {
+  factory _DailyTargets.fromReport(
+    NutritionProgressReport? report,
+    HealthProfile? profile,
+  ) {
+    if (report != null && report.targets.energyKcal > 0) {
+      return _DailyTargets(
+        calories: (report.totals.energyKcal.consumed).round(),
+        caloriesTarget: report.totals.energyKcal.target,
+        proteinG: (report.totals.proteinMg.consumed / 1000).round(),
+        proteinTarget: (report.totals.proteinMg.target / 1000).round(),
+        carbsG: (report.totals.carbsMg.consumed / 1000).round(),
+        carbsTarget: (report.totals.carbsMg.target / 1000).round(),
+        fatG: (report.totals.fatMg.consumed / 1000).round(),
+        fatTarget: (report.totals.fatMg.target / 1000).round(),
+      );
+    }
     final weight = profile?.weightKg ?? 70;
     final height = profile?.heightCm ?? 170;
     final age = profile?.age ?? 30;
@@ -542,25 +619,29 @@ class _DailyTargets {
       _ => 1.55,
     };
     final bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5;
-    final target = (bmr * activity).round();
-    final proteinTarget = (weight * 1.6).round();
-    final fatTarget = (weight * 0.8).round();
-    final carbsTarget =
-        ((target - (proteinTarget * 4) - (fatTarget * 9)) / 4).round().clamp(
-              80,
-              400,
-            );
-
-    // Preview progress (~84% of target like the Stitch mock).
-    final spent = (target * 0.84).round();
+    final target = profile != null && profile.targetEnergyKcal > 0
+        ? profile.targetEnergyKcal
+        : (bmr * activity).round();
+    final proteinTarget = profile != null && profile.targetProteinMg > 0
+        ? (profile.targetProteinMg / 1000).round()
+        : (weight * 1.6).round();
+    final fatTarget = profile != null && profile.targetFatMg > 0
+        ? (profile.targetFatMg / 1000).round()
+        : (weight * 0.8).round();
+    final carbsTarget = profile != null && profile.targetCarbsMg > 0
+        ? (profile.targetCarbsMg / 1000).round()
+        : ((target - (proteinTarget * 4) - (fatTarget * 9)) / 4).round().clamp(
+            80,
+            400,
+          );
     return _DailyTargets(
-      calories: spent,
+      calories: 0,
       caloriesTarget: target,
-      proteinG: (proteinTarget * 0.8).round(),
+      proteinG: 0,
       proteinTarget: proteinTarget,
-      carbsG: (carbsTarget * 0.9).round(),
+      carbsG: 0,
       carbsTarget: carbsTarget,
-      fatG: (fatTarget * 0.75).round(),
+      fatG: 0,
       fatTarget: fatTarget,
     );
   }
@@ -628,7 +709,8 @@ class _TargetsCard extends StatelessWidget {
               _MetricTile(
                 label: 'Calories',
                 value: NumberFormat('#,###').format(targets.calories),
-                suffix: '/ ${NumberFormat('#,###').format(targets.caloriesTarget)}',
+                suffix:
+                    '/ ${NumberFormat('#,###').format(targets.caloriesTarget)}',
               ),
               _MetricTile(
                 label: 'Protein',
@@ -709,9 +791,9 @@ class _MetricTile extends StatelessWidget {
           Text(
             label.toUpperCase(),
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: colorScheme.onSurfaceVariant,
-                  letterSpacing: 0.6,
-                ),
+              color: colorScheme.onSurfaceVariant,
+              letterSpacing: 0.6,
+            ),
           ),
           const SizedBox(height: 2),
           Text.rich(
@@ -720,14 +802,14 @@ class _MetricTile extends StatelessWidget {
                 TextSpan(
                   text: value,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w800,
-                      ),
+                    fontWeight: FontWeight.w800,
+                  ),
                 ),
                 TextSpan(
                   text: ' $suffix',
-                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                        color: colorScheme.outline,
-                      ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.labelSmall?.copyWith(color: colorScheme.outline),
                 ),
               ],
             ),
@@ -746,6 +828,7 @@ class _MealView {
     required this.rationale,
     required this.productName,
     required this.timeLabel,
+    this.recipe,
   });
 
   final String id;
@@ -754,6 +837,7 @@ class _MealView {
   final String rationale;
   final String? productName;
   final String timeLabel;
+  final RecipeDetail? recipe;
 
   factory _MealView.fromItem(MealPlanItem item) {
     final slot = item.mealSlot;
@@ -762,8 +846,11 @@ class _MealView {
       slot: slot,
       title: item.title,
       rationale: item.rationale,
-      productName: item.productName,
+      productName: item.recipe?.ingredients.isNotEmpty == true
+          ? item.recipe!.ingredients.map((e) => e.productName).join(', ')
+          : item.productName,
       timeLabel: _defaultTime(slot),
+      recipe: item.recipe,
     );
   }
 
@@ -778,23 +865,23 @@ class _MealView {
   }
 
   IconData get icon => switch (slot.toLowerCase()) {
-        'breakfast' => Icons.free_breakfast_outlined,
-        'lunch' => Icons.lunch_dining_outlined,
-        'snack' => Icons.cookie_outlined,
-        'dinner' => Icons.dinner_dining_outlined,
-        _ => Icons.restaurant_outlined,
-      };
+    'breakfast' => Icons.free_breakfast_outlined,
+    'lunch' => Icons.lunch_dining_outlined,
+    'snack' => Icons.cookie_outlined,
+    'dinner' => Icons.dinner_dining_outlined,
+    _ => Icons.restaurant_outlined,
+  };
 }
 
 class _MealCard extends StatelessWidget {
   const _MealCard({
     required this.meal,
-    required this.onBuy,
+    required this.onCook,
     required this.onAnalyze,
   });
 
   final _MealView meal;
-  final VoidCallback onBuy;
+  final VoidCallback onCook;
   final VoidCallback onAnalyze;
 
   @override
@@ -881,7 +968,7 @@ class _MealCard extends StatelessWidget {
                       Row(
                         children: [
                           Icon(
-                            Icons.inventory_2_outlined,
+                            Icons.kitchen_outlined,
                             size: 16,
                             color: colorScheme.onSurfaceVariant,
                           ),
@@ -900,9 +987,13 @@ class _MealCard extends StatelessWidget {
                       children: [
                         Expanded(
                           child: AppButton(
-                            label: 'Buy Ingredients',
-                            icon: Icons.shopping_basket_outlined,
-                            onPressed: onBuy,
+                            label: meal.recipe?.cookability == 'ready'
+                                ? 'Cooked it'
+                                : 'Stock up missing',
+                            icon: meal.recipe?.cookability == 'ready'
+                                ? Icons.restaurant_outlined
+                                : Icons.shopping_basket_outlined,
+                            onPressed: onCook,
                           ),
                         ),
                         const SizedBox(width: AppSpacing.sm),
@@ -930,12 +1021,12 @@ class _MealCard extends StatelessWidget {
 class _SnackCard extends StatelessWidget {
   const _SnackCard({
     required this.meal,
-    required this.onBuy,
+    required this.onCook,
     required this.onAnalyze,
   });
 
   final _MealView meal;
-  final VoidCallback onBuy;
+  final VoidCallback onCook;
   final VoidCallback onAnalyze;
 
   @override
@@ -1000,8 +1091,12 @@ class _SnackCard extends StatelessWidget {
                 ),
               ),
               IconButton.filledTonal(
-                onPressed: onBuy,
-                icon: const Icon(Icons.add_shopping_cart_outlined),
+                onPressed: onCook,
+                icon: Icon(
+                  meal.recipe?.cookability == 'ready'
+                      ? Icons.restaurant_outlined
+                      : Icons.shopping_basket_outlined,
+                ),
               ),
             ],
           ),

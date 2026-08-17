@@ -116,6 +116,8 @@ class _CompareBody extends ConsumerWidget {
           ),
         ),
         const SizedBox(height: AppSpacing.lg),
+        _NutritionCompareSection(productA: productA, productB: productB),
+        const SizedBox(height: AppSpacing.lg),
         Row(
           children: [
             Expanded(
@@ -145,7 +147,18 @@ class _CompareBody extends ConsumerWidget {
     MarketplaceProduct product,
   ) async {
     try {
-      await ref.read(cartNotifierProvider.notifier).addProduct(product.id);
+      final packId = product.cheapestPack?.id;
+      if (packId == null) {
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('This product has no sellable packs'),
+            ),
+          );
+        }
+        return;
+      }
+      await ref.read(cartNotifierProvider.notifier).addProduct(packId);
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Added ${product.name} to cart')),
@@ -191,36 +204,6 @@ class _CompareBody extends ConsumerWidget {
       );
     }
 
-    final keys = {...a.nutritionFacts.keys, ...b.nutritionFacts.keys}.toList()
-      ..sort();
-    for (final key in keys) {
-      final leftRaw = a.nutritionFacts[key] ?? '—';
-      final rightRaw = b.nutritionFacts[key] ?? '—';
-      final leftNum = _parseLeadingNumber(leftRaw);
-      final rightNum = _parseLeadingNumber(rightRaw);
-      final higherIsBetter = _higherIsBetter(key);
-      bool? leftWins;
-      bool? rightWins;
-      if (leftNum != null && rightNum != null && leftNum != rightNum) {
-        if (higherIsBetter) {
-          leftWins = leftNum > rightNum;
-          rightWins = rightNum > leftNum;
-        } else {
-          leftWins = leftNum < rightNum;
-          rightWins = rightNum < leftNum;
-        }
-      }
-      rows.add(
-        _RowData(
-          label: key,
-          left: leftRaw,
-          right: rightRaw,
-          leftWins: leftWins == true,
-          rightWins: rightWins == true,
-        ),
-      );
-    }
-
     rows.add(
       _RowData(
         label: 'Reviews',
@@ -234,20 +217,6 @@ class _CompareBody extends ConsumerWidget {
     );
 
     return rows;
-  }
-
-  double? _parseLeadingNumber(String raw) {
-    final match = RegExp(r'([\d.]+)').firstMatch(raw);
-    if (match == null) return null;
-    return double.tryParse(match.group(1)!);
-  }
-
-  bool _higherIsBetter(String key) {
-    final lower = key.toLowerCase();
-    if (lower.contains('calorie') || lower.contains('fat') || lower.contains('sugar')) {
-      return false;
-    }
-    return true;
   }
 }
 
@@ -423,4 +392,111 @@ class _Cell extends StatelessWidget {
       ],
     );
   }
+}
+
+class _NutritionCompareSection extends StatelessWidget {
+  const _NutritionCompareSection({
+    required this.productA,
+    required this.productB,
+  });
+
+  final MarketplaceProduct productA;
+  final MarketplaceProduct productB;
+
+  @override
+  Widget build(BuildContext context) {
+    final a = productA.nutrition;
+    final b = productB.nutrition;
+    final hasFacts = a.hasValues || b.hasValues;
+    final rows = <_RowData>[
+      _nutrientRow('Calories', a.energyKcal, b.energyKcal, 'kcal', false),
+      _nutrientRow('Protein', _grams(a.proteinMg), _grams(b.proteinMg), 'g', true),
+      _nutrientRow('Carbs', _grams(a.carbsMg), _grams(b.carbsMg), 'g', true),
+      _nutrientRow('Fat', _grams(a.fatMg), _grams(b.fatMg), 'g', false),
+      _nutrientRow('Fiber', _grams(a.fiberMg), _grams(b.fiberMg), 'g', true),
+      _nutrientRow('Sugar', _grams(a.sugarMg), _grams(b.sugarMg), 'g', false),
+      _nutrientRow('Sodium', a.sodiumMg, b.sodiumMg, 'mg', false),
+      _nutrientRow(
+        'Iron',
+        _grams(a.ironUg),
+        _grams(b.ironUg),
+        'mg',
+        true,
+      ),
+    ];
+    final allergenA = productA.allergens.map((e) => e.name).join(', ');
+    final allergenB = productB.allergens.map((e) => e.name).join(', ');
+    if (allergenA.isNotEmpty || allergenB.isNotEmpty) {
+      rows.add(
+        _RowData(
+          label: 'Allergens',
+          left: allergenA.isEmpty ? 'None listed' : allergenA,
+          right: allergenB.isEmpty ? 'None listed' : allergenB,
+        ),
+      );
+    }
+
+    return AppCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Nutrition',
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w800,
+                ),
+          ),
+          const SizedBox(height: AppSpacing.xs),
+          Text(
+            'Per 100g serving',
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+          ),
+          const SizedBox(height: AppSpacing.md),
+          if (!hasFacts)
+            Text(
+              'Nutrition facts are not listed for these products yet.',
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
+            )
+          else
+            for (var i = 0; i < rows.length; i++) ...[
+              _CompareRow(row: rows[i]),
+              if (i < rows.length - 1) const Divider(height: AppSpacing.lg),
+            ],
+        ],
+      ),
+    );
+  }
+
+  _RowData _nutrientRow(
+    String label,
+    int left,
+    int right,
+    String unit,
+    bool higherIsBetter,
+  ) {
+    bool leftWins = false;
+    bool rightWins = false;
+    if (left != right && (left > 0 || right > 0)) {
+      if (higherIsBetter) {
+        leftWins = left > right;
+        rightWins = right > left;
+      } else {
+        leftWins = left < right;
+        rightWins = right < left;
+      }
+    }
+    return _RowData(
+      label: label,
+      left: left == 0 ? '—' : '$left $unit',
+      right: right == 0 ? '—' : '$right $unit',
+      leftWins: leftWins,
+      rightWins: rightWins,
+    );
+  }
+
+  int _grams(int milligrams) => (milligrams / 1000).round();
 }

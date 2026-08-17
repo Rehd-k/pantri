@@ -897,7 +897,7 @@ as String,
 /// @nodoc
 mixin _$PackageItem {
 
- String get id; String get productId; int get quantity; int get sortOrder; String get name; String get brand; String get packageLabel; String get imageUrl; int get priceKobo; int get retailPriceKobo; int get lineWholesaleKobo; int get lineRetailKobo;
+ String get id; String get packId; String get productId; int get quantity; int get sortOrder; String get name; String get brand; String get packageLabel; String get imageUrl; int get priceKobo; int get retailPriceKobo; int get lineWholesaleKobo; int get lineRetailKobo;
 /// Create a copy of PackageItem
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -910,16 +910,16 @@ $PackageItemCopyWith<PackageItem> get copyWith => _$PackageItemCopyWithImpl<Pack
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PackageItem&&(identical(other.id, id) || other.id == id)&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.sortOrder, sortOrder) || other.sortOrder == sortOrder)&&(identical(other.name, name) || other.name == name)&&(identical(other.brand, brand) || other.brand == brand)&&(identical(other.packageLabel, packageLabel) || other.packageLabel == packageLabel)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.priceKobo, priceKobo) || other.priceKobo == priceKobo)&&(identical(other.retailPriceKobo, retailPriceKobo) || other.retailPriceKobo == retailPriceKobo)&&(identical(other.lineWholesaleKobo, lineWholesaleKobo) || other.lineWholesaleKobo == lineWholesaleKobo)&&(identical(other.lineRetailKobo, lineRetailKobo) || other.lineRetailKobo == lineRetailKobo));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PackageItem&&(identical(other.id, id) || other.id == id)&&(identical(other.packId, packId) || other.packId == packId)&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.sortOrder, sortOrder) || other.sortOrder == sortOrder)&&(identical(other.name, name) || other.name == name)&&(identical(other.brand, brand) || other.brand == brand)&&(identical(other.packageLabel, packageLabel) || other.packageLabel == packageLabel)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.priceKobo, priceKobo) || other.priceKobo == priceKobo)&&(identical(other.retailPriceKobo, retailPriceKobo) || other.retailPriceKobo == retailPriceKobo)&&(identical(other.lineWholesaleKobo, lineWholesaleKobo) || other.lineWholesaleKobo == lineWholesaleKobo)&&(identical(other.lineRetailKobo, lineRetailKobo) || other.lineRetailKobo == lineRetailKobo));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,productId,quantity,sortOrder,name,brand,packageLabel,imageUrl,priceKobo,retailPriceKobo,lineWholesaleKobo,lineRetailKobo);
+int get hashCode => Object.hash(runtimeType,id,packId,productId,quantity,sortOrder,name,brand,packageLabel,imageUrl,priceKobo,retailPriceKobo,lineWholesaleKobo,lineRetailKobo);
 
 @override
 String toString() {
-  return 'PackageItem(id: $id, productId: $productId, quantity: $quantity, sortOrder: $sortOrder, name: $name, brand: $brand, packageLabel: $packageLabel, imageUrl: $imageUrl, priceKobo: $priceKobo, retailPriceKobo: $retailPriceKobo, lineWholesaleKobo: $lineWholesaleKobo, lineRetailKobo: $lineRetailKobo)';
+  return 'PackageItem(id: $id, packId: $packId, productId: $productId, quantity: $quantity, sortOrder: $sortOrder, name: $name, brand: $brand, packageLabel: $packageLabel, imageUrl: $imageUrl, priceKobo: $priceKobo, retailPriceKobo: $retailPriceKobo, lineWholesaleKobo: $lineWholesaleKobo, lineRetailKobo: $lineRetailKobo)';
 }
 
 
@@ -930,7 +930,7 @@ abstract mixin class $PackageItemCopyWith<$Res>  {
   factory $PackageItemCopyWith(PackageItem value, $Res Function(PackageItem) _then) = _$PackageItemCopyWithImpl;
 @useResult
 $Res call({
- String id, String productId, int quantity, int sortOrder, String name, String brand, String packageLabel, String imageUrl, int priceKobo, int retailPriceKobo, int lineWholesaleKobo, int lineRetailKobo
+ String id, String packId, String productId, int quantity, int sortOrder, String name, String brand, String packageLabel, String imageUrl, int priceKobo, int retailPriceKobo, int lineWholesaleKobo, int lineRetailKobo
 });
 
 
@@ -947,9 +947,10 @@ class _$PackageItemCopyWithImpl<$Res>
 
 /// Create a copy of PackageItem
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? productId = null,Object? quantity = null,Object? sortOrder = null,Object? name = null,Object? brand = null,Object? packageLabel = null,Object? imageUrl = null,Object? priceKobo = null,Object? retailPriceKobo = null,Object? lineWholesaleKobo = null,Object? lineRetailKobo = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? packId = null,Object? productId = null,Object? quantity = null,Object? sortOrder = null,Object? name = null,Object? brand = null,Object? packageLabel = null,Object? imageUrl = null,Object? priceKobo = null,Object? retailPriceKobo = null,Object? lineWholesaleKobo = null,Object? lineRetailKobo = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,packId: null == packId ? _self.packId : packId // ignore: cast_nullable_to_non_nullable
 as String,productId: null == productId ? _self.productId : productId // ignore: cast_nullable_to_non_nullable
 as String,quantity: null == quantity ? _self.quantity : quantity // ignore: cast_nullable_to_non_nullable
 as int,sortOrder: null == sortOrder ? _self.sortOrder : sortOrder // ignore: cast_nullable_to_non_nullable
@@ -1046,10 +1047,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String productId,  int quantity,  int sortOrder,  String name,  String brand,  String packageLabel,  String imageUrl,  int priceKobo,  int retailPriceKobo,  int lineWholesaleKobo,  int lineRetailKobo)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String packId,  String productId,  int quantity,  int sortOrder,  String name,  String brand,  String packageLabel,  String imageUrl,  int priceKobo,  int retailPriceKobo,  int lineWholesaleKobo,  int lineRetailKobo)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _PackageItem() when $default != null:
-return $default(_that.id,_that.productId,_that.quantity,_that.sortOrder,_that.name,_that.brand,_that.packageLabel,_that.imageUrl,_that.priceKobo,_that.retailPriceKobo,_that.lineWholesaleKobo,_that.lineRetailKobo);case _:
+return $default(_that.id,_that.packId,_that.productId,_that.quantity,_that.sortOrder,_that.name,_that.brand,_that.packageLabel,_that.imageUrl,_that.priceKobo,_that.retailPriceKobo,_that.lineWholesaleKobo,_that.lineRetailKobo);case _:
   return orElse();
 
 }
@@ -1067,10 +1068,10 @@ return $default(_that.id,_that.productId,_that.quantity,_that.sortOrder,_that.na
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String productId,  int quantity,  int sortOrder,  String name,  String brand,  String packageLabel,  String imageUrl,  int priceKobo,  int retailPriceKobo,  int lineWholesaleKobo,  int lineRetailKobo)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String packId,  String productId,  int quantity,  int sortOrder,  String name,  String brand,  String packageLabel,  String imageUrl,  int priceKobo,  int retailPriceKobo,  int lineWholesaleKobo,  int lineRetailKobo)  $default,) {final _that = this;
 switch (_that) {
 case _PackageItem():
-return $default(_that.id,_that.productId,_that.quantity,_that.sortOrder,_that.name,_that.brand,_that.packageLabel,_that.imageUrl,_that.priceKobo,_that.retailPriceKobo,_that.lineWholesaleKobo,_that.lineRetailKobo);case _:
+return $default(_that.id,_that.packId,_that.productId,_that.quantity,_that.sortOrder,_that.name,_that.brand,_that.packageLabel,_that.imageUrl,_that.priceKobo,_that.retailPriceKobo,_that.lineWholesaleKobo,_that.lineRetailKobo);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1087,10 +1088,10 @@ return $default(_that.id,_that.productId,_that.quantity,_that.sortOrder,_that.na
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String productId,  int quantity,  int sortOrder,  String name,  String brand,  String packageLabel,  String imageUrl,  int priceKobo,  int retailPriceKobo,  int lineWholesaleKobo,  int lineRetailKobo)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String packId,  String productId,  int quantity,  int sortOrder,  String name,  String brand,  String packageLabel,  String imageUrl,  int priceKobo,  int retailPriceKobo,  int lineWholesaleKobo,  int lineRetailKobo)?  $default,) {final _that = this;
 switch (_that) {
 case _PackageItem() when $default != null:
-return $default(_that.id,_that.productId,_that.quantity,_that.sortOrder,_that.name,_that.brand,_that.packageLabel,_that.imageUrl,_that.priceKobo,_that.retailPriceKobo,_that.lineWholesaleKobo,_that.lineRetailKobo);case _:
+return $default(_that.id,_that.packId,_that.productId,_that.quantity,_that.sortOrder,_that.name,_that.brand,_that.packageLabel,_that.imageUrl,_that.priceKobo,_that.retailPriceKobo,_that.lineWholesaleKobo,_that.lineRetailKobo);case _:
   return null;
 
 }
@@ -1102,10 +1103,11 @@ return $default(_that.id,_that.productId,_that.quantity,_that.sortOrder,_that.na
 @JsonSerializable()
 
 class _PackageItem implements PackageItem {
-  const _PackageItem({required this.id, required this.productId, required this.quantity, required this.sortOrder, required this.name, required this.brand, required this.packageLabel, required this.imageUrl, required this.priceKobo, required this.retailPriceKobo, required this.lineWholesaleKobo, required this.lineRetailKobo});
+  const _PackageItem({required this.id, required this.packId, required this.productId, required this.quantity, required this.sortOrder, required this.name, required this.brand, required this.packageLabel, required this.imageUrl, required this.priceKobo, required this.retailPriceKobo, required this.lineWholesaleKobo, required this.lineRetailKobo});
   factory _PackageItem.fromJson(Map<String, dynamic> json) => _$PackageItemFromJson(json);
 
 @override final  String id;
+@override final  String packId;
 @override final  String productId;
 @override final  int quantity;
 @override final  int sortOrder;
@@ -1131,16 +1133,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PackageItem&&(identical(other.id, id) || other.id == id)&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.sortOrder, sortOrder) || other.sortOrder == sortOrder)&&(identical(other.name, name) || other.name == name)&&(identical(other.brand, brand) || other.brand == brand)&&(identical(other.packageLabel, packageLabel) || other.packageLabel == packageLabel)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.priceKobo, priceKobo) || other.priceKobo == priceKobo)&&(identical(other.retailPriceKobo, retailPriceKobo) || other.retailPriceKobo == retailPriceKobo)&&(identical(other.lineWholesaleKobo, lineWholesaleKobo) || other.lineWholesaleKobo == lineWholesaleKobo)&&(identical(other.lineRetailKobo, lineRetailKobo) || other.lineRetailKobo == lineRetailKobo));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PackageItem&&(identical(other.id, id) || other.id == id)&&(identical(other.packId, packId) || other.packId == packId)&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.sortOrder, sortOrder) || other.sortOrder == sortOrder)&&(identical(other.name, name) || other.name == name)&&(identical(other.brand, brand) || other.brand == brand)&&(identical(other.packageLabel, packageLabel) || other.packageLabel == packageLabel)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.priceKobo, priceKobo) || other.priceKobo == priceKobo)&&(identical(other.retailPriceKobo, retailPriceKobo) || other.retailPriceKobo == retailPriceKobo)&&(identical(other.lineWholesaleKobo, lineWholesaleKobo) || other.lineWholesaleKobo == lineWholesaleKobo)&&(identical(other.lineRetailKobo, lineRetailKobo) || other.lineRetailKobo == lineRetailKobo));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,productId,quantity,sortOrder,name,brand,packageLabel,imageUrl,priceKobo,retailPriceKobo,lineWholesaleKobo,lineRetailKobo);
+int get hashCode => Object.hash(runtimeType,id,packId,productId,quantity,sortOrder,name,brand,packageLabel,imageUrl,priceKobo,retailPriceKobo,lineWholesaleKobo,lineRetailKobo);
 
 @override
 String toString() {
-  return 'PackageItem(id: $id, productId: $productId, quantity: $quantity, sortOrder: $sortOrder, name: $name, brand: $brand, packageLabel: $packageLabel, imageUrl: $imageUrl, priceKobo: $priceKobo, retailPriceKobo: $retailPriceKobo, lineWholesaleKobo: $lineWholesaleKobo, lineRetailKobo: $lineRetailKobo)';
+  return 'PackageItem(id: $id, packId: $packId, productId: $productId, quantity: $quantity, sortOrder: $sortOrder, name: $name, brand: $brand, packageLabel: $packageLabel, imageUrl: $imageUrl, priceKobo: $priceKobo, retailPriceKobo: $retailPriceKobo, lineWholesaleKobo: $lineWholesaleKobo, lineRetailKobo: $lineRetailKobo)';
 }
 
 
@@ -1151,7 +1153,7 @@ abstract mixin class _$PackageItemCopyWith<$Res> implements $PackageItemCopyWith
   factory _$PackageItemCopyWith(_PackageItem value, $Res Function(_PackageItem) _then) = __$PackageItemCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String productId, int quantity, int sortOrder, String name, String brand, String packageLabel, String imageUrl, int priceKobo, int retailPriceKobo, int lineWholesaleKobo, int lineRetailKobo
+ String id, String packId, String productId, int quantity, int sortOrder, String name, String brand, String packageLabel, String imageUrl, int priceKobo, int retailPriceKobo, int lineWholesaleKobo, int lineRetailKobo
 });
 
 
@@ -1168,9 +1170,10 @@ class __$PackageItemCopyWithImpl<$Res>
 
 /// Create a copy of PackageItem
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? productId = null,Object? quantity = null,Object? sortOrder = null,Object? name = null,Object? brand = null,Object? packageLabel = null,Object? imageUrl = null,Object? priceKobo = null,Object? retailPriceKobo = null,Object? lineWholesaleKobo = null,Object? lineRetailKobo = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? packId = null,Object? productId = null,Object? quantity = null,Object? sortOrder = null,Object? name = null,Object? brand = null,Object? packageLabel = null,Object? imageUrl = null,Object? priceKobo = null,Object? retailPriceKobo = null,Object? lineWholesaleKobo = null,Object? lineRetailKobo = null,}) {
   return _then(_PackageItem(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,packId: null == packId ? _self.packId : packId // ignore: cast_nullable_to_non_nullable
 as String,productId: null == productId ? _self.productId : productId // ignore: cast_nullable_to_non_nullable
 as String,quantity: null == quantity ? _self.quantity : quantity // ignore: cast_nullable_to_non_nullable
 as int,sortOrder: null == sortOrder ? _self.sortOrder : sortOrder // ignore: cast_nullable_to_non_nullable
@@ -2464,7 +2467,7 @@ as List<PackageSubscription>,
 /// @nodoc
 mixin _$PackageItemInput {
 
- String get productId; int get quantity; int? get sortOrder;
+ String get packId; int get quantity; int? get sortOrder;
 /// Create a copy of PackageItemInput
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -2477,16 +2480,16 @@ $PackageItemInputCopyWith<PackageItemInput> get copyWith => _$PackageItemInputCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PackageItemInput&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.sortOrder, sortOrder) || other.sortOrder == sortOrder));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PackageItemInput&&(identical(other.packId, packId) || other.packId == packId)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.sortOrder, sortOrder) || other.sortOrder == sortOrder));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,productId,quantity,sortOrder);
+int get hashCode => Object.hash(runtimeType,packId,quantity,sortOrder);
 
 @override
 String toString() {
-  return 'PackageItemInput(productId: $productId, quantity: $quantity, sortOrder: $sortOrder)';
+  return 'PackageItemInput(packId: $packId, quantity: $quantity, sortOrder: $sortOrder)';
 }
 
 
@@ -2497,7 +2500,7 @@ abstract mixin class $PackageItemInputCopyWith<$Res>  {
   factory $PackageItemInputCopyWith(PackageItemInput value, $Res Function(PackageItemInput) _then) = _$PackageItemInputCopyWithImpl;
 @useResult
 $Res call({
- String productId, int quantity, int? sortOrder
+ String packId, int quantity, int? sortOrder
 });
 
 
@@ -2514,9 +2517,9 @@ class _$PackageItemInputCopyWithImpl<$Res>
 
 /// Create a copy of PackageItemInput
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? productId = null,Object? quantity = null,Object? sortOrder = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? packId = null,Object? quantity = null,Object? sortOrder = freezed,}) {
   return _then(_self.copyWith(
-productId: null == productId ? _self.productId : productId // ignore: cast_nullable_to_non_nullable
+packId: null == packId ? _self.packId : packId // ignore: cast_nullable_to_non_nullable
 as String,quantity: null == quantity ? _self.quantity : quantity // ignore: cast_nullable_to_non_nullable
 as int,sortOrder: freezed == sortOrder ? _self.sortOrder : sortOrder // ignore: cast_nullable_to_non_nullable
 as int?,
@@ -2604,10 +2607,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String productId,  int quantity,  int? sortOrder)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String packId,  int quantity,  int? sortOrder)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _PackageItemInput() when $default != null:
-return $default(_that.productId,_that.quantity,_that.sortOrder);case _:
+return $default(_that.packId,_that.quantity,_that.sortOrder);case _:
   return orElse();
 
 }
@@ -2625,10 +2628,10 @@ return $default(_that.productId,_that.quantity,_that.sortOrder);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String productId,  int quantity,  int? sortOrder)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String packId,  int quantity,  int? sortOrder)  $default,) {final _that = this;
 switch (_that) {
 case _PackageItemInput():
-return $default(_that.productId,_that.quantity,_that.sortOrder);case _:
+return $default(_that.packId,_that.quantity,_that.sortOrder);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -2645,10 +2648,10 @@ return $default(_that.productId,_that.quantity,_that.sortOrder);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String productId,  int quantity,  int? sortOrder)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String packId,  int quantity,  int? sortOrder)?  $default,) {final _that = this;
 switch (_that) {
 case _PackageItemInput() when $default != null:
-return $default(_that.productId,_that.quantity,_that.sortOrder);case _:
+return $default(_that.packId,_that.quantity,_that.sortOrder);case _:
   return null;
 
 }
@@ -2660,10 +2663,10 @@ return $default(_that.productId,_that.quantity,_that.sortOrder);case _:
 @JsonSerializable()
 
 class _PackageItemInput implements PackageItemInput {
-  const _PackageItemInput({required this.productId, required this.quantity, this.sortOrder});
+  const _PackageItemInput({required this.packId, required this.quantity, this.sortOrder});
   factory _PackageItemInput.fromJson(Map<String, dynamic> json) => _$PackageItemInputFromJson(json);
 
-@override final  String productId;
+@override final  String packId;
 @override final  int quantity;
 @override final  int? sortOrder;
 
@@ -2680,16 +2683,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PackageItemInput&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.sortOrder, sortOrder) || other.sortOrder == sortOrder));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PackageItemInput&&(identical(other.packId, packId) || other.packId == packId)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.sortOrder, sortOrder) || other.sortOrder == sortOrder));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,productId,quantity,sortOrder);
+int get hashCode => Object.hash(runtimeType,packId,quantity,sortOrder);
 
 @override
 String toString() {
-  return 'PackageItemInput(productId: $productId, quantity: $quantity, sortOrder: $sortOrder)';
+  return 'PackageItemInput(packId: $packId, quantity: $quantity, sortOrder: $sortOrder)';
 }
 
 
@@ -2700,7 +2703,7 @@ abstract mixin class _$PackageItemInputCopyWith<$Res> implements $PackageItemInp
   factory _$PackageItemInputCopyWith(_PackageItemInput value, $Res Function(_PackageItemInput) _then) = __$PackageItemInputCopyWithImpl;
 @override @useResult
 $Res call({
- String productId, int quantity, int? sortOrder
+ String packId, int quantity, int? sortOrder
 });
 
 
@@ -2717,9 +2720,9 @@ class __$PackageItemInputCopyWithImpl<$Res>
 
 /// Create a copy of PackageItemInput
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? productId = null,Object? quantity = null,Object? sortOrder = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? packId = null,Object? quantity = null,Object? sortOrder = freezed,}) {
   return _then(_PackageItemInput(
-productId: null == productId ? _self.productId : productId // ignore: cast_nullable_to_non_nullable
+packId: null == packId ? _self.packId : packId // ignore: cast_nullable_to_non_nullable
 as String,quantity: null == quantity ? _self.quantity : quantity // ignore: cast_nullable_to_non_nullable
 as int,sortOrder: freezed == sortOrder ? _self.sortOrder : sortOrder // ignore: cast_nullable_to_non_nullable
 as int?,

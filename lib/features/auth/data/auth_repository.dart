@@ -6,9 +6,9 @@ import '../domain/auth_response.dart';
 import '../domain/auth_user.dart';
 import '../domain/login_request.dart';
 import '../domain/register_employee_request.dart';
-import '../domain/register_employer_request.dart';
 import '../domain/register_logistics_request.dart';
 import '../domain/register_supplier_request.dart';
+import '../domain/user_role.dart';
 import '../domain/user_status.dart';
 import 'auth_api.dart';
 
@@ -24,25 +24,15 @@ final authRepositoryProvider = Provider<AuthRepository>((ref) {
 });
 
 class AuthRepository {
-  AuthRepository({
-    required AuthApi api,
-    required TokenStorage tokenStorage,
-  })  : _api = api,
-        _tokenStorage = tokenStorage;
+  AuthRepository({required AuthApi api, required TokenStorage tokenStorage})
+    : _api = api,
+      _tokenStorage = tokenStorage;
 
   final AuthApi _api;
   final TokenStorage _tokenStorage;
 
   Future<AuthResponse> login(LoginRequest request) async {
     final response = await _api.login(request);
-    if (response.accessToken.isNotEmpty) {
-      await _tokenStorage.saveToken(response.accessToken);
-    }
-    return response;
-  }
-
-  Future<AuthResponse> registerEmployer(RegisterEmployerRequest request) async {
-    final response = await _api.registerEmployer(request);
     if (response.accessToken.isNotEmpty) {
       await _tokenStorage.saveToken(response.accessToken);
     }
@@ -78,6 +68,10 @@ class AuthRepository {
         await _tokenStorage.clearToken();
         return null;
       }
+      if (user.role == UserRole.admin || user.role == UserRole.employer) {
+        await _tokenStorage.clearToken();
+        return null;
+      }
       return user;
     } catch (_) {
       await _tokenStorage.clearToken();
@@ -86,8 +80,4 @@ class AuthRepository {
   }
 
   Future<void> logout() => _tokenStorage.clearToken();
-
-  Future<List<AuthUser>> listPendingUsers() => _api.listPendingUsers();
-
-  Future<AuthUser> approveUser(String userId) => _api.approveUser(userId);
 }

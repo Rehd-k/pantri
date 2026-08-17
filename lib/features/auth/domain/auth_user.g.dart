@@ -21,6 +21,9 @@ _AuthUser _$AuthUserFromJson(Map<String, dynamic> json) => _AuthUser(
   companyInviteCode: json['companyInviteCode'] as String?,
   businessName: json['businessName'] as String?,
   fleetName: json['fleetName'] as String?,
+  employeeId: json['employeeId'] as String?,
+  verificationStatus: json['verificationStatus'] as String?,
+  phone: json['phone'] as String?,
 );
 
 Map<String, dynamic> _$AuthUserToJson(_AuthUser instance) => <String, dynamic>{
@@ -38,4 +41,7 @@ Map<String, dynamic> _$AuthUserToJson(_AuthUser instance) => <String, dynamic>{
   'companyInviteCode': instance.companyInviteCode,
   'businessName': instance.businessName,
   'fleetName': instance.fleetName,
+  'employeeId': instance.employeeId,
+  'verificationStatus': instance.verificationStatus,
+  'phone': instance.phone,
 };

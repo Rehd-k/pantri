@@ -146,6 +146,9 @@ Map<String, dynamic> _$CheckoutRequestToJson(_CheckoutRequest instance) =>
 _CheckoutOrderItem _$CheckoutOrderItemFromJson(Map<String, dynamic> json) =>
     _CheckoutOrderItem(
       productId: json['productId'] as String,
+      packId: json['packId'] as String?,
+      brand: json['brand'] as String? ?? '',
+      packageLabel: json['packageLabel'] as String? ?? '',
       name: json['name'] as String,
       quantity: (json['quantity'] as num).toInt(),
       unitPriceKobo: (json['unitPriceKobo'] as num).toInt(),
@@ -155,6 +158,9 @@ _CheckoutOrderItem _$CheckoutOrderItemFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$CheckoutOrderItemToJson(_CheckoutOrderItem instance) =>
     <String, dynamic>{
       'productId': instance.productId,
+      'packId': instance.packId,
+      'brand': instance.brand,
+      'packageLabel': instance.packageLabel,
       'name': instance.name,
       'quantity': instance.quantity,
       'unitPriceKobo': instance.unitPriceKobo,

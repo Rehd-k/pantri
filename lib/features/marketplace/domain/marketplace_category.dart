@@ -10,6 +10,7 @@ part 'marketplace_category.g.dart';
 abstract class MarketplaceCategory with _$MarketplaceCategory {
   const factory MarketplaceCategory({
     required String id,
+    required String slug,
     required String name,
     required String imageUrl,
     required String accentColor,

@@ -73,6 +73,7 @@ Map<String, dynamic> _$PackageCreatorToJson(_PackageCreator instance) =>
 
 _PackageItem _$PackageItemFromJson(Map<String, dynamic> json) => _PackageItem(
   id: json['id'] as String,
+  packId: json['packId'] as String,
   productId: json['productId'] as String,
   quantity: (json['quantity'] as num).toInt(),
   sortOrder: (json['sortOrder'] as num).toInt(),
@@ -89,6 +90,7 @@ _PackageItem _$PackageItemFromJson(Map<String, dynamic> json) => _PackageItem(
 Map<String, dynamic> _$PackageItemToJson(_PackageItem instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'packId': instance.packId,
       'productId': instance.productId,
       'quantity': instance.quantity,
       'sortOrder': instance.sortOrder,
@@ -231,14 +233,14 @@ Map<String, dynamic> _$MinePackagesResponseToJson(
 
 _PackageItemInput _$PackageItemInputFromJson(Map<String, dynamic> json) =>
     _PackageItemInput(
-      productId: json['productId'] as String,
+      packId: json['packId'] as String,
       quantity: (json['quantity'] as num).toInt(),
       sortOrder: (json['sortOrder'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$PackageItemInputToJson(_PackageItemInput instance) =>
     <String, dynamic>{
-      'productId': instance.productId,
+      'packId': instance.packId,
       'quantity': instance.quantity,
       'sortOrder': instance.sortOrder,
     };

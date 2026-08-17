@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -17,7 +16,6 @@ import '../domain/credit_account_status.dart';
 import '../domain/ledger_entry.dart';
 import '../providers/credit_providers.dart';
 
-@RoutePage()
 class CreditAccountScreen extends ConsumerStatefulWidget {
   const CreditAccountScreen({super.key});
 
@@ -94,8 +92,8 @@ class _CreditAccountScreenState extends ConsumerState<CreditAccountScreen> {
                 Text(
                   'Recent activity',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w800,
-                      ),
+                    fontWeight: FontWeight.w800,
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.md),
                 const _LedgerList(),
@@ -235,9 +233,9 @@ class _StatusChip extends StatelessWidget {
       CreditAccountStatus.active => ('Active', colorScheme.primary),
       CreditAccountStatus.frozen => ('Frozen', colorScheme.error),
       CreditAccountStatus.closed => (
-          'Closed',
-          colorScheme.onSurface.withValues(alpha: 0.5)
-        ),
+        'Closed',
+        colorScheme.onSurface.withValues(alpha: 0.5),
+      ),
     };
     return Container(
       padding: const EdgeInsets.symmetric(
@@ -251,9 +249,9 @@ class _StatusChip extends StatelessWidget {
       child: Text(
         label,
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: color,
-              fontWeight: FontWeight.w700,
-            ),
+          color: color,
+          fontWeight: FontWeight.w700,
+        ),
       ),
     );
   }
@@ -331,9 +329,9 @@ class _InterestPayoffCard extends StatelessWidget {
                       months == null
                           ? 'Estimated payoff unavailable'
                           : months == 0
-                              ? 'Paid off at next deduction'
-                              : 'Estimated payoff in $months '
-                                  '${months == 1 ? 'month' : 'months'}',
+                          ? 'Paid off at next deduction'
+                          : 'Estimated payoff in $months '
+                                '${months == 1 ? 'month' : 'months'}',
                       style: textTheme.bodyMedium?.copyWith(
                         color: colorScheme.onTertiary,
                         fontWeight: FontWeight.w500,
@@ -372,17 +370,13 @@ class _DeductionPercentEditorState
       ref.invalidate(employeeDashboardProvider);
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Payroll deduction set to ${percent.round()}%'),
-        ),
+        SnackBar(content: Text('Payroll deduction set to ${percent.round()}%')),
       );
       setState(() => _draftPercent = null);
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(e is ApiException ? e.message : e.toString()),
-        ),
+        SnackBar(content: Text(e is ApiException ? e.message : e.toString())),
       );
     } finally {
       if (mounted) setState(() => _saving = false);
@@ -406,7 +400,9 @@ class _DeductionPercentEditorState
           children: [
             Text(
               'Payroll deduction percent',
-              style: textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w800),
+              style: textTheme.titleSmall?.copyWith(
+                fontWeight: FontWeight.w800,
+              ),
             ),
             const SizedBox(height: AppSpacing.xs),
             Text(
@@ -438,8 +434,7 @@ class _DeductionPercentEditorState
             AppButton(
               label: _saving ? 'Saving…' : 'Save',
               loading: _saving,
-              onPressed:
-                  _saving || _draftPercent == null ? null : _save,
+              onPressed: _saving || _draftPercent == null ? null : _save,
             ),
           ],
         ),
@@ -457,20 +452,22 @@ class _LedgerList extends ConsumerWidget {
 
     return switch (state) {
       LedgerInitial() || LedgerLoading(previous: null) => const Padding(
-          padding: EdgeInsets.symmetric(vertical: AppSpacing.xxl),
-          child: Center(child: CircularProgressIndicator()),
-        ),
+        padding: EdgeInsets.symmetric(vertical: AppSpacing.xxl),
+        child: Center(child: CircularProgressIndicator()),
+      ),
       LedgerError(:final message, previous: null) => AppEmptyState(
-          icon: Icons.error_outline,
-          title: 'Could not load activity',
-          message: message,
-          actionLabel: 'Retry',
-          onAction: () => ref.read(ledgerNotifierProvider.notifier).load(),
-        ),
-      LedgerLoading(:final previous) when previous != null =>
-        _LedgerEntries(loaded: previous),
-      LedgerError(:final previous) when previous != null =>
-        _LedgerEntries(loaded: previous),
+        icon: Icons.error_outline,
+        title: 'Could not load activity',
+        message: message,
+        actionLabel: 'Retry',
+        onAction: () => ref.read(ledgerNotifierProvider.notifier).load(),
+      ),
+      LedgerLoading(:final previous) when previous != null => _LedgerEntries(
+        loaded: previous,
+      ),
+      LedgerError(:final previous) when previous != null => _LedgerEntries(
+        loaded: previous,
+      ),
       LedgerLoaded() => _LedgerEntries(loaded: state),
       _ => const SizedBox.shrink(),
     };

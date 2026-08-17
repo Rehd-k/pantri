@@ -21,6 +21,12 @@ class NutritionRepository {
   Future<MealPlanDetail> getMealPlan(String id) => _api.getMealPlan(id);
 
   Future<MealPlanDetail> generateMealPlan() => _api.generateMealPlan();
+
+  Future<CookMealResult> cookRecipe(String recipeId) =>
+      _api.cookRecipe(recipeId);
+
+  Future<NutritionProgressReport> getProgress({String? from, String? to}) =>
+      _api.getProgress(from: from, to: to);
 }
 
 final nutritionApiProvider = Provider<NutritionApi>((ref) {

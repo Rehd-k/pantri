@@ -14,10 +14,7 @@ import 'meal_plan_detail_screen.dart';
 
 @RoutePage()
 class HealthQuestionnaireScreen extends ConsumerStatefulWidget {
-  const HealthQuestionnaireScreen({
-    super.key,
-    this.embeddedInTab = false,
-  });
+  const HealthQuestionnaireScreen({super.key, this.embeddedInTab = false});
 
   /// When true, completing the form refreshes the Meals tab instead of pushing
   /// a separate detail route.
@@ -36,24 +33,39 @@ class _HealthQuestionnaireScreenState
   final _customAllergyController = TextEditingController();
   final _customGoalController = TextEditingController();
 
-  static const _genders = [
-    'Prefer not to say',
-    'Female',
-    'Male',
-    'Non-binary',
-  ];
+  static const _genders = ['Prefer not to say', 'Female', 'Male', 'Non-binary'];
 
   static final _lifestyles = [
     ('EVERYTHING', 'Everything', 'No restrictions', Icons.restaurant_outlined),
     ('VEGAN', 'Vegan', 'Plant-based only', Icons.eco_outlined),
-    ('VEGETARIAN', 'Vegetarian', 'No meat, includes eggs/dairy', Icons.egg_outlined),
+    (
+      'VEGETARIAN',
+      'Vegetarian',
+      'No meat, includes eggs/dairy',
+      Icons.egg_outlined,
+    ),
     ('KETO', 'Keto', 'High fat, low carb', Icons.lunch_dining_outlined),
   ];
 
   static final _activities = [
-    ('SEDENTARY', 'Sedentary', 'Desk job, little exercise', Icons.chair_outlined),
-    ('MODERATE', 'Moderate', 'Exercise 3-5 times a week', Icons.directions_walk),
-    ('VERY_ACTIVE', 'Very Active', 'Hard exercise 6-7 times a week', Icons.fitness_center),
+    (
+      'SEDENTARY',
+      'Sedentary',
+      'Desk job, little exercise',
+      Icons.chair_outlined,
+    ),
+    (
+      'MODERATE',
+      'Moderate',
+      'Exercise 3-5 times a week',
+      Icons.directions_walk,
+    ),
+    (
+      'VERY_ACTIVE',
+      'Very Active',
+      'Hard exercise 6-7 times a week',
+      Icons.fitness_center,
+    ),
   ];
 
   @override
@@ -66,9 +78,9 @@ class _HealthQuestionnaireScreenState
   Future<void> _submit() async {
     final draft = ref.read(questionnaireDraftProvider);
     if (draft.selectedGoalIds.isEmpty && draft.customGoals.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Select at least one goal')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Select at least one goal')));
       return;
     }
 
@@ -84,8 +96,8 @@ class _HealthQuestionnaireScreenState
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              plan.status == 'PENDING_REVIEW'
-                  ? 'Meal plan submitted for admin review.'
+              plan.status == 'APPROVED' || plan.status == 'PENDING_REVIEW'
+                  ? 'Recipes ready from your pantry.'
                   : 'Meal plan ready.',
             ),
           ),
@@ -100,9 +112,7 @@ class _HealthQuestionnaireScreenState
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(e is ApiException ? e.message : e.toString()),
-        ),
+        SnackBar(content: Text(e is ApiException ? e.message : e.toString())),
       );
     } finally {
       if (mounted) setState(() => _submitting = false);
@@ -219,18 +229,18 @@ class _HealthQuestionnaireScreenState
                     child: switch (_step) {
                       0 => _buildPhysicalStep(draft, colorScheme, textTheme),
                       1 => _buildDietStep(
-                          draft,
-                          catalog,
-                          colorScheme,
-                          textTheme,
-                        ),
+                        draft,
+                        catalog,
+                        colorScheme,
+                        textTheme,
+                      ),
                       2 => _buildActivityStep(draft, colorScheme, textTheme),
                       _ => _buildGoalsStep(
-                          draft,
-                          catalog,
-                          colorScheme,
-                          textTheme,
-                        ),
+                        draft,
+                        catalog,
+                        colorScheme,
+                        textTheme,
+                      ),
                     },
                   ),
                 ),
@@ -291,7 +301,9 @@ class _HealthQuestionnaireScreenState
         children: [
           Text(
             "Let's start with the basics",
-            style: textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w700),
+            style: textTheme.headlineSmall?.copyWith(
+              fontWeight: FontWeight.w700,
+            ),
           ),
           const SizedBox(height: AppSpacing.lg),
           Row(
@@ -360,7 +372,9 @@ class _HealthQuestionnaireScreenState
         children: [
           Text(
             'Dietary Lifestyle',
-            style: textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w700),
+            style: textTheme.headlineSmall?.copyWith(
+              fontWeight: FontWeight.w700,
+            ),
           ),
           const SizedBox(height: AppSpacing.xs),
           Text(
@@ -396,8 +410,7 @@ class _HealthQuestionnaireScreenState
             runSpacing: AppSpacing.sm,
             children: [
               ...catalog.allergies.map((allergy) {
-                final selected =
-                    draft.selectedAllergyIds.contains(allergy.id);
+                final selected = draft.selectedAllergyIds.contains(allergy.id);
                 return FilterChip(
                   label: Text(allergy.name),
                   selected: selected,
@@ -443,7 +456,9 @@ class _HealthQuestionnaireScreenState
         children: [
           Text(
             'How active are you?',
-            style: textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w700),
+            style: textTheme.headlineSmall?.copyWith(
+              fontWeight: FontWeight.w700,
+            ),
           ),
           const SizedBox(height: AppSpacing.lg),
           ..._activities.map((item) {
@@ -479,7 +494,9 @@ class _HealthQuestionnaireScreenState
         children: [
           Text(
             'What are your primary goals?',
-            style: textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w700),
+            style: textTheme.headlineSmall?.copyWith(
+              fontWeight: FontWeight.w700,
+            ),
           ),
           const SizedBox(height: AppSpacing.lg),
           GridView.builder(
@@ -640,7 +657,8 @@ class MealPlansListScreen extends ConsumerWidget {
             return const AppEmptyState(
               icon: Icons.restaurant_menu_outlined,
               title: 'No meal plans yet',
-              message: 'Complete the questionnaire to generate your first plan.',
+              message:
+                  'Complete the questionnaire to generate your first plan.',
             );
           }
           return ListView.separated(
@@ -662,8 +680,7 @@ class MealPlansListScreen extends ConsumerWidget {
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute<void>(
-                      builder: (_) =>
-                          MealPlanDetailScreen(mealPlanId: plan.id),
+                      builder: (_) => MealPlanDetailScreen(mealPlanId: plan.id),
                     ),
                   );
                 },
@@ -690,7 +707,9 @@ class _CardShell extends StatelessWidget {
       decoration: BoxDecoration(
         color: colorScheme.surface,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: colorScheme.outlineVariant.withValues(alpha: 0.4)),
+        border: Border.all(
+          color: colorScheme.outlineVariant.withValues(alpha: 0.4),
+        ),
         boxShadow: [
           BoxShadow(
             color: colorScheme.shadow.withValues(alpha: 0.04),
@@ -831,15 +850,15 @@ class _SelectableTile extends StatelessWidget {
                   Text(
                     title,
                     style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                          fontWeight: FontWeight.w700,
-                          color: selected ? colorScheme.primary : null,
-                        ),
+                      fontWeight: FontWeight.w700,
+                      color: selected ? colorScheme.primary : null,
+                    ),
                   ),
                   Text(
                     subtitle,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: colorScheme.onSurfaceVariant,
-                        ),
+                      color: colorScheme.onSurfaceVariant,
+                    ),
                   ),
                 ],
               ),

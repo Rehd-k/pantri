@@ -51,7 +51,9 @@ class _RegisterLogisticsScreenState
       );
       return;
     }
-    await ref.read(authNotifierProvider.notifier).registerLogistics(
+    await ref
+        .read(authNotifierProvider.notifier)
+        .registerLogistics(
           email: _email.text,
           password: _password.text,
           firstName: _firstName.text,

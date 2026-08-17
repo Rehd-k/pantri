@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/app_spacing.dart';
-import '../../core/widgets/app_button.dart';
 import '../../core/widgets/app_card.dart';
 import '../auth/domain/auth_user.dart';
 import '../auth/domain/user_role.dart';
@@ -48,11 +46,6 @@ class RoleHomeShell extends ConsumerWidget {
         padding: const EdgeInsets.all(AppSpacing.xl),
         children: [
           if (user != null) _UserSummaryCard(user: user),
-          if (user?.role == UserRole.employer &&
-              user?.companyInviteCode != null) ...[
-            const SizedBox(height: AppSpacing.lg),
-            _InviteCodeCard(inviteCode: user!.companyInviteCode!),
-          ],
           if (extra != null) ...[
             const SizedBox(height: AppSpacing.lg),
             extra!,
@@ -99,49 +92,6 @@ class _UserSummaryCard extends StatelessWidget {
             const SizedBox(height: AppSpacing.sm),
             Text('Fleet: ${user.fleetName}'),
           ],
-        ],
-      ),
-    );
-  }
-}
-
-class _InviteCodeCard extends StatelessWidget {
-  const _InviteCodeCard({required this.inviteCode});
-
-  final String inviteCode;
-
-  @override
-  Widget build(BuildContext context) {
-    return AppCard(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Employee invite code',
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
-          const SizedBox(height: AppSpacing.sm),
-          SelectableText(
-            inviteCode,
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  letterSpacing: 2,
-                  fontWeight: FontWeight.w700,
-                ),
-          ),
-          const SizedBox(height: AppSpacing.md),
-          AppButton(
-            label: 'Copy code',
-            icon: Icons.copy,
-            variant: AppButtonVariant.outlined,
-            onPressed: () async {
-              await Clipboard.setData(ClipboardData(text: inviteCode));
-              if (context.mounted) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Invite code copied')),
-                );
-              }
-            },
-          ),
         ],
       ),
     );

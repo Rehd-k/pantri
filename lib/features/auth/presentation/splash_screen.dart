@@ -34,9 +34,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             Text(
               'Pantri',
               style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                    color: colorScheme.primary,
-                    fontWeight: FontWeight.w700,
-                  ),
+                color: colorScheme.primary,
+                fontWeight: FontWeight.w700,
+              ),
             ),
             const SizedBox(height: AppSpacing.xl),
             const CircularProgressIndicator(),
