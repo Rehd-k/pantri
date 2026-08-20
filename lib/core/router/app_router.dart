@@ -14,6 +14,8 @@ import '../../features/auth/presentation/welcome_screen.dart';
 import '../../features/auth/providers/auth_notifier.dart';
 import '../../features/auth/providers/auth_state.dart';
 import '../../features/nutrition/presentation/health_questionnaire_screen.dart';
+import '../../features/onboarding/presentation/onboarding_screen.dart';
+import '../../features/onboarding/providers/first_launch_provider.dart';
 import 'role_home_pages.dart';
 
 part 'app_router.gr.dart';
@@ -25,6 +27,7 @@ class AuthRouteGuard extends AutoRouteGuard {
 
   static const _authRoutes = {
     WelcomeRoute.name,
+    OnboardingRoute.name,
     LoginRoute.name,
     RegisterHubRoute.name,
     RegisterEmployeeRoute.name,
@@ -48,7 +51,7 @@ class AuthRouteGuard extends AutoRouteGuard {
         resolver.next();
         return;
       }
-      resolver.redirectUntil(const SplashRoute());
+      _replaceStack(resolver, router, const SplashRoute());
       return;
     }
 
@@ -62,18 +65,18 @@ class AuthRouteGuard extends AutoRouteGuard {
         resolver.next();
         return;
       }
-      resolver.redirectUntil(const PendingApprovalRoute());
+      _replaceStack(resolver, router, const PendingApprovalRoute());
       return;
     }
 
     if (auth is AuthAuthenticated) {
-      final home = _homeRouteForRole(auth.user.role);
+      final home = roleHomeRoute(auth.user.role);
       if (isSplash || isAuthRoute || isPending) {
-        resolver.redirectUntil(home);
+        _replaceStack(resolver, router, home);
         return;
       }
       if (!_isAllowedRoute(routeName, auth.user.role)) {
-        resolver.redirectUntil(home);
+        _replaceStack(resolver, router, home);
         return;
       }
       resolver.next();
@@ -81,29 +84,60 @@ class AuthRouteGuard extends AutoRouteGuard {
     }
 
     if (isSplash) {
-      resolver.redirectUntil(const WelcomeRoute());
+      final landing = _unauthenticatedLanding();
+      if (landing == null) {
+        resolver.next();
+        return;
+      }
+      _replaceStack(resolver, router, landing);
       return;
     }
     if (isPending) {
-      resolver.redirectUntil(const WelcomeRoute());
+      _replaceStack(resolver, router, const WelcomeRoute());
       return;
     }
-    if (!isAuthRoute && routeName != WelcomeRoute.name) {
-      resolver.redirectUntil(const WelcomeRoute());
+    if (routeName == OnboardingRoute.name && _hasSeenOnboarding()) {
+      _replaceStack(resolver, router, const WelcomeRoute());
+      return;
+    }
+    if (!isAuthRoute) {
+      _replaceStack(
+        resolver,
+        router,
+        _unauthenticatedLanding() ?? const WelcomeRoute(),
+      );
       return;
     }
     resolver.next();
   }
 
-  PageRouteInfo<void> _homeRouteForRole(UserRole role) => switch (role) {
-    UserRole.employee => const EmployeeHomeRoute(),
-    UserRole.supplier => const SupplierHomeRoute(),
-    UserRole.logistics => const LogisticsHomeRoute(),
-    UserRole.admin || UserRole.employer => const WelcomeRoute(),
-  };
+  void _replaceStack(
+    NavigationResolver resolver,
+    StackRouter router,
+    PageRouteInfo<void> route,
+  ) {
+    router.replaceAll([route]);
+    resolver.next(false);
+  }
+
+  PageRouteInfo<void>? _unauthenticatedLanding() {
+    final firstLaunch = _ref.read(firstLaunchProvider);
+    if (firstLaunch is FirstLaunchUnknown) {
+      return null;
+    }
+    if (firstLaunch is FirstLaunchLoaded && !firstLaunch.hasSeenOnboarding) {
+      return const OnboardingRoute();
+    }
+    return const WelcomeRoute();
+  }
+
+  bool _hasSeenOnboarding() {
+    final firstLaunch = _ref.read(firstLaunchProvider);
+    return firstLaunch is FirstLaunchLoaded && firstLaunch.hasSeenOnboarding;
+  }
 
   bool _isAllowedRoute(String routeName, UserRole role) {
-    if (routeName == _homeRouteForRole(role).routeName) {
+    if (routeName == roleHomeRoute(role).routeName) {
       return true;
     }
     if (role == UserRole.employee && _employeeRoutes.contains(routeName)) {
@@ -128,6 +162,7 @@ class AppRouter extends RootStackRouter {
   @override
   List<AutoRoute> get routes => [
     AutoRoute(page: SplashRoute.page, path: '/', initial: true),
+    AutoRoute(page: OnboardingRoute.page, path: '/onboarding'),
     AutoRoute(page: WelcomeRoute.page, path: '/welcome'),
     AutoRoute(page: LoginRoute.page, path: '/login'),
     AutoRoute(page: RegisterHubRoute.page, path: '/register'),
@@ -145,9 +180,20 @@ class AppRouter extends RootStackRouter {
   ];
 }
 
+PageRouteInfo<void> roleHomeRoute(UserRole role) => switch (role) {
+  UserRole.employee => const EmployeeHomeRoute(),
+  UserRole.supplier => const SupplierHomeRoute(),
+  UserRole.logistics => const LogisticsHomeRoute(),
+  UserRole.admin || UserRole.employer => const WelcomeRoute(),
+};
+
 final authRouteRefreshProvider = Provider<ValueNotifier<int>>((ref) {
   final notifier = ValueNotifier(0);
-  ref.listen<AuthState>(authNotifierProvider, (_, __) {
+  ref.listen<AuthState>(authNotifierProvider, (_, next) {
+    if (next is AuthLoading) return;
+    notifier.value++;
+  });
+  ref.listen<FirstLaunchState>(firstLaunchProvider, (_, __) {
     notifier.value++;
   });
   ref.onDispose(notifier.dispose);

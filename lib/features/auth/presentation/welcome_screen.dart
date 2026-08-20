@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import '../../../core/router/app_router.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/widgets/app_button.dart';
+import '../../onboarding/data/onboarding_slides.dart';
+import '../../onboarding/presentation/widgets/onboarding_illustration.dart';
+import 'widgets/auth_scaffold.dart';
 
 @RoutePage()
 class WelcomeScreen extends StatelessWidget {
@@ -11,49 +14,58 @@ class WelcomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
-
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(AppSpacing.xl),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const Spacer(),
-              Text(
-                'Pantri',
-                textAlign: TextAlign.center,
-                style: textTheme.displaySmall?.copyWith(
-                  color: colorScheme.primary,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              const SizedBox(height: AppSpacing.md),
-              Text(
-                'Payroll-backed grocery for Nigerian workplaces.',
-                textAlign: TextAlign.center,
-                style: textTheme.bodyLarge?.copyWith(
-                  color: colorScheme.onSurfaceVariant,
-                ),
-              ),
-              const Spacer(),
-              AppButton(
-                label: 'Log in',
-                expanded: true,
-                onPressed: () => context.router.push(const LoginRoute()),
-              ),
-              const SizedBox(height: AppSpacing.md),
-              AppButton(
-                label: 'Get started',
-                expanded: true,
-                variant: AppButtonVariant.outlined,
-                onPressed: () => context.router.push(const RegisterHubRoute()),
-              ),
-              const SizedBox(height: AppSpacing.lg),
-            ],
+    return AuthScaffold(
+      showBack: false,
+      footer: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          AppButton(
+            label: 'Log in',
+            expanded: true,
+            onPressed: () => context.router.push(const LoginRoute()),
           ),
+          const SizedBox(height: AppSpacing.md),
+          AppButton(
+            label: 'Create an account',
+            expanded: true,
+            variant: AppButtonVariant.outlined,
+            onPressed: () => context.router.push(const RegisterHubRoute()),
+          ),
+        ],
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl),
+        child: Column(
+          children: [
+            const Expanded(
+              child: OnboardingIllustration(
+                kind: OnboardingIllustrationKind.creditShop,
+                accent: OnboardingAccent.primary,
+                progress: 0.45,
+              ),
+            ),
+            Text(
+              'Welcome to Pantri',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                fontWeight: FontWeight.w800,
+                letterSpacing: -0.4,
+                height: 1.15,
+              ),
+            ),
+            const SizedBox(height: AppSpacing.md),
+            Text(
+              'Payroll-backed grocery for Nigerian workplaces. Shop now, repay from salary.',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                color: Theme.of(
+                  context,
+                ).colorScheme.onSurface.withValues(alpha: 0.72),
+                height: 1.45,
+              ),
+            ),
+            const SizedBox(height: AppSpacing.xxl),
+          ],
         ),
       ),
     );
