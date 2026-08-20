@@ -9,21 +9,24 @@ import '../../auth/providers/auth_state.dart';
 import '../../inventory/presentation/pantry_screen.dart';
 import '../../inventory/presentation/restock_sheet.dart';
 import '../../inventory/providers/inventory_providers.dart';
+import '../../marketplace/presentation/widgets/banner_carousel.dart';
+import '../../marketplace/providers/marketplace_providers.dart';
+import '../../nutrition/presentation/progress_report_screen.dart';
+import '../../nutrition/providers/nutrition_providers.dart';
 import '../../packages/presentation/packages_screen.dart';
 import '../../shell/employee_bottom_nav.dart';
-import '../domain/employee_dashboard.dart';
 import '../providers/home_providers.dart';
-import 'widgets/credit_summary_card.dart';
+import 'widgets/current_meal_card.dart';
 import 'widgets/home_header.dart';
 import 'widgets/next_deduction_card.dart';
+import 'widgets/nutrition_snapshot_card.dart';
 import 'widgets/quick_actions_row.dart';
 
 class HomeScreen extends ConsumerWidget {
-  const HomeScreen({super.key, this.onOpenPackages, this.onOpenOrders});
+  const HomeScreen({super.key, this.onOpenPackages});
 
   /// When provided (marketplace nested navigator), push packages there.
   final VoidCallback? onOpenPackages;
-  final VoidCallback? onOpenOrders;
 
   static String greetingFor(DateTime now) {
     final hour = now.hour;
@@ -32,11 +35,49 @@ class HomeScreen extends ConsumerWidget {
     return 'Good evening';
   }
 
+  void _openMealsTab(WidgetRef ref) {
+    ref.read(employeeTabIndexProvider.notifier).setIndex(EmployeeTabs.meals);
+  }
+
+  void _openMarketplaceTab(WidgetRef ref) {
+    ref
+        .read(employeeTabIndexProvider.notifier)
+        .setIndex(EmployeeTabs.marketplace);
+  }
+
+  void _openProfileTab(WidgetRef ref) {
+    ref.read(employeeTabIndexProvider.notifier).setIndex(EmployeeTabs.profile);
+  }
+
+  void _openCreditTab(WidgetRef ref) {
+    ref.read(employeeTabIndexProvider.notifier).setIndex(EmployeeTabs.credit);
+  }
+
+  Future<void> _refreshHome(WidgetRef ref) async {
+    ref
+      ..invalidate(employeeDashboardProvider)
+      ..invalidate(restockAlertsProvider)
+      ..invalidate(marketplaceBannersProvider)
+      ..invalidate(healthProfileProvider)
+      ..invalidate(mealPlansProvider)
+      ..invalidate(nutritionProgressProvider('today'));
+
+    await Future.wait([
+      ref.read(employeeDashboardProvider.future),
+      ref.read(restockAlertsProvider.future),
+      ref.read(marketplaceBannersProvider.future),
+      ref.read(healthProfileProvider.future),
+      ref.read(mealPlansProvider.future),
+      ref.read(nutritionProgressProvider('today').future),
+    ]);
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final auth = ref.watch(authNotifierProvider);
     final user = auth is AuthAuthenticated ? auth.user : null;
-    final asyncDash = ref.watch(employeeDashboardProvider);
+    final bannersAsync = ref.watch(marketplaceBannersProvider);
+    final dashAsync = ref.watch(employeeDashboardProvider);
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
     final greeting = greetingFor(DateTime.now());
@@ -44,10 +85,7 @@ class HomeScreen extends ConsumerWidget {
 
     return SafeArea(
       child: RefreshIndicator(
-        onRefresh: () async {
-          ref.invalidate(employeeDashboardProvider);
-          await ref.read(employeeDashboardProvider.future);
-        },
+        onRefresh: () => _refreshHome(ref),
         child: CustomScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
           slivers: [
@@ -62,6 +100,7 @@ class HomeScreen extends ConsumerWidget {
                 delegate: SliverChildListDelegate([
                   HomeHeader(
                     user: user,
+                    onProfileTap: () => _openProfileTab(ref),
                     onNotificationsTap: () {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
@@ -69,11 +108,7 @@ class HomeScreen extends ConsumerWidget {
                         ),
                       );
                     },
-                    onCreditAccountTap: () {
-                      ref
-                          .read(employeeTabIndexProvider.notifier)
-                          .setIndex(EmployeeTabs.credit);
-                    },
+                    onCreditAccountTap: () => _openCreditTab(ref),
                   ),
                   const SizedBox(height: AppSpacing.xl),
                   Text.rich(
@@ -158,94 +193,99 @@ class HomeScreen extends ConsumerWidget {
                       ),
                     ),
                   ],
-                  ListTile(
-                    contentPadding: EdgeInsets.zero,
-                    leading: const Icon(Icons.receipt_long_outlined),
-                    title: const Text('Track your orders'),
-                    subtitle: const Text('View history and delivery updates'),
-                    trailing: const Icon(Icons.chevron_right),
-                    onTap: onOpenOrders,
-                  ),
                   const SizedBox(height: AppSpacing.xl),
-                  asyncDash.when(
+                  Consumer(
+                    builder: (context, ref, _) {
+                      final alerts =
+                          ref.watch(restockAlertsProvider).asData?.value ??
+                          const [];
+                      if (alerts.isEmpty) {
+                        return const SizedBox.shrink();
+                      }
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: AppSpacing.lg),
+                        child: ListTile(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            side: BorderSide(color: colorScheme.tertiary),
+                          ),
+                          leading: const Icon(Icons.warning_amber_outlined),
+                          title: Text(
+                            '${alerts.length} pantry item${alerts.length == 1 ? '' : 's'} ran out',
+                          ),
+                          subtitle: const Text(
+                            'Stock up from the marketplace',
+                          ),
+                          trailing: const Icon(Icons.chevron_right),
+                          onTap: () => showRestockSheet(
+                            context,
+                            ref,
+                            alerts: alerts,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: AppSpacing.lg),
+                  dashAsync.when(
                     loading: () => const Padding(
-                      padding: EdgeInsets.symmetric(vertical: AppSpacing.xxxl),
+                      padding: EdgeInsets.only(bottom: AppSpacing.lg),
                       child: Center(child: CircularProgressIndicator()),
                     ),
-                    error: (e, _) => AppEmptyState(
-                      icon: Icons.error_outline,
-                      title: 'Could not load dashboard',
-                      message: e is ApiException ? e.message : e.toString(),
+                    error: (e, _) => Padding(
+                      padding: const EdgeInsets.only(bottom: AppSpacing.lg),
+                      child: AppEmptyState(
+                        icon: Icons.error_outline,
+                        title: 'Could not load payroll info',
+                        message: e is ApiException ? e.message : e.toString(),
+                      ),
                     ),
-                    data: (EmployeeDashboard dash) => Column(
-                      children: [
-                        Consumer(
-                          builder: (context, ref, _) {
-                            final alerts =
-                                ref
-                                    .watch(restockAlertsProvider)
-                                    .asData
-                                    ?.value ??
-                                const [];
-                            if (alerts.isEmpty) {
-                              return const SizedBox.shrink();
-                            }
-                            return Padding(
-                              padding: const EdgeInsets.only(
-                                bottom: AppSpacing.lg,
-                              ),
-                              child: ListTile(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                                  side: BorderSide(color: colorScheme.tertiary),
-                                ),
-                                leading: const Icon(
-                                  Icons.warning_amber_outlined,
-                                ),
-                                title: Text(
-                                  '${alerts.length} pantry item${alerts.length == 1 ? '' : 's'} ran out',
-                                ),
-                                subtitle: const Text(
-                                  'Stock up from the marketplace',
-                                ),
-                                trailing: const Icon(Icons.chevron_right),
-                                onTap: () => showRestockSheet(
-                                  context,
-                                  ref,
-                                  alerts: alerts,
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                        CreditSummaryCard(
-                          credit: dash.credit,
-                          onTap: () {
-                            ref
-                                .read(employeeTabIndexProvider.notifier)
-                                .setIndex(EmployeeTabs.credit);
-                          },
-                        ),
-                        const SizedBox(height: AppSpacing.lg),
-                        NextDeductionCard(deduction: dash.nextDeduction),
-                      ],
+                    data: (dash) => Padding(
+                      padding: const EdgeInsets.only(bottom: AppSpacing.lg),
+                      child: NextDeductionCard(deduction: dash.nextDeduction),
                     ),
+                  ),
+                  CurrentMealCard(onTap: () => _openMealsTab(ref)),
+                  const SizedBox(height: AppSpacing.xxl),
+                  bannersAsync.when(
+                    loading: () => const SizedBox(
+                      height: 148,
+                      child: Center(child: CircularProgressIndicator()),
+                    ),
+                    error: (error, _) => Text(
+                      error is ApiException ? error.message : error.toString(),
+                      style: TextStyle(color: colorScheme.error),
+                    ),
+                    data: (banners) {
+                      if (banners.isEmpty) {
+                        return const SizedBox.shrink();
+                      }
+                      return BannerCarousel(
+                        banners: banners,
+                        onBannerCta: (_) => _openMarketplaceTab(ref),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: AppSpacing.xxl),
+                  NutritionSnapshotCard(
+                    onTap: () => _openMealsTab(ref),
+                    onOpenProgress: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute<void>(
+                          builder: (_) => const ProgressReportScreen(),
+                        ),
+                      );
+                    },
                   ),
                   const SizedBox(height: AppSpacing.xxl),
                   QuickActionsRow(
-                    onBuyFood: () {
-                      ref
-                          .read(employeeTabIndexProvider.notifier)
-                          .setIndex(EmployeeTabs.marketplace);
-                    },
+                    onBuyFood: () => _openMarketplaceTab(ref),
                     onEventPackage: () {
                       if (onOpenPackages != null) {
                         onOpenPackages!();
                         return;
                       }
-                      ref
-                          .read(employeeTabIndexProvider.notifier)
-                          .setIndex(EmployeeTabs.marketplace);
+                      _openMarketplaceTab(ref);
                       WidgetsBinding.instance.addPostFrameCallback((_) {
                         if (!context.mounted) return;
                         Navigator.of(context).push(
@@ -255,16 +295,8 @@ class HomeScreen extends ConsumerWidget {
                         );
                       });
                     },
-                    onRecipes: () {
-                      ref
-                          .read(employeeTabIndexProvider.notifier)
-                          .setIndex(EmployeeTabs.meals);
-                    },
-                    onNutrition: () {
-                      ref
-                          .read(employeeTabIndexProvider.notifier)
-                          .setIndex(EmployeeTabs.meals);
-                    },
+                    onRecipes: () => _openMealsTab(ref),
+                    onNutrition: () => _openMealsTab(ref),
                   ),
                 ]),
               ),

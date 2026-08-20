@@ -103,11 +103,6 @@ class _EmployeeShellState extends ConsumerState<EmployeeShell> {
         children: [
           HomeScreen(
             onOpenPackages: _openPackages,
-            onOpenOrders: () {
-              Navigator.of(context).push(
-                MaterialPageRoute<void>(builder: (_) => const OrdersScreen()),
-              );
-            },
           ),
           Navigator(
             key: _marketplaceNavKey,

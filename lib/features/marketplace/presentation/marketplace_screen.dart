@@ -10,6 +10,7 @@ import '../../auth/providers/auth_state.dart';
 import '../../packages/presentation/packages_screen.dart';
 import '../providers/marketplace_providers.dart';
 import 'marketplace_search_screen.dart';
+import 'widgets/banner_carousel.dart';
 import 'widgets/marketplace_widgets.dart';
 
 class MarketplaceScreen extends ConsumerWidget {
@@ -319,10 +320,9 @@ class MarketplaceScreen extends ConsumerWidget {
                       if (banners.isEmpty) {
                         return const SizedBox.shrink();
                       }
-                      final banner = banners.first;
-                      return MarketplacePromoBanner(
-                        banner: banner,
-                        onCta: () => _openSearch(context, query: 'deals'),
+                      return BannerCarousel(
+                        banners: banners,
+                        onBannerCta: (_) => _openSearch(context, query: 'deals'),
                       );
                     },
                   ),

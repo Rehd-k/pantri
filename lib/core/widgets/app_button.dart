@@ -102,15 +102,21 @@ class AppButton extends StatelessWidget {
   }
 
   Widget _labelRow(BuildContext context) {
+    final text = Text(
+      label,
+      overflow: TextOverflow.ellipsis,
+      maxLines: 1,
+    );
+
     if (icon == null) {
-      return Text(label);
+      return text;
     }
+
     return Row(
-      mainAxisSize: MainAxisSize.min,
       children: [
         Icon(icon, size: 18),
         const SizedBox(width: AppSpacing.sm),
-        Text(label),
+        Flexible(child: text),
       ],
     );
   }

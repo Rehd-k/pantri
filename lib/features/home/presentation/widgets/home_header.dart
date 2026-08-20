@@ -7,11 +7,13 @@ class HomeHeader extends StatelessWidget {
   const HomeHeader({
     super.key,
     required this.user,
+    this.onProfileTap,
     this.onNotificationsTap,
     this.onCreditAccountTap,
   });
 
   final AuthUser? user;
+  final VoidCallback? onProfileTap;
   final VoidCallback? onNotificationsTap;
   final VoidCallback? onCreditAccountTap;
 
@@ -30,13 +32,17 @@ class HomeHeader extends StatelessWidget {
 
     return Row(
       children: [
-        CircleAvatar(
-          radius: 22,
-          backgroundColor: colorScheme.tertiaryContainer,
-          foregroundColor: colorScheme.onTertiaryContainer,
-          child: Text(
-            _initials,
-            style: textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700),
+        InkWell(
+          onTap: onProfileTap,
+          customBorder: const CircleBorder(),
+          child: CircleAvatar(
+            radius: 22,
+            backgroundColor: colorScheme.tertiaryContainer,
+            foregroundColor: colorScheme.onTertiaryContainer,
+            child: Text(
+              _initials,
+              style: textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700),
+            ),
           ),
         ),
         const SizedBox(width: AppSpacing.md),
