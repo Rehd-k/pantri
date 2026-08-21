@@ -49,6 +49,10 @@ _MarketplaceProduct _$MarketplaceProductFromJson(
   measureFamily: json['measureFamily'] == null
       ? null
       : MeasureFamily.fromJson(json['measureFamily'] as Map<String, dynamic>),
+  recipeUnitId: json['recipeUnitId'] as String?,
+  recipeUnit: json['recipeUnit'] == null
+      ? null
+      : MeasureUnit.fromJson(json['recipeUnit'] as Map<String, dynamic>),
   name: json['name'] as String,
   imageUrl: json['imageUrl'] as String,
   fromPriceKobo: (json['fromPriceKobo'] as num).toInt(),
@@ -109,6 +113,8 @@ Map<String, dynamic> _$MarketplaceProductToJson(_MarketplaceProduct instance) =>
       'subcategoryName': instance.subcategoryName,
       'measureFamilyId': instance.measureFamilyId,
       'measureFamily': instance.measureFamily,
+      'recipeUnitId': instance.recipeUnitId,
+      'recipeUnit': instance.recipeUnit,
       'name': instance.name,
       'imageUrl': instance.imageUrl,
       'fromPriceKobo': instance.fromPriceKobo,

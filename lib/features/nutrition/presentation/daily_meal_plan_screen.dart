@@ -15,8 +15,8 @@ import '../../inventory/providers/inventory_providers.dart';
 import '../data/nutrition_repository.dart';
 import '../domain/nutrition_models.dart';
 import '../providers/nutrition_providers.dart';
-import 'detailed_analysis_screen.dart';
 import 'health_questionnaire_screen.dart';
+import 'meal_detail_screen.dart';
 import 'progress_report_screen.dart';
 
 /// Meals tab: questionnaire if no profile, otherwise the daily meal plan.
@@ -92,8 +92,11 @@ class _DailyMealPlanScreenState extends ConsumerState<DailyMealPlanScreen> {
             if (latest == null ||
                 latest.status == 'GENERATING' ||
                 latest.status == 'PENDING_REVIEW' ||
+                latest.status == 'DRAFT' ||
                 active == null) {
               final generating = latest?.status == 'GENERATING';
+              final drafting =
+                  latest?.status == 'DRAFT' || latest?.status == 'PENDING_REVIEW';
               return RefreshIndicator(
                 onRefresh: () async {
                   ref.invalidate(mealPlansProvider);
@@ -115,6 +118,8 @@ class _DailyMealPlanScreenState extends ConsumerState<DailyMealPlanScreen> {
                     Text(
                       generating
                           ? 'Your meal plan is being created'
+                          : drafting
+                          ? 'Your nutritionist is building your plan'
                           : 'Your meal plan is almost ready',
                       textAlign: TextAlign.center,
                       style: textTheme.headlineSmall?.copyWith(
@@ -126,8 +131,9 @@ class _DailyMealPlanScreenState extends ConsumerState<DailyMealPlanScreen> {
                       generating
                           ? 'Pantri is matching your nutrition goals with '
                                 'available pantry products and practical recipes.'
-                          : 'Our nutrition team is reviewing your personalized '
-                                'plan. It will appear here as soon as it is approved.',
+                          : 'Your nutritionist is using your goals and the foods '
+                                'in our catalog to build each day. Cooking '
+                                'directions will appear here when the plan is published.',
                       textAlign: TextAlign.center,
                       style: textTheme.bodyLarge?.copyWith(
                         color: colorScheme.onSurfaceVariant,
@@ -348,6 +354,16 @@ class _DailyMealPlanScreenState extends ConsumerState<DailyMealPlanScreen> {
                               : dateLabel.$1,
                           day: dateLabel.$2,
                           selected: index == selectedIndex,
+                          cooked: planDay.items
+                              .where(
+                                (item) =>
+                                    item.mealSlot.toLowerCase() != 'snack',
+                              )
+                              .every((item) => item.cookedAt != null) &&
+                              planDay.items.any(
+                                (item) =>
+                                    item.mealSlot.toLowerCase() != 'snack',
+                              ),
                           onTap: () =>
                               setState(() => _selectedDayOffset = index),
                         );
@@ -368,16 +384,16 @@ class _DailyMealPlanScreenState extends ConsumerState<DailyMealPlanScreen> {
                           meal: meal,
                           onCook: () =>
                               _cookMeal(context, ref, detail.id, meal),
-                          onAnalyze: () =>
-                              _openAnalysis(context, detail.id, meal.id),
+                          onOpen: () =>
+                              _openMeal(context, detail.id, meal.id),
                         )
                       else
                         _MealCard(
                           meal: meal,
                           onCook: () =>
                               _cookMeal(context, ref, detail.id, meal),
-                          onAnalyze: () =>
-                              _openAnalysis(context, detail.id, meal.id),
+                          onOpen: () =>
+                              _openMeal(context, detail.id, meal.id),
                         ),
                       const SizedBox(height: AppSpacing.lg),
                     ],
@@ -396,6 +412,12 @@ class _DailyMealPlanScreenState extends ConsumerState<DailyMealPlanScreen> {
     String mealPlanId,
     _MealView meal,
   ) async {
+    if (meal.cookedAt != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('You already cooked this meal.')),
+      );
+      return;
+    }
     final recipe = meal.recipe;
     if (recipe == null) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -421,7 +443,7 @@ class _DailyMealPlanScreenState extends ConsumerState<DailyMealPlanScreen> {
     try {
       final result = await ref
           .read(nutritionRepositoryProvider)
-          .cookRecipe(recipe.id);
+          .cookMealItem(meal.id);
       ref.invalidate(mealPlansProvider);
       ref.invalidate(mealPlanDetailProvider(mealPlanId));
       ref.invalidate(nutritionProgressProvider('today'));
@@ -442,11 +464,11 @@ class _DailyMealPlanScreenState extends ConsumerState<DailyMealPlanScreen> {
     }
   }
 
-  void _openAnalysis(BuildContext context, String mealPlanId, String itemId) {
+  void _openMeal(BuildContext context, String mealPlanId, String itemId) {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
         builder: (_) =>
-            DetailedAnalysisScreen(mealPlanId: mealPlanId, itemId: itemId),
+            MealDetailScreen(mealPlanId: mealPlanId, itemId: itemId),
       ),
     );
   }
@@ -513,12 +535,14 @@ class _DayChip extends StatelessWidget {
     required this.weekday,
     required this.day,
     required this.selected,
+    required this.cooked,
     required this.onTap,
   });
 
   final String weekday;
   final String day;
   final bool selected;
+  final bool cooked;
   final VoidCallback onTap;
 
   @override
@@ -561,6 +585,14 @@ class _DayChip extends StatelessWidget {
                     : colorScheme.onSurfaceVariant,
               ),
             ),
+            if (cooked)
+              Icon(
+                Icons.check_circle,
+                size: 14,
+                color: selected
+                    ? colorScheme.onPrimaryContainer
+                    : colorScheme.secondary,
+              ),
           ],
         ),
       ),
@@ -829,6 +861,7 @@ class _MealView {
     required this.productName,
     required this.timeLabel,
     this.recipe,
+    this.cookedAt,
   });
 
   final String id;
@@ -838,6 +871,7 @@ class _MealView {
   final String? productName;
   final String timeLabel;
   final RecipeDetail? recipe;
+  final String? cookedAt;
 
   factory _MealView.fromItem(MealPlanItem item) {
     final slot = item.mealSlot;
@@ -851,6 +885,7 @@ class _MealView {
           : item.productName,
       timeLabel: _defaultTime(slot),
       recipe: item.recipe,
+      cookedAt: item.cookedAt,
     );
   }
 
@@ -877,12 +912,12 @@ class _MealCard extends StatelessWidget {
   const _MealCard({
     required this.meal,
     required this.onCook,
-    required this.onAnalyze,
+    required this.onOpen,
   });
 
   final _MealView meal;
   final VoidCallback onCook;
-  final VoidCallback onAnalyze;
+  final VoidCallback onOpen;
 
   @override
   Widget build(BuildContext context) {
@@ -899,7 +934,7 @@ class _MealCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(24),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
-        onTap: onAnalyze,
+        onTap: onOpen,
         child: Ink(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(24),
@@ -987,22 +1022,26 @@ class _MealCard extends StatelessWidget {
                       children: [
                         Expanded(
                           child: AppButton(
-                            label: meal.recipe?.cookability == 'ready'
+                            label: meal.cookedAt != null
+                                ? 'Cooked'
+                                : meal.recipe?.cookability == 'ready'
                                 ? 'Cooked it'
                                 : 'Stock up missing',
-                            icon: meal.recipe?.cookability == 'ready'
+                            icon: meal.cookedAt != null
+                                ? Icons.check
+                                : meal.recipe?.cookability == 'ready'
                                 ? Icons.restaurant_outlined
                                 : Icons.shopping_basket_outlined,
-                            onPressed: onCook,
+                            onPressed: meal.cookedAt != null ? null : onCook,
                           ),
                         ),
                         const SizedBox(width: AppSpacing.sm),
                         Expanded(
                           child: AppButton(
-                            label: 'Analyze',
+                            label: 'Open',
                             variant: AppButtonVariant.outlined,
-                            icon: Icons.query_stats,
-                            onPressed: onAnalyze,
+                            icon: Icons.menu_book_outlined,
+                            onPressed: onOpen,
                           ),
                         ),
                       ],
@@ -1022,12 +1061,12 @@ class _SnackCard extends StatelessWidget {
   const _SnackCard({
     required this.meal,
     required this.onCook,
-    required this.onAnalyze,
+    required this.onOpen,
   });
 
   final _MealView meal;
   final VoidCallback onCook;
-  final VoidCallback onAnalyze;
+  final VoidCallback onOpen;
 
   @override
   Widget build(BuildContext context) {
@@ -1039,7 +1078,7 @@ class _SnackCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(24),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
-        onTap: onAnalyze,
+        onTap: onOpen,
         child: Ink(
           padding: const EdgeInsets.all(AppSpacing.md),
           decoration: BoxDecoration(
@@ -1091,9 +1130,11 @@ class _SnackCard extends StatelessWidget {
                 ),
               ),
               IconButton.filledTonal(
-                onPressed: onCook,
+                onPressed: meal.cookedAt != null ? null : onCook,
                 icon: Icon(
-                  meal.recipe?.cookability == 'ready'
+                  meal.cookedAt != null
+                      ? Icons.check
+                      : meal.recipe?.cookability == 'ready'
                       ? Icons.restaurant_outlined
                       : Icons.shopping_basket_outlined,
                 ),

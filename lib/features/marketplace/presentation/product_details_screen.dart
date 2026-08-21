@@ -53,16 +53,6 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
     return product.cheapestPack ?? packs.first;
   }
 
-  String? _packHint(ProductPack pack) {
-    if (pack.amountMg != null && pack.amountMg! >= 150000) {
-      return '~${pack.amountMg! ~/ 150000} Pantra Cups';
-    }
-    if (pack.amountMl != null && pack.amountMl! >= 250) {
-      return '~${pack.amountMl! ~/ 250} Pantra Pours';
-    }
-    return null;
-  }
-
   Future<void> _toggleWishlist(bool currentlySaved) async {
     if (_wishlistBusy) return;
     setState(() => _wishlistBusy = true);
@@ -283,10 +273,11 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                 ],
                               ),
                               if (selectedPack != null &&
-                                  _packHint(selectedPack) != null) ...[
+                                  product.recipeYieldLabel(selectedPack) !=
+                                      null) ...[
                                 const SizedBox(height: AppSpacing.sm),
                                 Text(
-                                  _packHint(selectedPack)!,
+                                  product.recipeYieldLabel(selectedPack)!,
                                   style: Theme.of(context).textTheme.bodySmall
                                       ?.copyWith(
                                         color: Theme.of(

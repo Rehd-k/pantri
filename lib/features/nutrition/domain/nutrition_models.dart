@@ -150,6 +150,7 @@ abstract class MealPlanSummary with _$MealPlanSummary {
     required String employeeName,
     required String employerName,
     required String status,
+    @Default('AI') String source,
     required String title,
     String? startsOn,
     String? endsOn,
@@ -187,6 +188,7 @@ abstract class MealPlanItem with _$MealPlanItem {
     String? measureUnitLabel,
     String? recipeId,
     RecipeDetail? recipe,
+    String? cookedAt,
     required int sortOrder,
   }) = _MealPlanItem;
 
@@ -219,6 +221,10 @@ abstract class MealPlanProfileSnapshot with _$MealPlanProfileSnapshot {
     required String activityLevel,
     required List<String> allergies,
     required List<String> goals,
+    @Default(0) int targetEnergyKcal,
+    @Default(0) int targetProteinMg,
+    @Default(0) int targetCarbsMg,
+    @Default(0) int targetFatMg,
   }) = _MealPlanProfileSnapshot;
 
   factory MealPlanProfileSnapshot.fromJson(Map<String, dynamic> json) =>
@@ -233,6 +239,7 @@ abstract class MealPlanDetail with _$MealPlanDetail {
     required String employeeName,
     required String employerName,
     required String status,
+    @Default('AI') String source,
     required String title,
     String? startsOn,
     String? endsOn,
@@ -279,6 +286,7 @@ abstract class RecipeDetail with _$RecipeDetail {
     required String title,
     required String mealSlot,
     @Default('') String instructions,
+    @Default(<String>[]) List<String> instructionSteps,
     @Default('') String rationale,
     @Default('AI') String source,
     @Default('partial') String cookability,
@@ -352,6 +360,7 @@ abstract class HouseholdStockItem with _$HouseholdStockItem {
 abstract class CookMealResult with _$CookMealResult {
   const factory CookMealResult({
     required RecipeDetail recipe,
+    String? mealPlanItemId,
     @Default(CanonicalNutrition()) CanonicalNutrition nutrition,
     required String cookedAt,
     @Default(<RestockAlert>[]) List<RestockAlert> restockAlerts,

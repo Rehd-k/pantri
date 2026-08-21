@@ -2553,7 +2553,7 @@ as String?,
 /// @nodoc
 mixin _$MealPlanSummary {
 
- String get id; String get employeeId; String get employeeName; String get employerName; String get status; String get title; String? get startsOn; String? get endsOn; String? get activatedAt; String? get packageId; String? get failureReason; String? get adminNote; String? get reviewedAt; String get createdAt; String get updatedAt;
+ String get id; String get employeeId; String get employeeName; String get employerName; String get status; String get source; String get title; String? get startsOn; String? get endsOn; String? get activatedAt; String? get packageId; String? get failureReason; String? get adminNote; String? get reviewedAt; String get createdAt; String get updatedAt;
 /// Create a copy of MealPlanSummary
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -2566,16 +2566,16 @@ $MealPlanSummaryCopyWith<MealPlanSummary> get copyWith => _$MealPlanSummaryCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MealPlanSummary&&(identical(other.id, id) || other.id == id)&&(identical(other.employeeId, employeeId) || other.employeeId == employeeId)&&(identical(other.employeeName, employeeName) || other.employeeName == employeeName)&&(identical(other.employerName, employerName) || other.employerName == employerName)&&(identical(other.status, status) || other.status == status)&&(identical(other.title, title) || other.title == title)&&(identical(other.startsOn, startsOn) || other.startsOn == startsOn)&&(identical(other.endsOn, endsOn) || other.endsOn == endsOn)&&(identical(other.activatedAt, activatedAt) || other.activatedAt == activatedAt)&&(identical(other.packageId, packageId) || other.packageId == packageId)&&(identical(other.failureReason, failureReason) || other.failureReason == failureReason)&&(identical(other.adminNote, adminNote) || other.adminNote == adminNote)&&(identical(other.reviewedAt, reviewedAt) || other.reviewedAt == reviewedAt)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MealPlanSummary&&(identical(other.id, id) || other.id == id)&&(identical(other.employeeId, employeeId) || other.employeeId == employeeId)&&(identical(other.employeeName, employeeName) || other.employeeName == employeeName)&&(identical(other.employerName, employerName) || other.employerName == employerName)&&(identical(other.status, status) || other.status == status)&&(identical(other.source, source) || other.source == source)&&(identical(other.title, title) || other.title == title)&&(identical(other.startsOn, startsOn) || other.startsOn == startsOn)&&(identical(other.endsOn, endsOn) || other.endsOn == endsOn)&&(identical(other.activatedAt, activatedAt) || other.activatedAt == activatedAt)&&(identical(other.packageId, packageId) || other.packageId == packageId)&&(identical(other.failureReason, failureReason) || other.failureReason == failureReason)&&(identical(other.adminNote, adminNote) || other.adminNote == adminNote)&&(identical(other.reviewedAt, reviewedAt) || other.reviewedAt == reviewedAt)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,employeeId,employeeName,employerName,status,title,startsOn,endsOn,activatedAt,packageId,failureReason,adminNote,reviewedAt,createdAt,updatedAt);
+int get hashCode => Object.hash(runtimeType,id,employeeId,employeeName,employerName,status,source,title,startsOn,endsOn,activatedAt,packageId,failureReason,adminNote,reviewedAt,createdAt,updatedAt);
 
 @override
 String toString() {
-  return 'MealPlanSummary(id: $id, employeeId: $employeeId, employeeName: $employeeName, employerName: $employerName, status: $status, title: $title, startsOn: $startsOn, endsOn: $endsOn, activatedAt: $activatedAt, packageId: $packageId, failureReason: $failureReason, adminNote: $adminNote, reviewedAt: $reviewedAt, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'MealPlanSummary(id: $id, employeeId: $employeeId, employeeName: $employeeName, employerName: $employerName, status: $status, source: $source, title: $title, startsOn: $startsOn, endsOn: $endsOn, activatedAt: $activatedAt, packageId: $packageId, failureReason: $failureReason, adminNote: $adminNote, reviewedAt: $reviewedAt, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -2586,7 +2586,7 @@ abstract mixin class $MealPlanSummaryCopyWith<$Res>  {
   factory $MealPlanSummaryCopyWith(MealPlanSummary value, $Res Function(MealPlanSummary) _then) = _$MealPlanSummaryCopyWithImpl;
 @useResult
 $Res call({
- String id, String employeeId, String employeeName, String employerName, String status, String title, String? startsOn, String? endsOn, String? activatedAt, String? packageId, String? failureReason, String? adminNote, String? reviewedAt, String createdAt, String updatedAt
+ String id, String employeeId, String employeeName, String employerName, String status, String source, String title, String? startsOn, String? endsOn, String? activatedAt, String? packageId, String? failureReason, String? adminNote, String? reviewedAt, String createdAt, String updatedAt
 });
 
 
@@ -2603,13 +2603,14 @@ class _$MealPlanSummaryCopyWithImpl<$Res>
 
 /// Create a copy of MealPlanSummary
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? employeeId = null,Object? employeeName = null,Object? employerName = null,Object? status = null,Object? title = null,Object? startsOn = freezed,Object? endsOn = freezed,Object? activatedAt = freezed,Object? packageId = freezed,Object? failureReason = freezed,Object? adminNote = freezed,Object? reviewedAt = freezed,Object? createdAt = null,Object? updatedAt = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? employeeId = null,Object? employeeName = null,Object? employerName = null,Object? status = null,Object? source = null,Object? title = null,Object? startsOn = freezed,Object? endsOn = freezed,Object? activatedAt = freezed,Object? packageId = freezed,Object? failureReason = freezed,Object? adminNote = freezed,Object? reviewedAt = freezed,Object? createdAt = null,Object? updatedAt = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,employeeId: null == employeeId ? _self.employeeId : employeeId // ignore: cast_nullable_to_non_nullable
 as String,employeeName: null == employeeName ? _self.employeeName : employeeName // ignore: cast_nullable_to_non_nullable
 as String,employerName: null == employerName ? _self.employerName : employerName // ignore: cast_nullable_to_non_nullable
 as String,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as String,source: null == source ? _self.source : source // ignore: cast_nullable_to_non_nullable
 as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,startsOn: freezed == startsOn ? _self.startsOn : startsOn // ignore: cast_nullable_to_non_nullable
 as String?,endsOn: freezed == endsOn ? _self.endsOn : endsOn // ignore: cast_nullable_to_non_nullable
@@ -2705,10 +2706,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String employeeId,  String employeeName,  String employerName,  String status,  String title,  String? startsOn,  String? endsOn,  String? activatedAt,  String? packageId,  String? failureReason,  String? adminNote,  String? reviewedAt,  String createdAt,  String updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String employeeId,  String employeeName,  String employerName,  String status,  String source,  String title,  String? startsOn,  String? endsOn,  String? activatedAt,  String? packageId,  String? failureReason,  String? adminNote,  String? reviewedAt,  String createdAt,  String updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _MealPlanSummary() when $default != null:
-return $default(_that.id,_that.employeeId,_that.employeeName,_that.employerName,_that.status,_that.title,_that.startsOn,_that.endsOn,_that.activatedAt,_that.packageId,_that.failureReason,_that.adminNote,_that.reviewedAt,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.employeeId,_that.employeeName,_that.employerName,_that.status,_that.source,_that.title,_that.startsOn,_that.endsOn,_that.activatedAt,_that.packageId,_that.failureReason,_that.adminNote,_that.reviewedAt,_that.createdAt,_that.updatedAt);case _:
   return orElse();
 
 }
@@ -2726,10 +2727,10 @@ return $default(_that.id,_that.employeeId,_that.employeeName,_that.employerName,
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String employeeId,  String employeeName,  String employerName,  String status,  String title,  String? startsOn,  String? endsOn,  String? activatedAt,  String? packageId,  String? failureReason,  String? adminNote,  String? reviewedAt,  String createdAt,  String updatedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String employeeId,  String employeeName,  String employerName,  String status,  String source,  String title,  String? startsOn,  String? endsOn,  String? activatedAt,  String? packageId,  String? failureReason,  String? adminNote,  String? reviewedAt,  String createdAt,  String updatedAt)  $default,) {final _that = this;
 switch (_that) {
 case _MealPlanSummary():
-return $default(_that.id,_that.employeeId,_that.employeeName,_that.employerName,_that.status,_that.title,_that.startsOn,_that.endsOn,_that.activatedAt,_that.packageId,_that.failureReason,_that.adminNote,_that.reviewedAt,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.employeeId,_that.employeeName,_that.employerName,_that.status,_that.source,_that.title,_that.startsOn,_that.endsOn,_that.activatedAt,_that.packageId,_that.failureReason,_that.adminNote,_that.reviewedAt,_that.createdAt,_that.updatedAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -2746,10 +2747,10 @@ return $default(_that.id,_that.employeeId,_that.employeeName,_that.employerName,
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String employeeId,  String employeeName,  String employerName,  String status,  String title,  String? startsOn,  String? endsOn,  String? activatedAt,  String? packageId,  String? failureReason,  String? adminNote,  String? reviewedAt,  String createdAt,  String updatedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String employeeId,  String employeeName,  String employerName,  String status,  String source,  String title,  String? startsOn,  String? endsOn,  String? activatedAt,  String? packageId,  String? failureReason,  String? adminNote,  String? reviewedAt,  String createdAt,  String updatedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _MealPlanSummary() when $default != null:
-return $default(_that.id,_that.employeeId,_that.employeeName,_that.employerName,_that.status,_that.title,_that.startsOn,_that.endsOn,_that.activatedAt,_that.packageId,_that.failureReason,_that.adminNote,_that.reviewedAt,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.employeeId,_that.employeeName,_that.employerName,_that.status,_that.source,_that.title,_that.startsOn,_that.endsOn,_that.activatedAt,_that.packageId,_that.failureReason,_that.adminNote,_that.reviewedAt,_that.createdAt,_that.updatedAt);case _:
   return null;
 
 }
@@ -2761,7 +2762,7 @@ return $default(_that.id,_that.employeeId,_that.employeeName,_that.employerName,
 @JsonSerializable()
 
 class _MealPlanSummary implements MealPlanSummary {
-  const _MealPlanSummary({required this.id, required this.employeeId, required this.employeeName, required this.employerName, required this.status, required this.title, this.startsOn, this.endsOn, this.activatedAt, this.packageId, this.failureReason, this.adminNote, this.reviewedAt, required this.createdAt, required this.updatedAt});
+  const _MealPlanSummary({required this.id, required this.employeeId, required this.employeeName, required this.employerName, required this.status, this.source = 'AI', required this.title, this.startsOn, this.endsOn, this.activatedAt, this.packageId, this.failureReason, this.adminNote, this.reviewedAt, required this.createdAt, required this.updatedAt});
   factory _MealPlanSummary.fromJson(Map<String, dynamic> json) => _$MealPlanSummaryFromJson(json);
 
 @override final  String id;
@@ -2769,6 +2770,7 @@ class _MealPlanSummary implements MealPlanSummary {
 @override final  String employeeName;
 @override final  String employerName;
 @override final  String status;
+@override@JsonKey() final  String source;
 @override final  String title;
 @override final  String? startsOn;
 @override final  String? endsOn;
@@ -2793,16 +2795,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MealPlanSummary&&(identical(other.id, id) || other.id == id)&&(identical(other.employeeId, employeeId) || other.employeeId == employeeId)&&(identical(other.employeeName, employeeName) || other.employeeName == employeeName)&&(identical(other.employerName, employerName) || other.employerName == employerName)&&(identical(other.status, status) || other.status == status)&&(identical(other.title, title) || other.title == title)&&(identical(other.startsOn, startsOn) || other.startsOn == startsOn)&&(identical(other.endsOn, endsOn) || other.endsOn == endsOn)&&(identical(other.activatedAt, activatedAt) || other.activatedAt == activatedAt)&&(identical(other.packageId, packageId) || other.packageId == packageId)&&(identical(other.failureReason, failureReason) || other.failureReason == failureReason)&&(identical(other.adminNote, adminNote) || other.adminNote == adminNote)&&(identical(other.reviewedAt, reviewedAt) || other.reviewedAt == reviewedAt)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MealPlanSummary&&(identical(other.id, id) || other.id == id)&&(identical(other.employeeId, employeeId) || other.employeeId == employeeId)&&(identical(other.employeeName, employeeName) || other.employeeName == employeeName)&&(identical(other.employerName, employerName) || other.employerName == employerName)&&(identical(other.status, status) || other.status == status)&&(identical(other.source, source) || other.source == source)&&(identical(other.title, title) || other.title == title)&&(identical(other.startsOn, startsOn) || other.startsOn == startsOn)&&(identical(other.endsOn, endsOn) || other.endsOn == endsOn)&&(identical(other.activatedAt, activatedAt) || other.activatedAt == activatedAt)&&(identical(other.packageId, packageId) || other.packageId == packageId)&&(identical(other.failureReason, failureReason) || other.failureReason == failureReason)&&(identical(other.adminNote, adminNote) || other.adminNote == adminNote)&&(identical(other.reviewedAt, reviewedAt) || other.reviewedAt == reviewedAt)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,employeeId,employeeName,employerName,status,title,startsOn,endsOn,activatedAt,packageId,failureReason,adminNote,reviewedAt,createdAt,updatedAt);
+int get hashCode => Object.hash(runtimeType,id,employeeId,employeeName,employerName,status,source,title,startsOn,endsOn,activatedAt,packageId,failureReason,adminNote,reviewedAt,createdAt,updatedAt);
 
 @override
 String toString() {
-  return 'MealPlanSummary(id: $id, employeeId: $employeeId, employeeName: $employeeName, employerName: $employerName, status: $status, title: $title, startsOn: $startsOn, endsOn: $endsOn, activatedAt: $activatedAt, packageId: $packageId, failureReason: $failureReason, adminNote: $adminNote, reviewedAt: $reviewedAt, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'MealPlanSummary(id: $id, employeeId: $employeeId, employeeName: $employeeName, employerName: $employerName, status: $status, source: $source, title: $title, startsOn: $startsOn, endsOn: $endsOn, activatedAt: $activatedAt, packageId: $packageId, failureReason: $failureReason, adminNote: $adminNote, reviewedAt: $reviewedAt, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -2813,7 +2815,7 @@ abstract mixin class _$MealPlanSummaryCopyWith<$Res> implements $MealPlanSummary
   factory _$MealPlanSummaryCopyWith(_MealPlanSummary value, $Res Function(_MealPlanSummary) _then) = __$MealPlanSummaryCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String employeeId, String employeeName, String employerName, String status, String title, String? startsOn, String? endsOn, String? activatedAt, String? packageId, String? failureReason, String? adminNote, String? reviewedAt, String createdAt, String updatedAt
+ String id, String employeeId, String employeeName, String employerName, String status, String source, String title, String? startsOn, String? endsOn, String? activatedAt, String? packageId, String? failureReason, String? adminNote, String? reviewedAt, String createdAt, String updatedAt
 });
 
 
@@ -2830,13 +2832,14 @@ class __$MealPlanSummaryCopyWithImpl<$Res>
 
 /// Create a copy of MealPlanSummary
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? employeeId = null,Object? employeeName = null,Object? employerName = null,Object? status = null,Object? title = null,Object? startsOn = freezed,Object? endsOn = freezed,Object? activatedAt = freezed,Object? packageId = freezed,Object? failureReason = freezed,Object? adminNote = freezed,Object? reviewedAt = freezed,Object? createdAt = null,Object? updatedAt = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? employeeId = null,Object? employeeName = null,Object? employerName = null,Object? status = null,Object? source = null,Object? title = null,Object? startsOn = freezed,Object? endsOn = freezed,Object? activatedAt = freezed,Object? packageId = freezed,Object? failureReason = freezed,Object? adminNote = freezed,Object? reviewedAt = freezed,Object? createdAt = null,Object? updatedAt = null,}) {
   return _then(_MealPlanSummary(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,employeeId: null == employeeId ? _self.employeeId : employeeId // ignore: cast_nullable_to_non_nullable
 as String,employeeName: null == employeeName ? _self.employeeName : employeeName // ignore: cast_nullable_to_non_nullable
 as String,employerName: null == employerName ? _self.employerName : employerName // ignore: cast_nullable_to_non_nullable
 as String,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as String,source: null == source ? _self.source : source // ignore: cast_nullable_to_non_nullable
 as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,startsOn: freezed == startsOn ? _self.startsOn : startsOn // ignore: cast_nullable_to_non_nullable
 as String?,endsOn: freezed == endsOn ? _self.endsOn : endsOn // ignore: cast_nullable_to_non_nullable
@@ -2858,7 +2861,7 @@ as String,
 /// @nodoc
 mixin _$MealPlanItem {
 
- String get id; String get mealSlot; String get title; String get rationale; String get requestedProductName; String? get productId; String? get productName; String? get productImageUrl; String? get origin; Map<String, String> get nutritionFacts; List<String> get tags; String get matchType; int get quantity; int get quantityCanonical; String? get measureUnitId; String? get measureUnitLabel; String? get recipeId; RecipeDetail? get recipe; int get sortOrder;
+ String get id; String get mealSlot; String get title; String get rationale; String get requestedProductName; String? get productId; String? get productName; String? get productImageUrl; String? get origin; Map<String, String> get nutritionFacts; List<String> get tags; String get matchType; int get quantity; int get quantityCanonical; String? get measureUnitId; String? get measureUnitLabel; String? get recipeId; RecipeDetail? get recipe; String? get cookedAt; int get sortOrder;
 /// Create a copy of MealPlanItem
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -2871,16 +2874,16 @@ $MealPlanItemCopyWith<MealPlanItem> get copyWith => _$MealPlanItemCopyWithImpl<M
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MealPlanItem&&(identical(other.id, id) || other.id == id)&&(identical(other.mealSlot, mealSlot) || other.mealSlot == mealSlot)&&(identical(other.title, title) || other.title == title)&&(identical(other.rationale, rationale) || other.rationale == rationale)&&(identical(other.requestedProductName, requestedProductName) || other.requestedProductName == requestedProductName)&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.productName, productName) || other.productName == productName)&&(identical(other.productImageUrl, productImageUrl) || other.productImageUrl == productImageUrl)&&(identical(other.origin, origin) || other.origin == origin)&&const DeepCollectionEquality().equals(other.nutritionFacts, nutritionFacts)&&const DeepCollectionEquality().equals(other.tags, tags)&&(identical(other.matchType, matchType) || other.matchType == matchType)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.quantityCanonical, quantityCanonical) || other.quantityCanonical == quantityCanonical)&&(identical(other.measureUnitId, measureUnitId) || other.measureUnitId == measureUnitId)&&(identical(other.measureUnitLabel, measureUnitLabel) || other.measureUnitLabel == measureUnitLabel)&&(identical(other.recipeId, recipeId) || other.recipeId == recipeId)&&(identical(other.recipe, recipe) || other.recipe == recipe)&&(identical(other.sortOrder, sortOrder) || other.sortOrder == sortOrder));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MealPlanItem&&(identical(other.id, id) || other.id == id)&&(identical(other.mealSlot, mealSlot) || other.mealSlot == mealSlot)&&(identical(other.title, title) || other.title == title)&&(identical(other.rationale, rationale) || other.rationale == rationale)&&(identical(other.requestedProductName, requestedProductName) || other.requestedProductName == requestedProductName)&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.productName, productName) || other.productName == productName)&&(identical(other.productImageUrl, productImageUrl) || other.productImageUrl == productImageUrl)&&(identical(other.origin, origin) || other.origin == origin)&&const DeepCollectionEquality().equals(other.nutritionFacts, nutritionFacts)&&const DeepCollectionEquality().equals(other.tags, tags)&&(identical(other.matchType, matchType) || other.matchType == matchType)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.quantityCanonical, quantityCanonical) || other.quantityCanonical == quantityCanonical)&&(identical(other.measureUnitId, measureUnitId) || other.measureUnitId == measureUnitId)&&(identical(other.measureUnitLabel, measureUnitLabel) || other.measureUnitLabel == measureUnitLabel)&&(identical(other.recipeId, recipeId) || other.recipeId == recipeId)&&(identical(other.recipe, recipe) || other.recipe == recipe)&&(identical(other.cookedAt, cookedAt) || other.cookedAt == cookedAt)&&(identical(other.sortOrder, sortOrder) || other.sortOrder == sortOrder));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hashAll([runtimeType,id,mealSlot,title,rationale,requestedProductName,productId,productName,productImageUrl,origin,const DeepCollectionEquality().hash(nutritionFacts),const DeepCollectionEquality().hash(tags),matchType,quantity,quantityCanonical,measureUnitId,measureUnitLabel,recipeId,recipe,sortOrder]);
+int get hashCode => Object.hashAll([runtimeType,id,mealSlot,title,rationale,requestedProductName,productId,productName,productImageUrl,origin,const DeepCollectionEquality().hash(nutritionFacts),const DeepCollectionEquality().hash(tags),matchType,quantity,quantityCanonical,measureUnitId,measureUnitLabel,recipeId,recipe,cookedAt,sortOrder]);
 
 @override
 String toString() {
-  return 'MealPlanItem(id: $id, mealSlot: $mealSlot, title: $title, rationale: $rationale, requestedProductName: $requestedProductName, productId: $productId, productName: $productName, productImageUrl: $productImageUrl, origin: $origin, nutritionFacts: $nutritionFacts, tags: $tags, matchType: $matchType, quantity: $quantity, quantityCanonical: $quantityCanonical, measureUnitId: $measureUnitId, measureUnitLabel: $measureUnitLabel, recipeId: $recipeId, recipe: $recipe, sortOrder: $sortOrder)';
+  return 'MealPlanItem(id: $id, mealSlot: $mealSlot, title: $title, rationale: $rationale, requestedProductName: $requestedProductName, productId: $productId, productName: $productName, productImageUrl: $productImageUrl, origin: $origin, nutritionFacts: $nutritionFacts, tags: $tags, matchType: $matchType, quantity: $quantity, quantityCanonical: $quantityCanonical, measureUnitId: $measureUnitId, measureUnitLabel: $measureUnitLabel, recipeId: $recipeId, recipe: $recipe, cookedAt: $cookedAt, sortOrder: $sortOrder)';
 }
 
 
@@ -2891,7 +2894,7 @@ abstract mixin class $MealPlanItemCopyWith<$Res>  {
   factory $MealPlanItemCopyWith(MealPlanItem value, $Res Function(MealPlanItem) _then) = _$MealPlanItemCopyWithImpl;
 @useResult
 $Res call({
- String id, String mealSlot, String title, String rationale, String requestedProductName, String? productId, String? productName, String? productImageUrl, String? origin, Map<String, String> nutritionFacts, List<String> tags, String matchType, int quantity, int quantityCanonical, String? measureUnitId, String? measureUnitLabel, String? recipeId, RecipeDetail? recipe, int sortOrder
+ String id, String mealSlot, String title, String rationale, String requestedProductName, String? productId, String? productName, String? productImageUrl, String? origin, Map<String, String> nutritionFacts, List<String> tags, String matchType, int quantity, int quantityCanonical, String? measureUnitId, String? measureUnitLabel, String? recipeId, RecipeDetail? recipe, String? cookedAt, int sortOrder
 });
 
 
@@ -2908,7 +2911,7 @@ class _$MealPlanItemCopyWithImpl<$Res>
 
 /// Create a copy of MealPlanItem
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? mealSlot = null,Object? title = null,Object? rationale = null,Object? requestedProductName = null,Object? productId = freezed,Object? productName = freezed,Object? productImageUrl = freezed,Object? origin = freezed,Object? nutritionFacts = null,Object? tags = null,Object? matchType = null,Object? quantity = null,Object? quantityCanonical = null,Object? measureUnitId = freezed,Object? measureUnitLabel = freezed,Object? recipeId = freezed,Object? recipe = freezed,Object? sortOrder = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? mealSlot = null,Object? title = null,Object? rationale = null,Object? requestedProductName = null,Object? productId = freezed,Object? productName = freezed,Object? productImageUrl = freezed,Object? origin = freezed,Object? nutritionFacts = null,Object? tags = null,Object? matchType = null,Object? quantity = null,Object? quantityCanonical = null,Object? measureUnitId = freezed,Object? measureUnitLabel = freezed,Object? recipeId = freezed,Object? recipe = freezed,Object? cookedAt = freezed,Object? sortOrder = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,mealSlot: null == mealSlot ? _self.mealSlot : mealSlot // ignore: cast_nullable_to_non_nullable
@@ -2928,7 +2931,8 @@ as int,measureUnitId: freezed == measureUnitId ? _self.measureUnitId : measureUn
 as String?,measureUnitLabel: freezed == measureUnitLabel ? _self.measureUnitLabel : measureUnitLabel // ignore: cast_nullable_to_non_nullable
 as String?,recipeId: freezed == recipeId ? _self.recipeId : recipeId // ignore: cast_nullable_to_non_nullable
 as String?,recipe: freezed == recipe ? _self.recipe : recipe // ignore: cast_nullable_to_non_nullable
-as RecipeDetail?,sortOrder: null == sortOrder ? _self.sortOrder : sortOrder // ignore: cast_nullable_to_non_nullable
+as RecipeDetail?,cookedAt: freezed == cookedAt ? _self.cookedAt : cookedAt // ignore: cast_nullable_to_non_nullable
+as String?,sortOrder: null == sortOrder ? _self.sortOrder : sortOrder // ignore: cast_nullable_to_non_nullable
 as int,
   ));
 }
@@ -3026,10 +3030,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String mealSlot,  String title,  String rationale,  String requestedProductName,  String? productId,  String? productName,  String? productImageUrl,  String? origin,  Map<String, String> nutritionFacts,  List<String> tags,  String matchType,  int quantity,  int quantityCanonical,  String? measureUnitId,  String? measureUnitLabel,  String? recipeId,  RecipeDetail? recipe,  int sortOrder)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String mealSlot,  String title,  String rationale,  String requestedProductName,  String? productId,  String? productName,  String? productImageUrl,  String? origin,  Map<String, String> nutritionFacts,  List<String> tags,  String matchType,  int quantity,  int quantityCanonical,  String? measureUnitId,  String? measureUnitLabel,  String? recipeId,  RecipeDetail? recipe,  String? cookedAt,  int sortOrder)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _MealPlanItem() when $default != null:
-return $default(_that.id,_that.mealSlot,_that.title,_that.rationale,_that.requestedProductName,_that.productId,_that.productName,_that.productImageUrl,_that.origin,_that.nutritionFacts,_that.tags,_that.matchType,_that.quantity,_that.quantityCanonical,_that.measureUnitId,_that.measureUnitLabel,_that.recipeId,_that.recipe,_that.sortOrder);case _:
+return $default(_that.id,_that.mealSlot,_that.title,_that.rationale,_that.requestedProductName,_that.productId,_that.productName,_that.productImageUrl,_that.origin,_that.nutritionFacts,_that.tags,_that.matchType,_that.quantity,_that.quantityCanonical,_that.measureUnitId,_that.measureUnitLabel,_that.recipeId,_that.recipe,_that.cookedAt,_that.sortOrder);case _:
   return orElse();
 
 }
@@ -3047,10 +3051,10 @@ return $default(_that.id,_that.mealSlot,_that.title,_that.rationale,_that.reques
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String mealSlot,  String title,  String rationale,  String requestedProductName,  String? productId,  String? productName,  String? productImageUrl,  String? origin,  Map<String, String> nutritionFacts,  List<String> tags,  String matchType,  int quantity,  int quantityCanonical,  String? measureUnitId,  String? measureUnitLabel,  String? recipeId,  RecipeDetail? recipe,  int sortOrder)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String mealSlot,  String title,  String rationale,  String requestedProductName,  String? productId,  String? productName,  String? productImageUrl,  String? origin,  Map<String, String> nutritionFacts,  List<String> tags,  String matchType,  int quantity,  int quantityCanonical,  String? measureUnitId,  String? measureUnitLabel,  String? recipeId,  RecipeDetail? recipe,  String? cookedAt,  int sortOrder)  $default,) {final _that = this;
 switch (_that) {
 case _MealPlanItem():
-return $default(_that.id,_that.mealSlot,_that.title,_that.rationale,_that.requestedProductName,_that.productId,_that.productName,_that.productImageUrl,_that.origin,_that.nutritionFacts,_that.tags,_that.matchType,_that.quantity,_that.quantityCanonical,_that.measureUnitId,_that.measureUnitLabel,_that.recipeId,_that.recipe,_that.sortOrder);case _:
+return $default(_that.id,_that.mealSlot,_that.title,_that.rationale,_that.requestedProductName,_that.productId,_that.productName,_that.productImageUrl,_that.origin,_that.nutritionFacts,_that.tags,_that.matchType,_that.quantity,_that.quantityCanonical,_that.measureUnitId,_that.measureUnitLabel,_that.recipeId,_that.recipe,_that.cookedAt,_that.sortOrder);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -3067,10 +3071,10 @@ return $default(_that.id,_that.mealSlot,_that.title,_that.rationale,_that.reques
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String mealSlot,  String title,  String rationale,  String requestedProductName,  String? productId,  String? productName,  String? productImageUrl,  String? origin,  Map<String, String> nutritionFacts,  List<String> tags,  String matchType,  int quantity,  int quantityCanonical,  String? measureUnitId,  String? measureUnitLabel,  String? recipeId,  RecipeDetail? recipe,  int sortOrder)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String mealSlot,  String title,  String rationale,  String requestedProductName,  String? productId,  String? productName,  String? productImageUrl,  String? origin,  Map<String, String> nutritionFacts,  List<String> tags,  String matchType,  int quantity,  int quantityCanonical,  String? measureUnitId,  String? measureUnitLabel,  String? recipeId,  RecipeDetail? recipe,  String? cookedAt,  int sortOrder)?  $default,) {final _that = this;
 switch (_that) {
 case _MealPlanItem() when $default != null:
-return $default(_that.id,_that.mealSlot,_that.title,_that.rationale,_that.requestedProductName,_that.productId,_that.productName,_that.productImageUrl,_that.origin,_that.nutritionFacts,_that.tags,_that.matchType,_that.quantity,_that.quantityCanonical,_that.measureUnitId,_that.measureUnitLabel,_that.recipeId,_that.recipe,_that.sortOrder);case _:
+return $default(_that.id,_that.mealSlot,_that.title,_that.rationale,_that.requestedProductName,_that.productId,_that.productName,_that.productImageUrl,_that.origin,_that.nutritionFacts,_that.tags,_that.matchType,_that.quantity,_that.quantityCanonical,_that.measureUnitId,_that.measureUnitLabel,_that.recipeId,_that.recipe,_that.cookedAt,_that.sortOrder);case _:
   return null;
 
 }
@@ -3082,7 +3086,7 @@ return $default(_that.id,_that.mealSlot,_that.title,_that.rationale,_that.reques
 @JsonSerializable()
 
 class _MealPlanItem implements MealPlanItem {
-  const _MealPlanItem({required this.id, required this.mealSlot, required this.title, required this.rationale, required this.requestedProductName, this.productId, this.productName, this.productImageUrl, this.origin, final  Map<String, String> nutritionFacts = const <String, String>{}, final  List<String> tags = const <String>[], required this.matchType, required this.quantity, this.quantityCanonical = 0, this.measureUnitId, this.measureUnitLabel, this.recipeId, this.recipe, required this.sortOrder}): _nutritionFacts = nutritionFacts,_tags = tags;
+  const _MealPlanItem({required this.id, required this.mealSlot, required this.title, required this.rationale, required this.requestedProductName, this.productId, this.productName, this.productImageUrl, this.origin, final  Map<String, String> nutritionFacts = const <String, String>{}, final  List<String> tags = const <String>[], required this.matchType, required this.quantity, this.quantityCanonical = 0, this.measureUnitId, this.measureUnitLabel, this.recipeId, this.recipe, this.cookedAt, required this.sortOrder}): _nutritionFacts = nutritionFacts,_tags = tags;
   factory _MealPlanItem.fromJson(Map<String, dynamic> json) => _$MealPlanItemFromJson(json);
 
 @override final  String id;
@@ -3115,6 +3119,7 @@ class _MealPlanItem implements MealPlanItem {
 @override final  String? measureUnitLabel;
 @override final  String? recipeId;
 @override final  RecipeDetail? recipe;
+@override final  String? cookedAt;
 @override final  int sortOrder;
 
 /// Create a copy of MealPlanItem
@@ -3130,16 +3135,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MealPlanItem&&(identical(other.id, id) || other.id == id)&&(identical(other.mealSlot, mealSlot) || other.mealSlot == mealSlot)&&(identical(other.title, title) || other.title == title)&&(identical(other.rationale, rationale) || other.rationale == rationale)&&(identical(other.requestedProductName, requestedProductName) || other.requestedProductName == requestedProductName)&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.productName, productName) || other.productName == productName)&&(identical(other.productImageUrl, productImageUrl) || other.productImageUrl == productImageUrl)&&(identical(other.origin, origin) || other.origin == origin)&&const DeepCollectionEquality().equals(other._nutritionFacts, _nutritionFacts)&&const DeepCollectionEquality().equals(other._tags, _tags)&&(identical(other.matchType, matchType) || other.matchType == matchType)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.quantityCanonical, quantityCanonical) || other.quantityCanonical == quantityCanonical)&&(identical(other.measureUnitId, measureUnitId) || other.measureUnitId == measureUnitId)&&(identical(other.measureUnitLabel, measureUnitLabel) || other.measureUnitLabel == measureUnitLabel)&&(identical(other.recipeId, recipeId) || other.recipeId == recipeId)&&(identical(other.recipe, recipe) || other.recipe == recipe)&&(identical(other.sortOrder, sortOrder) || other.sortOrder == sortOrder));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MealPlanItem&&(identical(other.id, id) || other.id == id)&&(identical(other.mealSlot, mealSlot) || other.mealSlot == mealSlot)&&(identical(other.title, title) || other.title == title)&&(identical(other.rationale, rationale) || other.rationale == rationale)&&(identical(other.requestedProductName, requestedProductName) || other.requestedProductName == requestedProductName)&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.productName, productName) || other.productName == productName)&&(identical(other.productImageUrl, productImageUrl) || other.productImageUrl == productImageUrl)&&(identical(other.origin, origin) || other.origin == origin)&&const DeepCollectionEquality().equals(other._nutritionFacts, _nutritionFacts)&&const DeepCollectionEquality().equals(other._tags, _tags)&&(identical(other.matchType, matchType) || other.matchType == matchType)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.quantityCanonical, quantityCanonical) || other.quantityCanonical == quantityCanonical)&&(identical(other.measureUnitId, measureUnitId) || other.measureUnitId == measureUnitId)&&(identical(other.measureUnitLabel, measureUnitLabel) || other.measureUnitLabel == measureUnitLabel)&&(identical(other.recipeId, recipeId) || other.recipeId == recipeId)&&(identical(other.recipe, recipe) || other.recipe == recipe)&&(identical(other.cookedAt, cookedAt) || other.cookedAt == cookedAt)&&(identical(other.sortOrder, sortOrder) || other.sortOrder == sortOrder));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hashAll([runtimeType,id,mealSlot,title,rationale,requestedProductName,productId,productName,productImageUrl,origin,const DeepCollectionEquality().hash(_nutritionFacts),const DeepCollectionEquality().hash(_tags),matchType,quantity,quantityCanonical,measureUnitId,measureUnitLabel,recipeId,recipe,sortOrder]);
+int get hashCode => Object.hashAll([runtimeType,id,mealSlot,title,rationale,requestedProductName,productId,productName,productImageUrl,origin,const DeepCollectionEquality().hash(_nutritionFacts),const DeepCollectionEquality().hash(_tags),matchType,quantity,quantityCanonical,measureUnitId,measureUnitLabel,recipeId,recipe,cookedAt,sortOrder]);
 
 @override
 String toString() {
-  return 'MealPlanItem(id: $id, mealSlot: $mealSlot, title: $title, rationale: $rationale, requestedProductName: $requestedProductName, productId: $productId, productName: $productName, productImageUrl: $productImageUrl, origin: $origin, nutritionFacts: $nutritionFacts, tags: $tags, matchType: $matchType, quantity: $quantity, quantityCanonical: $quantityCanonical, measureUnitId: $measureUnitId, measureUnitLabel: $measureUnitLabel, recipeId: $recipeId, recipe: $recipe, sortOrder: $sortOrder)';
+  return 'MealPlanItem(id: $id, mealSlot: $mealSlot, title: $title, rationale: $rationale, requestedProductName: $requestedProductName, productId: $productId, productName: $productName, productImageUrl: $productImageUrl, origin: $origin, nutritionFacts: $nutritionFacts, tags: $tags, matchType: $matchType, quantity: $quantity, quantityCanonical: $quantityCanonical, measureUnitId: $measureUnitId, measureUnitLabel: $measureUnitLabel, recipeId: $recipeId, recipe: $recipe, cookedAt: $cookedAt, sortOrder: $sortOrder)';
 }
 
 
@@ -3150,7 +3155,7 @@ abstract mixin class _$MealPlanItemCopyWith<$Res> implements $MealPlanItemCopyWi
   factory _$MealPlanItemCopyWith(_MealPlanItem value, $Res Function(_MealPlanItem) _then) = __$MealPlanItemCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String mealSlot, String title, String rationale, String requestedProductName, String? productId, String? productName, String? productImageUrl, String? origin, Map<String, String> nutritionFacts, List<String> tags, String matchType, int quantity, int quantityCanonical, String? measureUnitId, String? measureUnitLabel, String? recipeId, RecipeDetail? recipe, int sortOrder
+ String id, String mealSlot, String title, String rationale, String requestedProductName, String? productId, String? productName, String? productImageUrl, String? origin, Map<String, String> nutritionFacts, List<String> tags, String matchType, int quantity, int quantityCanonical, String? measureUnitId, String? measureUnitLabel, String? recipeId, RecipeDetail? recipe, String? cookedAt, int sortOrder
 });
 
 
@@ -3167,7 +3172,7 @@ class __$MealPlanItemCopyWithImpl<$Res>
 
 /// Create a copy of MealPlanItem
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? mealSlot = null,Object? title = null,Object? rationale = null,Object? requestedProductName = null,Object? productId = freezed,Object? productName = freezed,Object? productImageUrl = freezed,Object? origin = freezed,Object? nutritionFacts = null,Object? tags = null,Object? matchType = null,Object? quantity = null,Object? quantityCanonical = null,Object? measureUnitId = freezed,Object? measureUnitLabel = freezed,Object? recipeId = freezed,Object? recipe = freezed,Object? sortOrder = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? mealSlot = null,Object? title = null,Object? rationale = null,Object? requestedProductName = null,Object? productId = freezed,Object? productName = freezed,Object? productImageUrl = freezed,Object? origin = freezed,Object? nutritionFacts = null,Object? tags = null,Object? matchType = null,Object? quantity = null,Object? quantityCanonical = null,Object? measureUnitId = freezed,Object? measureUnitLabel = freezed,Object? recipeId = freezed,Object? recipe = freezed,Object? cookedAt = freezed,Object? sortOrder = null,}) {
   return _then(_MealPlanItem(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,mealSlot: null == mealSlot ? _self.mealSlot : mealSlot // ignore: cast_nullable_to_non_nullable
@@ -3187,7 +3192,8 @@ as int,measureUnitId: freezed == measureUnitId ? _self.measureUnitId : measureUn
 as String?,measureUnitLabel: freezed == measureUnitLabel ? _self.measureUnitLabel : measureUnitLabel // ignore: cast_nullable_to_non_nullable
 as String?,recipeId: freezed == recipeId ? _self.recipeId : recipeId // ignore: cast_nullable_to_non_nullable
 as String?,recipe: freezed == recipe ? _self.recipe : recipe // ignore: cast_nullable_to_non_nullable
-as RecipeDetail?,sortOrder: null == sortOrder ? _self.sortOrder : sortOrder // ignore: cast_nullable_to_non_nullable
+as RecipeDetail?,cookedAt: freezed == cookedAt ? _self.cookedAt : cookedAt // ignore: cast_nullable_to_non_nullable
+as String?,sortOrder: null == sortOrder ? _self.sortOrder : sortOrder // ignore: cast_nullable_to_non_nullable
 as int,
   ));
 }
@@ -3492,7 +3498,7 @@ as List<MealPlanItem>,
 /// @nodoc
 mixin _$MealPlanProfileSnapshot {
 
- int get age; String get gender; int get heightCm; int get weightKg; String get lifestyle; String get activityLevel; List<String> get allergies; List<String> get goals;
+ int get age; String get gender; int get heightCm; int get weightKg; String get lifestyle; String get activityLevel; List<String> get allergies; List<String> get goals; int get targetEnergyKcal; int get targetProteinMg; int get targetCarbsMg; int get targetFatMg;
 /// Create a copy of MealPlanProfileSnapshot
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -3505,16 +3511,16 @@ $MealPlanProfileSnapshotCopyWith<MealPlanProfileSnapshot> get copyWith => _$Meal
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MealPlanProfileSnapshot&&(identical(other.age, age) || other.age == age)&&(identical(other.gender, gender) || other.gender == gender)&&(identical(other.heightCm, heightCm) || other.heightCm == heightCm)&&(identical(other.weightKg, weightKg) || other.weightKg == weightKg)&&(identical(other.lifestyle, lifestyle) || other.lifestyle == lifestyle)&&(identical(other.activityLevel, activityLevel) || other.activityLevel == activityLevel)&&const DeepCollectionEquality().equals(other.allergies, allergies)&&const DeepCollectionEquality().equals(other.goals, goals));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MealPlanProfileSnapshot&&(identical(other.age, age) || other.age == age)&&(identical(other.gender, gender) || other.gender == gender)&&(identical(other.heightCm, heightCm) || other.heightCm == heightCm)&&(identical(other.weightKg, weightKg) || other.weightKg == weightKg)&&(identical(other.lifestyle, lifestyle) || other.lifestyle == lifestyle)&&(identical(other.activityLevel, activityLevel) || other.activityLevel == activityLevel)&&const DeepCollectionEquality().equals(other.allergies, allergies)&&const DeepCollectionEquality().equals(other.goals, goals)&&(identical(other.targetEnergyKcal, targetEnergyKcal) || other.targetEnergyKcal == targetEnergyKcal)&&(identical(other.targetProteinMg, targetProteinMg) || other.targetProteinMg == targetProteinMg)&&(identical(other.targetCarbsMg, targetCarbsMg) || other.targetCarbsMg == targetCarbsMg)&&(identical(other.targetFatMg, targetFatMg) || other.targetFatMg == targetFatMg));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,age,gender,heightCm,weightKg,lifestyle,activityLevel,const DeepCollectionEquality().hash(allergies),const DeepCollectionEquality().hash(goals));
+int get hashCode => Object.hash(runtimeType,age,gender,heightCm,weightKg,lifestyle,activityLevel,const DeepCollectionEquality().hash(allergies),const DeepCollectionEquality().hash(goals),targetEnergyKcal,targetProteinMg,targetCarbsMg,targetFatMg);
 
 @override
 String toString() {
-  return 'MealPlanProfileSnapshot(age: $age, gender: $gender, heightCm: $heightCm, weightKg: $weightKg, lifestyle: $lifestyle, activityLevel: $activityLevel, allergies: $allergies, goals: $goals)';
+  return 'MealPlanProfileSnapshot(age: $age, gender: $gender, heightCm: $heightCm, weightKg: $weightKg, lifestyle: $lifestyle, activityLevel: $activityLevel, allergies: $allergies, goals: $goals, targetEnergyKcal: $targetEnergyKcal, targetProteinMg: $targetProteinMg, targetCarbsMg: $targetCarbsMg, targetFatMg: $targetFatMg)';
 }
 
 
@@ -3525,7 +3531,7 @@ abstract mixin class $MealPlanProfileSnapshotCopyWith<$Res>  {
   factory $MealPlanProfileSnapshotCopyWith(MealPlanProfileSnapshot value, $Res Function(MealPlanProfileSnapshot) _then) = _$MealPlanProfileSnapshotCopyWithImpl;
 @useResult
 $Res call({
- int age, String gender, int heightCm, int weightKg, String lifestyle, String activityLevel, List<String> allergies, List<String> goals
+ int age, String gender, int heightCm, int weightKg, String lifestyle, String activityLevel, List<String> allergies, List<String> goals, int targetEnergyKcal, int targetProteinMg, int targetCarbsMg, int targetFatMg
 });
 
 
@@ -3542,7 +3548,7 @@ class _$MealPlanProfileSnapshotCopyWithImpl<$Res>
 
 /// Create a copy of MealPlanProfileSnapshot
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? age = null,Object? gender = null,Object? heightCm = null,Object? weightKg = null,Object? lifestyle = null,Object? activityLevel = null,Object? allergies = null,Object? goals = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? age = null,Object? gender = null,Object? heightCm = null,Object? weightKg = null,Object? lifestyle = null,Object? activityLevel = null,Object? allergies = null,Object? goals = null,Object? targetEnergyKcal = null,Object? targetProteinMg = null,Object? targetCarbsMg = null,Object? targetFatMg = null,}) {
   return _then(_self.copyWith(
 age: null == age ? _self.age : age // ignore: cast_nullable_to_non_nullable
 as int,gender: null == gender ? _self.gender : gender // ignore: cast_nullable_to_non_nullable
@@ -3552,7 +3558,11 @@ as int,lifestyle: null == lifestyle ? _self.lifestyle : lifestyle // ignore: cas
 as String,activityLevel: null == activityLevel ? _self.activityLevel : activityLevel // ignore: cast_nullable_to_non_nullable
 as String,allergies: null == allergies ? _self.allergies : allergies // ignore: cast_nullable_to_non_nullable
 as List<String>,goals: null == goals ? _self.goals : goals // ignore: cast_nullable_to_non_nullable
-as List<String>,
+as List<String>,targetEnergyKcal: null == targetEnergyKcal ? _self.targetEnergyKcal : targetEnergyKcal // ignore: cast_nullable_to_non_nullable
+as int,targetProteinMg: null == targetProteinMg ? _self.targetProteinMg : targetProteinMg // ignore: cast_nullable_to_non_nullable
+as int,targetCarbsMg: null == targetCarbsMg ? _self.targetCarbsMg : targetCarbsMg // ignore: cast_nullable_to_non_nullable
+as int,targetFatMg: null == targetFatMg ? _self.targetFatMg : targetFatMg // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 
@@ -3637,10 +3647,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int age,  String gender,  int heightCm,  int weightKg,  String lifestyle,  String activityLevel,  List<String> allergies,  List<String> goals)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int age,  String gender,  int heightCm,  int weightKg,  String lifestyle,  String activityLevel,  List<String> allergies,  List<String> goals,  int targetEnergyKcal,  int targetProteinMg,  int targetCarbsMg,  int targetFatMg)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _MealPlanProfileSnapshot() when $default != null:
-return $default(_that.age,_that.gender,_that.heightCm,_that.weightKg,_that.lifestyle,_that.activityLevel,_that.allergies,_that.goals);case _:
+return $default(_that.age,_that.gender,_that.heightCm,_that.weightKg,_that.lifestyle,_that.activityLevel,_that.allergies,_that.goals,_that.targetEnergyKcal,_that.targetProteinMg,_that.targetCarbsMg,_that.targetFatMg);case _:
   return orElse();
 
 }
@@ -3658,10 +3668,10 @@ return $default(_that.age,_that.gender,_that.heightCm,_that.weightKg,_that.lifes
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int age,  String gender,  int heightCm,  int weightKg,  String lifestyle,  String activityLevel,  List<String> allergies,  List<String> goals)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int age,  String gender,  int heightCm,  int weightKg,  String lifestyle,  String activityLevel,  List<String> allergies,  List<String> goals,  int targetEnergyKcal,  int targetProteinMg,  int targetCarbsMg,  int targetFatMg)  $default,) {final _that = this;
 switch (_that) {
 case _MealPlanProfileSnapshot():
-return $default(_that.age,_that.gender,_that.heightCm,_that.weightKg,_that.lifestyle,_that.activityLevel,_that.allergies,_that.goals);case _:
+return $default(_that.age,_that.gender,_that.heightCm,_that.weightKg,_that.lifestyle,_that.activityLevel,_that.allergies,_that.goals,_that.targetEnergyKcal,_that.targetProteinMg,_that.targetCarbsMg,_that.targetFatMg);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -3678,10 +3688,10 @@ return $default(_that.age,_that.gender,_that.heightCm,_that.weightKg,_that.lifes
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int age,  String gender,  int heightCm,  int weightKg,  String lifestyle,  String activityLevel,  List<String> allergies,  List<String> goals)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int age,  String gender,  int heightCm,  int weightKg,  String lifestyle,  String activityLevel,  List<String> allergies,  List<String> goals,  int targetEnergyKcal,  int targetProteinMg,  int targetCarbsMg,  int targetFatMg)?  $default,) {final _that = this;
 switch (_that) {
 case _MealPlanProfileSnapshot() when $default != null:
-return $default(_that.age,_that.gender,_that.heightCm,_that.weightKg,_that.lifestyle,_that.activityLevel,_that.allergies,_that.goals);case _:
+return $default(_that.age,_that.gender,_that.heightCm,_that.weightKg,_that.lifestyle,_that.activityLevel,_that.allergies,_that.goals,_that.targetEnergyKcal,_that.targetProteinMg,_that.targetCarbsMg,_that.targetFatMg);case _:
   return null;
 
 }
@@ -3693,7 +3703,7 @@ return $default(_that.age,_that.gender,_that.heightCm,_that.weightKg,_that.lifes
 @JsonSerializable()
 
 class _MealPlanProfileSnapshot implements MealPlanProfileSnapshot {
-  const _MealPlanProfileSnapshot({required this.age, required this.gender, required this.heightCm, required this.weightKg, required this.lifestyle, required this.activityLevel, required final  List<String> allergies, required final  List<String> goals}): _allergies = allergies,_goals = goals;
+  const _MealPlanProfileSnapshot({required this.age, required this.gender, required this.heightCm, required this.weightKg, required this.lifestyle, required this.activityLevel, required final  List<String> allergies, required final  List<String> goals, this.targetEnergyKcal = 0, this.targetProteinMg = 0, this.targetCarbsMg = 0, this.targetFatMg = 0}): _allergies = allergies,_goals = goals;
   factory _MealPlanProfileSnapshot.fromJson(Map<String, dynamic> json) => _$MealPlanProfileSnapshotFromJson(json);
 
 @override final  int age;
@@ -3716,6 +3726,10 @@ class _MealPlanProfileSnapshot implements MealPlanProfileSnapshot {
   return EqualUnmodifiableListView(_goals);
 }
 
+@override@JsonKey() final  int targetEnergyKcal;
+@override@JsonKey() final  int targetProteinMg;
+@override@JsonKey() final  int targetCarbsMg;
+@override@JsonKey() final  int targetFatMg;
 
 /// Create a copy of MealPlanProfileSnapshot
 /// with the given fields replaced by the non-null parameter values.
@@ -3730,16 +3744,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MealPlanProfileSnapshot&&(identical(other.age, age) || other.age == age)&&(identical(other.gender, gender) || other.gender == gender)&&(identical(other.heightCm, heightCm) || other.heightCm == heightCm)&&(identical(other.weightKg, weightKg) || other.weightKg == weightKg)&&(identical(other.lifestyle, lifestyle) || other.lifestyle == lifestyle)&&(identical(other.activityLevel, activityLevel) || other.activityLevel == activityLevel)&&const DeepCollectionEquality().equals(other._allergies, _allergies)&&const DeepCollectionEquality().equals(other._goals, _goals));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MealPlanProfileSnapshot&&(identical(other.age, age) || other.age == age)&&(identical(other.gender, gender) || other.gender == gender)&&(identical(other.heightCm, heightCm) || other.heightCm == heightCm)&&(identical(other.weightKg, weightKg) || other.weightKg == weightKg)&&(identical(other.lifestyle, lifestyle) || other.lifestyle == lifestyle)&&(identical(other.activityLevel, activityLevel) || other.activityLevel == activityLevel)&&const DeepCollectionEquality().equals(other._allergies, _allergies)&&const DeepCollectionEquality().equals(other._goals, _goals)&&(identical(other.targetEnergyKcal, targetEnergyKcal) || other.targetEnergyKcal == targetEnergyKcal)&&(identical(other.targetProteinMg, targetProteinMg) || other.targetProteinMg == targetProteinMg)&&(identical(other.targetCarbsMg, targetCarbsMg) || other.targetCarbsMg == targetCarbsMg)&&(identical(other.targetFatMg, targetFatMg) || other.targetFatMg == targetFatMg));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,age,gender,heightCm,weightKg,lifestyle,activityLevel,const DeepCollectionEquality().hash(_allergies),const DeepCollectionEquality().hash(_goals));
+int get hashCode => Object.hash(runtimeType,age,gender,heightCm,weightKg,lifestyle,activityLevel,const DeepCollectionEquality().hash(_allergies),const DeepCollectionEquality().hash(_goals),targetEnergyKcal,targetProteinMg,targetCarbsMg,targetFatMg);
 
 @override
 String toString() {
-  return 'MealPlanProfileSnapshot(age: $age, gender: $gender, heightCm: $heightCm, weightKg: $weightKg, lifestyle: $lifestyle, activityLevel: $activityLevel, allergies: $allergies, goals: $goals)';
+  return 'MealPlanProfileSnapshot(age: $age, gender: $gender, heightCm: $heightCm, weightKg: $weightKg, lifestyle: $lifestyle, activityLevel: $activityLevel, allergies: $allergies, goals: $goals, targetEnergyKcal: $targetEnergyKcal, targetProteinMg: $targetProteinMg, targetCarbsMg: $targetCarbsMg, targetFatMg: $targetFatMg)';
 }
 
 
@@ -3750,7 +3764,7 @@ abstract mixin class _$MealPlanProfileSnapshotCopyWith<$Res> implements $MealPla
   factory _$MealPlanProfileSnapshotCopyWith(_MealPlanProfileSnapshot value, $Res Function(_MealPlanProfileSnapshot) _then) = __$MealPlanProfileSnapshotCopyWithImpl;
 @override @useResult
 $Res call({
- int age, String gender, int heightCm, int weightKg, String lifestyle, String activityLevel, List<String> allergies, List<String> goals
+ int age, String gender, int heightCm, int weightKg, String lifestyle, String activityLevel, List<String> allergies, List<String> goals, int targetEnergyKcal, int targetProteinMg, int targetCarbsMg, int targetFatMg
 });
 
 
@@ -3767,7 +3781,7 @@ class __$MealPlanProfileSnapshotCopyWithImpl<$Res>
 
 /// Create a copy of MealPlanProfileSnapshot
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? age = null,Object? gender = null,Object? heightCm = null,Object? weightKg = null,Object? lifestyle = null,Object? activityLevel = null,Object? allergies = null,Object? goals = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? age = null,Object? gender = null,Object? heightCm = null,Object? weightKg = null,Object? lifestyle = null,Object? activityLevel = null,Object? allergies = null,Object? goals = null,Object? targetEnergyKcal = null,Object? targetProteinMg = null,Object? targetCarbsMg = null,Object? targetFatMg = null,}) {
   return _then(_MealPlanProfileSnapshot(
 age: null == age ? _self.age : age // ignore: cast_nullable_to_non_nullable
 as int,gender: null == gender ? _self.gender : gender // ignore: cast_nullable_to_non_nullable
@@ -3777,7 +3791,11 @@ as int,lifestyle: null == lifestyle ? _self.lifestyle : lifestyle // ignore: cas
 as String,activityLevel: null == activityLevel ? _self.activityLevel : activityLevel // ignore: cast_nullable_to_non_nullable
 as String,allergies: null == allergies ? _self._allergies : allergies // ignore: cast_nullable_to_non_nullable
 as List<String>,goals: null == goals ? _self._goals : goals // ignore: cast_nullable_to_non_nullable
-as List<String>,
+as List<String>,targetEnergyKcal: null == targetEnergyKcal ? _self.targetEnergyKcal : targetEnergyKcal // ignore: cast_nullable_to_non_nullable
+as int,targetProteinMg: null == targetProteinMg ? _self.targetProteinMg : targetProteinMg // ignore: cast_nullable_to_non_nullable
+as int,targetCarbsMg: null == targetCarbsMg ? _self.targetCarbsMg : targetCarbsMg // ignore: cast_nullable_to_non_nullable
+as int,targetFatMg: null == targetFatMg ? _self.targetFatMg : targetFatMg // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 
@@ -3788,7 +3806,7 @@ as List<String>,
 /// @nodoc
 mixin _$MealPlanDetail {
 
- String get id; String get employeeId; String get employeeName; String get employerName; String get status; String get title; String? get startsOn; String? get endsOn; String? get activatedAt; String? get packageId; String? get failureReason; String? get adminNote; String? get reviewedAt; String get createdAt; String get updatedAt; List<MealPlanDay> get days; MealPlanProfileSnapshot? get profile;
+ String get id; String get employeeId; String get employeeName; String get employerName; String get status; String get source; String get title; String? get startsOn; String? get endsOn; String? get activatedAt; String? get packageId; String? get failureReason; String? get adminNote; String? get reviewedAt; String get createdAt; String get updatedAt; List<MealPlanDay> get days; MealPlanProfileSnapshot? get profile;
 /// Create a copy of MealPlanDetail
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -3801,16 +3819,16 @@ $MealPlanDetailCopyWith<MealPlanDetail> get copyWith => _$MealPlanDetailCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MealPlanDetail&&(identical(other.id, id) || other.id == id)&&(identical(other.employeeId, employeeId) || other.employeeId == employeeId)&&(identical(other.employeeName, employeeName) || other.employeeName == employeeName)&&(identical(other.employerName, employerName) || other.employerName == employerName)&&(identical(other.status, status) || other.status == status)&&(identical(other.title, title) || other.title == title)&&(identical(other.startsOn, startsOn) || other.startsOn == startsOn)&&(identical(other.endsOn, endsOn) || other.endsOn == endsOn)&&(identical(other.activatedAt, activatedAt) || other.activatedAt == activatedAt)&&(identical(other.packageId, packageId) || other.packageId == packageId)&&(identical(other.failureReason, failureReason) || other.failureReason == failureReason)&&(identical(other.adminNote, adminNote) || other.adminNote == adminNote)&&(identical(other.reviewedAt, reviewedAt) || other.reviewedAt == reviewedAt)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&const DeepCollectionEquality().equals(other.days, days)&&(identical(other.profile, profile) || other.profile == profile));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MealPlanDetail&&(identical(other.id, id) || other.id == id)&&(identical(other.employeeId, employeeId) || other.employeeId == employeeId)&&(identical(other.employeeName, employeeName) || other.employeeName == employeeName)&&(identical(other.employerName, employerName) || other.employerName == employerName)&&(identical(other.status, status) || other.status == status)&&(identical(other.source, source) || other.source == source)&&(identical(other.title, title) || other.title == title)&&(identical(other.startsOn, startsOn) || other.startsOn == startsOn)&&(identical(other.endsOn, endsOn) || other.endsOn == endsOn)&&(identical(other.activatedAt, activatedAt) || other.activatedAt == activatedAt)&&(identical(other.packageId, packageId) || other.packageId == packageId)&&(identical(other.failureReason, failureReason) || other.failureReason == failureReason)&&(identical(other.adminNote, adminNote) || other.adminNote == adminNote)&&(identical(other.reviewedAt, reviewedAt) || other.reviewedAt == reviewedAt)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&const DeepCollectionEquality().equals(other.days, days)&&(identical(other.profile, profile) || other.profile == profile));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,employeeId,employeeName,employerName,status,title,startsOn,endsOn,activatedAt,packageId,failureReason,adminNote,reviewedAt,createdAt,updatedAt,const DeepCollectionEquality().hash(days),profile);
+int get hashCode => Object.hash(runtimeType,id,employeeId,employeeName,employerName,status,source,title,startsOn,endsOn,activatedAt,packageId,failureReason,adminNote,reviewedAt,createdAt,updatedAt,const DeepCollectionEquality().hash(days),profile);
 
 @override
 String toString() {
-  return 'MealPlanDetail(id: $id, employeeId: $employeeId, employeeName: $employeeName, employerName: $employerName, status: $status, title: $title, startsOn: $startsOn, endsOn: $endsOn, activatedAt: $activatedAt, packageId: $packageId, failureReason: $failureReason, adminNote: $adminNote, reviewedAt: $reviewedAt, createdAt: $createdAt, updatedAt: $updatedAt, days: $days, profile: $profile)';
+  return 'MealPlanDetail(id: $id, employeeId: $employeeId, employeeName: $employeeName, employerName: $employerName, status: $status, source: $source, title: $title, startsOn: $startsOn, endsOn: $endsOn, activatedAt: $activatedAt, packageId: $packageId, failureReason: $failureReason, adminNote: $adminNote, reviewedAt: $reviewedAt, createdAt: $createdAt, updatedAt: $updatedAt, days: $days, profile: $profile)';
 }
 
 
@@ -3821,7 +3839,7 @@ abstract mixin class $MealPlanDetailCopyWith<$Res>  {
   factory $MealPlanDetailCopyWith(MealPlanDetail value, $Res Function(MealPlanDetail) _then) = _$MealPlanDetailCopyWithImpl;
 @useResult
 $Res call({
- String id, String employeeId, String employeeName, String employerName, String status, String title, String? startsOn, String? endsOn, String? activatedAt, String? packageId, String? failureReason, String? adminNote, String? reviewedAt, String createdAt, String updatedAt, List<MealPlanDay> days, MealPlanProfileSnapshot? profile
+ String id, String employeeId, String employeeName, String employerName, String status, String source, String title, String? startsOn, String? endsOn, String? activatedAt, String? packageId, String? failureReason, String? adminNote, String? reviewedAt, String createdAt, String updatedAt, List<MealPlanDay> days, MealPlanProfileSnapshot? profile
 });
 
 
@@ -3838,13 +3856,14 @@ class _$MealPlanDetailCopyWithImpl<$Res>
 
 /// Create a copy of MealPlanDetail
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? employeeId = null,Object? employeeName = null,Object? employerName = null,Object? status = null,Object? title = null,Object? startsOn = freezed,Object? endsOn = freezed,Object? activatedAt = freezed,Object? packageId = freezed,Object? failureReason = freezed,Object? adminNote = freezed,Object? reviewedAt = freezed,Object? createdAt = null,Object? updatedAt = null,Object? days = null,Object? profile = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? employeeId = null,Object? employeeName = null,Object? employerName = null,Object? status = null,Object? source = null,Object? title = null,Object? startsOn = freezed,Object? endsOn = freezed,Object? activatedAt = freezed,Object? packageId = freezed,Object? failureReason = freezed,Object? adminNote = freezed,Object? reviewedAt = freezed,Object? createdAt = null,Object? updatedAt = null,Object? days = null,Object? profile = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,employeeId: null == employeeId ? _self.employeeId : employeeId // ignore: cast_nullable_to_non_nullable
 as String,employeeName: null == employeeName ? _self.employeeName : employeeName // ignore: cast_nullable_to_non_nullable
 as String,employerName: null == employerName ? _self.employerName : employerName // ignore: cast_nullable_to_non_nullable
 as String,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as String,source: null == source ? _self.source : source // ignore: cast_nullable_to_non_nullable
 as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,startsOn: freezed == startsOn ? _self.startsOn : startsOn // ignore: cast_nullable_to_non_nullable
 as String?,endsOn: freezed == endsOn ? _self.endsOn : endsOn // ignore: cast_nullable_to_non_nullable
@@ -3954,10 +3973,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String employeeId,  String employeeName,  String employerName,  String status,  String title,  String? startsOn,  String? endsOn,  String? activatedAt,  String? packageId,  String? failureReason,  String? adminNote,  String? reviewedAt,  String createdAt,  String updatedAt,  List<MealPlanDay> days,  MealPlanProfileSnapshot? profile)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String employeeId,  String employeeName,  String employerName,  String status,  String source,  String title,  String? startsOn,  String? endsOn,  String? activatedAt,  String? packageId,  String? failureReason,  String? adminNote,  String? reviewedAt,  String createdAt,  String updatedAt,  List<MealPlanDay> days,  MealPlanProfileSnapshot? profile)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _MealPlanDetail() when $default != null:
-return $default(_that.id,_that.employeeId,_that.employeeName,_that.employerName,_that.status,_that.title,_that.startsOn,_that.endsOn,_that.activatedAt,_that.packageId,_that.failureReason,_that.adminNote,_that.reviewedAt,_that.createdAt,_that.updatedAt,_that.days,_that.profile);case _:
+return $default(_that.id,_that.employeeId,_that.employeeName,_that.employerName,_that.status,_that.source,_that.title,_that.startsOn,_that.endsOn,_that.activatedAt,_that.packageId,_that.failureReason,_that.adminNote,_that.reviewedAt,_that.createdAt,_that.updatedAt,_that.days,_that.profile);case _:
   return orElse();
 
 }
@@ -3975,10 +3994,10 @@ return $default(_that.id,_that.employeeId,_that.employeeName,_that.employerName,
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String employeeId,  String employeeName,  String employerName,  String status,  String title,  String? startsOn,  String? endsOn,  String? activatedAt,  String? packageId,  String? failureReason,  String? adminNote,  String? reviewedAt,  String createdAt,  String updatedAt,  List<MealPlanDay> days,  MealPlanProfileSnapshot? profile)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String employeeId,  String employeeName,  String employerName,  String status,  String source,  String title,  String? startsOn,  String? endsOn,  String? activatedAt,  String? packageId,  String? failureReason,  String? adminNote,  String? reviewedAt,  String createdAt,  String updatedAt,  List<MealPlanDay> days,  MealPlanProfileSnapshot? profile)  $default,) {final _that = this;
 switch (_that) {
 case _MealPlanDetail():
-return $default(_that.id,_that.employeeId,_that.employeeName,_that.employerName,_that.status,_that.title,_that.startsOn,_that.endsOn,_that.activatedAt,_that.packageId,_that.failureReason,_that.adminNote,_that.reviewedAt,_that.createdAt,_that.updatedAt,_that.days,_that.profile);case _:
+return $default(_that.id,_that.employeeId,_that.employeeName,_that.employerName,_that.status,_that.source,_that.title,_that.startsOn,_that.endsOn,_that.activatedAt,_that.packageId,_that.failureReason,_that.adminNote,_that.reviewedAt,_that.createdAt,_that.updatedAt,_that.days,_that.profile);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -3995,10 +4014,10 @@ return $default(_that.id,_that.employeeId,_that.employeeName,_that.employerName,
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String employeeId,  String employeeName,  String employerName,  String status,  String title,  String? startsOn,  String? endsOn,  String? activatedAt,  String? packageId,  String? failureReason,  String? adminNote,  String? reviewedAt,  String createdAt,  String updatedAt,  List<MealPlanDay> days,  MealPlanProfileSnapshot? profile)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String employeeId,  String employeeName,  String employerName,  String status,  String source,  String title,  String? startsOn,  String? endsOn,  String? activatedAt,  String? packageId,  String? failureReason,  String? adminNote,  String? reviewedAt,  String createdAt,  String updatedAt,  List<MealPlanDay> days,  MealPlanProfileSnapshot? profile)?  $default,) {final _that = this;
 switch (_that) {
 case _MealPlanDetail() when $default != null:
-return $default(_that.id,_that.employeeId,_that.employeeName,_that.employerName,_that.status,_that.title,_that.startsOn,_that.endsOn,_that.activatedAt,_that.packageId,_that.failureReason,_that.adminNote,_that.reviewedAt,_that.createdAt,_that.updatedAt,_that.days,_that.profile);case _:
+return $default(_that.id,_that.employeeId,_that.employeeName,_that.employerName,_that.status,_that.source,_that.title,_that.startsOn,_that.endsOn,_that.activatedAt,_that.packageId,_that.failureReason,_that.adminNote,_that.reviewedAt,_that.createdAt,_that.updatedAt,_that.days,_that.profile);case _:
   return null;
 
 }
@@ -4010,7 +4029,7 @@ return $default(_that.id,_that.employeeId,_that.employeeName,_that.employerName,
 @JsonSerializable()
 
 class _MealPlanDetail implements MealPlanDetail {
-  const _MealPlanDetail({required this.id, required this.employeeId, required this.employeeName, required this.employerName, required this.status, required this.title, this.startsOn, this.endsOn, this.activatedAt, this.packageId, this.failureReason, this.adminNote, this.reviewedAt, required this.createdAt, required this.updatedAt, required final  List<MealPlanDay> days, this.profile}): _days = days;
+  const _MealPlanDetail({required this.id, required this.employeeId, required this.employeeName, required this.employerName, required this.status, this.source = 'AI', required this.title, this.startsOn, this.endsOn, this.activatedAt, this.packageId, this.failureReason, this.adminNote, this.reviewedAt, required this.createdAt, required this.updatedAt, required final  List<MealPlanDay> days, this.profile}): _days = days;
   factory _MealPlanDetail.fromJson(Map<String, dynamic> json) => _$MealPlanDetailFromJson(json);
 
 @override final  String id;
@@ -4018,6 +4037,7 @@ class _MealPlanDetail implements MealPlanDetail {
 @override final  String employeeName;
 @override final  String employerName;
 @override final  String status;
+@override@JsonKey() final  String source;
 @override final  String title;
 @override final  String? startsOn;
 @override final  String? endsOn;
@@ -4050,16 +4070,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MealPlanDetail&&(identical(other.id, id) || other.id == id)&&(identical(other.employeeId, employeeId) || other.employeeId == employeeId)&&(identical(other.employeeName, employeeName) || other.employeeName == employeeName)&&(identical(other.employerName, employerName) || other.employerName == employerName)&&(identical(other.status, status) || other.status == status)&&(identical(other.title, title) || other.title == title)&&(identical(other.startsOn, startsOn) || other.startsOn == startsOn)&&(identical(other.endsOn, endsOn) || other.endsOn == endsOn)&&(identical(other.activatedAt, activatedAt) || other.activatedAt == activatedAt)&&(identical(other.packageId, packageId) || other.packageId == packageId)&&(identical(other.failureReason, failureReason) || other.failureReason == failureReason)&&(identical(other.adminNote, adminNote) || other.adminNote == adminNote)&&(identical(other.reviewedAt, reviewedAt) || other.reviewedAt == reviewedAt)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&const DeepCollectionEquality().equals(other._days, _days)&&(identical(other.profile, profile) || other.profile == profile));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MealPlanDetail&&(identical(other.id, id) || other.id == id)&&(identical(other.employeeId, employeeId) || other.employeeId == employeeId)&&(identical(other.employeeName, employeeName) || other.employeeName == employeeName)&&(identical(other.employerName, employerName) || other.employerName == employerName)&&(identical(other.status, status) || other.status == status)&&(identical(other.source, source) || other.source == source)&&(identical(other.title, title) || other.title == title)&&(identical(other.startsOn, startsOn) || other.startsOn == startsOn)&&(identical(other.endsOn, endsOn) || other.endsOn == endsOn)&&(identical(other.activatedAt, activatedAt) || other.activatedAt == activatedAt)&&(identical(other.packageId, packageId) || other.packageId == packageId)&&(identical(other.failureReason, failureReason) || other.failureReason == failureReason)&&(identical(other.adminNote, adminNote) || other.adminNote == adminNote)&&(identical(other.reviewedAt, reviewedAt) || other.reviewedAt == reviewedAt)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&const DeepCollectionEquality().equals(other._days, _days)&&(identical(other.profile, profile) || other.profile == profile));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,employeeId,employeeName,employerName,status,title,startsOn,endsOn,activatedAt,packageId,failureReason,adminNote,reviewedAt,createdAt,updatedAt,const DeepCollectionEquality().hash(_days),profile);
+int get hashCode => Object.hash(runtimeType,id,employeeId,employeeName,employerName,status,source,title,startsOn,endsOn,activatedAt,packageId,failureReason,adminNote,reviewedAt,createdAt,updatedAt,const DeepCollectionEquality().hash(_days),profile);
 
 @override
 String toString() {
-  return 'MealPlanDetail(id: $id, employeeId: $employeeId, employeeName: $employeeName, employerName: $employerName, status: $status, title: $title, startsOn: $startsOn, endsOn: $endsOn, activatedAt: $activatedAt, packageId: $packageId, failureReason: $failureReason, adminNote: $adminNote, reviewedAt: $reviewedAt, createdAt: $createdAt, updatedAt: $updatedAt, days: $days, profile: $profile)';
+  return 'MealPlanDetail(id: $id, employeeId: $employeeId, employeeName: $employeeName, employerName: $employerName, status: $status, source: $source, title: $title, startsOn: $startsOn, endsOn: $endsOn, activatedAt: $activatedAt, packageId: $packageId, failureReason: $failureReason, adminNote: $adminNote, reviewedAt: $reviewedAt, createdAt: $createdAt, updatedAt: $updatedAt, days: $days, profile: $profile)';
 }
 
 
@@ -4070,7 +4090,7 @@ abstract mixin class _$MealPlanDetailCopyWith<$Res> implements $MealPlanDetailCo
   factory _$MealPlanDetailCopyWith(_MealPlanDetail value, $Res Function(_MealPlanDetail) _then) = __$MealPlanDetailCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String employeeId, String employeeName, String employerName, String status, String title, String? startsOn, String? endsOn, String? activatedAt, String? packageId, String? failureReason, String? adminNote, String? reviewedAt, String createdAt, String updatedAt, List<MealPlanDay> days, MealPlanProfileSnapshot? profile
+ String id, String employeeId, String employeeName, String employerName, String status, String source, String title, String? startsOn, String? endsOn, String? activatedAt, String? packageId, String? failureReason, String? adminNote, String? reviewedAt, String createdAt, String updatedAt, List<MealPlanDay> days, MealPlanProfileSnapshot? profile
 });
 
 
@@ -4087,13 +4107,14 @@ class __$MealPlanDetailCopyWithImpl<$Res>
 
 /// Create a copy of MealPlanDetail
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? employeeId = null,Object? employeeName = null,Object? employerName = null,Object? status = null,Object? title = null,Object? startsOn = freezed,Object? endsOn = freezed,Object? activatedAt = freezed,Object? packageId = freezed,Object? failureReason = freezed,Object? adminNote = freezed,Object? reviewedAt = freezed,Object? createdAt = null,Object? updatedAt = null,Object? days = null,Object? profile = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? employeeId = null,Object? employeeName = null,Object? employerName = null,Object? status = null,Object? source = null,Object? title = null,Object? startsOn = freezed,Object? endsOn = freezed,Object? activatedAt = freezed,Object? packageId = freezed,Object? failureReason = freezed,Object? adminNote = freezed,Object? reviewedAt = freezed,Object? createdAt = null,Object? updatedAt = null,Object? days = null,Object? profile = freezed,}) {
   return _then(_MealPlanDetail(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,employeeId: null == employeeId ? _self.employeeId : employeeId // ignore: cast_nullable_to_non_nullable
 as String,employeeName: null == employeeName ? _self.employeeName : employeeName // ignore: cast_nullable_to_non_nullable
 as String,employerName: null == employerName ? _self.employerName : employerName // ignore: cast_nullable_to_non_nullable
 as String,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as String,source: null == source ? _self.source : source // ignore: cast_nullable_to_non_nullable
 as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,startsOn: freezed == startsOn ? _self.startsOn : startsOn // ignore: cast_nullable_to_non_nullable
 as String?,endsOn: freezed == endsOn ? _self.endsOn : endsOn // ignore: cast_nullable_to_non_nullable
@@ -4422,7 +4443,7 @@ as int,
 /// @nodoc
 mixin _$RecipeDetail {
 
- String get id; String get employeeId; String get title; String get mealSlot; String get instructions; String get rationale; String get source; String get cookability; CanonicalNutrition get nutrition; List<RecipeIngredient> get ingredients; String get createdAt; String get updatedAt;
+ String get id; String get employeeId; String get title; String get mealSlot; String get instructions; List<String> get instructionSteps; String get rationale; String get source; String get cookability; CanonicalNutrition get nutrition; List<RecipeIngredient> get ingredients; String get createdAt; String get updatedAt;
 /// Create a copy of RecipeDetail
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -4435,16 +4456,16 @@ $RecipeDetailCopyWith<RecipeDetail> get copyWith => _$RecipeDetailCopyWithImpl<R
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is RecipeDetail&&(identical(other.id, id) || other.id == id)&&(identical(other.employeeId, employeeId) || other.employeeId == employeeId)&&(identical(other.title, title) || other.title == title)&&(identical(other.mealSlot, mealSlot) || other.mealSlot == mealSlot)&&(identical(other.instructions, instructions) || other.instructions == instructions)&&(identical(other.rationale, rationale) || other.rationale == rationale)&&(identical(other.source, source) || other.source == source)&&(identical(other.cookability, cookability) || other.cookability == cookability)&&(identical(other.nutrition, nutrition) || other.nutrition == nutrition)&&const DeepCollectionEquality().equals(other.ingredients, ingredients)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RecipeDetail&&(identical(other.id, id) || other.id == id)&&(identical(other.employeeId, employeeId) || other.employeeId == employeeId)&&(identical(other.title, title) || other.title == title)&&(identical(other.mealSlot, mealSlot) || other.mealSlot == mealSlot)&&(identical(other.instructions, instructions) || other.instructions == instructions)&&const DeepCollectionEquality().equals(other.instructionSteps, instructionSteps)&&(identical(other.rationale, rationale) || other.rationale == rationale)&&(identical(other.source, source) || other.source == source)&&(identical(other.cookability, cookability) || other.cookability == cookability)&&(identical(other.nutrition, nutrition) || other.nutrition == nutrition)&&const DeepCollectionEquality().equals(other.ingredients, ingredients)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,employeeId,title,mealSlot,instructions,rationale,source,cookability,nutrition,const DeepCollectionEquality().hash(ingredients),createdAt,updatedAt);
+int get hashCode => Object.hash(runtimeType,id,employeeId,title,mealSlot,instructions,const DeepCollectionEquality().hash(instructionSteps),rationale,source,cookability,nutrition,const DeepCollectionEquality().hash(ingredients),createdAt,updatedAt);
 
 @override
 String toString() {
-  return 'RecipeDetail(id: $id, employeeId: $employeeId, title: $title, mealSlot: $mealSlot, instructions: $instructions, rationale: $rationale, source: $source, cookability: $cookability, nutrition: $nutrition, ingredients: $ingredients, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'RecipeDetail(id: $id, employeeId: $employeeId, title: $title, mealSlot: $mealSlot, instructions: $instructions, instructionSteps: $instructionSteps, rationale: $rationale, source: $source, cookability: $cookability, nutrition: $nutrition, ingredients: $ingredients, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -4455,7 +4476,7 @@ abstract mixin class $RecipeDetailCopyWith<$Res>  {
   factory $RecipeDetailCopyWith(RecipeDetail value, $Res Function(RecipeDetail) _then) = _$RecipeDetailCopyWithImpl;
 @useResult
 $Res call({
- String id, String employeeId, String title, String mealSlot, String instructions, String rationale, String source, String cookability, CanonicalNutrition nutrition, List<RecipeIngredient> ingredients, String createdAt, String updatedAt
+ String id, String employeeId, String title, String mealSlot, String instructions, List<String> instructionSteps, String rationale, String source, String cookability, CanonicalNutrition nutrition, List<RecipeIngredient> ingredients, String createdAt, String updatedAt
 });
 
 
@@ -4472,14 +4493,15 @@ class _$RecipeDetailCopyWithImpl<$Res>
 
 /// Create a copy of RecipeDetail
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? employeeId = null,Object? title = null,Object? mealSlot = null,Object? instructions = null,Object? rationale = null,Object? source = null,Object? cookability = null,Object? nutrition = null,Object? ingredients = null,Object? createdAt = null,Object? updatedAt = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? employeeId = null,Object? title = null,Object? mealSlot = null,Object? instructions = null,Object? instructionSteps = null,Object? rationale = null,Object? source = null,Object? cookability = null,Object? nutrition = null,Object? ingredients = null,Object? createdAt = null,Object? updatedAt = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,employeeId: null == employeeId ? _self.employeeId : employeeId // ignore: cast_nullable_to_non_nullable
 as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,mealSlot: null == mealSlot ? _self.mealSlot : mealSlot // ignore: cast_nullable_to_non_nullable
 as String,instructions: null == instructions ? _self.instructions : instructions // ignore: cast_nullable_to_non_nullable
-as String,rationale: null == rationale ? _self.rationale : rationale // ignore: cast_nullable_to_non_nullable
+as String,instructionSteps: null == instructionSteps ? _self.instructionSteps : instructionSteps // ignore: cast_nullable_to_non_nullable
+as List<String>,rationale: null == rationale ? _self.rationale : rationale // ignore: cast_nullable_to_non_nullable
 as String,source: null == source ? _self.source : source // ignore: cast_nullable_to_non_nullable
 as String,cookability: null == cookability ? _self.cookability : cookability // ignore: cast_nullable_to_non_nullable
 as String,nutrition: null == nutrition ? _self.nutrition : nutrition // ignore: cast_nullable_to_non_nullable
@@ -4580,10 +4602,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String employeeId,  String title,  String mealSlot,  String instructions,  String rationale,  String source,  String cookability,  CanonicalNutrition nutrition,  List<RecipeIngredient> ingredients,  String createdAt,  String updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String employeeId,  String title,  String mealSlot,  String instructions,  List<String> instructionSteps,  String rationale,  String source,  String cookability,  CanonicalNutrition nutrition,  List<RecipeIngredient> ingredients,  String createdAt,  String updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _RecipeDetail() when $default != null:
-return $default(_that.id,_that.employeeId,_that.title,_that.mealSlot,_that.instructions,_that.rationale,_that.source,_that.cookability,_that.nutrition,_that.ingredients,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.employeeId,_that.title,_that.mealSlot,_that.instructions,_that.instructionSteps,_that.rationale,_that.source,_that.cookability,_that.nutrition,_that.ingredients,_that.createdAt,_that.updatedAt);case _:
   return orElse();
 
 }
@@ -4601,10 +4623,10 @@ return $default(_that.id,_that.employeeId,_that.title,_that.mealSlot,_that.instr
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String employeeId,  String title,  String mealSlot,  String instructions,  String rationale,  String source,  String cookability,  CanonicalNutrition nutrition,  List<RecipeIngredient> ingredients,  String createdAt,  String updatedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String employeeId,  String title,  String mealSlot,  String instructions,  List<String> instructionSteps,  String rationale,  String source,  String cookability,  CanonicalNutrition nutrition,  List<RecipeIngredient> ingredients,  String createdAt,  String updatedAt)  $default,) {final _that = this;
 switch (_that) {
 case _RecipeDetail():
-return $default(_that.id,_that.employeeId,_that.title,_that.mealSlot,_that.instructions,_that.rationale,_that.source,_that.cookability,_that.nutrition,_that.ingredients,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.employeeId,_that.title,_that.mealSlot,_that.instructions,_that.instructionSteps,_that.rationale,_that.source,_that.cookability,_that.nutrition,_that.ingredients,_that.createdAt,_that.updatedAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -4621,10 +4643,10 @@ return $default(_that.id,_that.employeeId,_that.title,_that.mealSlot,_that.instr
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String employeeId,  String title,  String mealSlot,  String instructions,  String rationale,  String source,  String cookability,  CanonicalNutrition nutrition,  List<RecipeIngredient> ingredients,  String createdAt,  String updatedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String employeeId,  String title,  String mealSlot,  String instructions,  List<String> instructionSteps,  String rationale,  String source,  String cookability,  CanonicalNutrition nutrition,  List<RecipeIngredient> ingredients,  String createdAt,  String updatedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _RecipeDetail() when $default != null:
-return $default(_that.id,_that.employeeId,_that.title,_that.mealSlot,_that.instructions,_that.rationale,_that.source,_that.cookability,_that.nutrition,_that.ingredients,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.employeeId,_that.title,_that.mealSlot,_that.instructions,_that.instructionSteps,_that.rationale,_that.source,_that.cookability,_that.nutrition,_that.ingredients,_that.createdAt,_that.updatedAt);case _:
   return null;
 
 }
@@ -4636,7 +4658,7 @@ return $default(_that.id,_that.employeeId,_that.title,_that.mealSlot,_that.instr
 @JsonSerializable()
 
 class _RecipeDetail implements RecipeDetail {
-  const _RecipeDetail({required this.id, required this.employeeId, required this.title, required this.mealSlot, this.instructions = '', this.rationale = '', this.source = 'AI', this.cookability = 'partial', this.nutrition = const CanonicalNutrition(), final  List<RecipeIngredient> ingredients = const <RecipeIngredient>[], required this.createdAt, required this.updatedAt}): _ingredients = ingredients;
+  const _RecipeDetail({required this.id, required this.employeeId, required this.title, required this.mealSlot, this.instructions = '', final  List<String> instructionSteps = const <String>[], this.rationale = '', this.source = 'AI', this.cookability = 'partial', this.nutrition = const CanonicalNutrition(), final  List<RecipeIngredient> ingredients = const <RecipeIngredient>[], required this.createdAt, required this.updatedAt}): _instructionSteps = instructionSteps,_ingredients = ingredients;
   factory _RecipeDetail.fromJson(Map<String, dynamic> json) => _$RecipeDetailFromJson(json);
 
 @override final  String id;
@@ -4644,6 +4666,13 @@ class _RecipeDetail implements RecipeDetail {
 @override final  String title;
 @override final  String mealSlot;
 @override@JsonKey() final  String instructions;
+ final  List<String> _instructionSteps;
+@override@JsonKey() List<String> get instructionSteps {
+  if (_instructionSteps is EqualUnmodifiableListView) return _instructionSteps;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_instructionSteps);
+}
+
 @override@JsonKey() final  String rationale;
 @override@JsonKey() final  String source;
 @override@JsonKey() final  String cookability;
@@ -4671,16 +4700,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RecipeDetail&&(identical(other.id, id) || other.id == id)&&(identical(other.employeeId, employeeId) || other.employeeId == employeeId)&&(identical(other.title, title) || other.title == title)&&(identical(other.mealSlot, mealSlot) || other.mealSlot == mealSlot)&&(identical(other.instructions, instructions) || other.instructions == instructions)&&(identical(other.rationale, rationale) || other.rationale == rationale)&&(identical(other.source, source) || other.source == source)&&(identical(other.cookability, cookability) || other.cookability == cookability)&&(identical(other.nutrition, nutrition) || other.nutrition == nutrition)&&const DeepCollectionEquality().equals(other._ingredients, _ingredients)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RecipeDetail&&(identical(other.id, id) || other.id == id)&&(identical(other.employeeId, employeeId) || other.employeeId == employeeId)&&(identical(other.title, title) || other.title == title)&&(identical(other.mealSlot, mealSlot) || other.mealSlot == mealSlot)&&(identical(other.instructions, instructions) || other.instructions == instructions)&&const DeepCollectionEquality().equals(other._instructionSteps, _instructionSteps)&&(identical(other.rationale, rationale) || other.rationale == rationale)&&(identical(other.source, source) || other.source == source)&&(identical(other.cookability, cookability) || other.cookability == cookability)&&(identical(other.nutrition, nutrition) || other.nutrition == nutrition)&&const DeepCollectionEquality().equals(other._ingredients, _ingredients)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,employeeId,title,mealSlot,instructions,rationale,source,cookability,nutrition,const DeepCollectionEquality().hash(_ingredients),createdAt,updatedAt);
+int get hashCode => Object.hash(runtimeType,id,employeeId,title,mealSlot,instructions,const DeepCollectionEquality().hash(_instructionSteps),rationale,source,cookability,nutrition,const DeepCollectionEquality().hash(_ingredients),createdAt,updatedAt);
 
 @override
 String toString() {
-  return 'RecipeDetail(id: $id, employeeId: $employeeId, title: $title, mealSlot: $mealSlot, instructions: $instructions, rationale: $rationale, source: $source, cookability: $cookability, nutrition: $nutrition, ingredients: $ingredients, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'RecipeDetail(id: $id, employeeId: $employeeId, title: $title, mealSlot: $mealSlot, instructions: $instructions, instructionSteps: $instructionSteps, rationale: $rationale, source: $source, cookability: $cookability, nutrition: $nutrition, ingredients: $ingredients, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -4691,7 +4720,7 @@ abstract mixin class _$RecipeDetailCopyWith<$Res> implements $RecipeDetailCopyWi
   factory _$RecipeDetailCopyWith(_RecipeDetail value, $Res Function(_RecipeDetail) _then) = __$RecipeDetailCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String employeeId, String title, String mealSlot, String instructions, String rationale, String source, String cookability, CanonicalNutrition nutrition, List<RecipeIngredient> ingredients, String createdAt, String updatedAt
+ String id, String employeeId, String title, String mealSlot, String instructions, List<String> instructionSteps, String rationale, String source, String cookability, CanonicalNutrition nutrition, List<RecipeIngredient> ingredients, String createdAt, String updatedAt
 });
 
 
@@ -4708,14 +4737,15 @@ class __$RecipeDetailCopyWithImpl<$Res>
 
 /// Create a copy of RecipeDetail
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? employeeId = null,Object? title = null,Object? mealSlot = null,Object? instructions = null,Object? rationale = null,Object? source = null,Object? cookability = null,Object? nutrition = null,Object? ingredients = null,Object? createdAt = null,Object? updatedAt = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? employeeId = null,Object? title = null,Object? mealSlot = null,Object? instructions = null,Object? instructionSteps = null,Object? rationale = null,Object? source = null,Object? cookability = null,Object? nutrition = null,Object? ingredients = null,Object? createdAt = null,Object? updatedAt = null,}) {
   return _then(_RecipeDetail(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,employeeId: null == employeeId ? _self.employeeId : employeeId // ignore: cast_nullable_to_non_nullable
 as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,mealSlot: null == mealSlot ? _self.mealSlot : mealSlot // ignore: cast_nullable_to_non_nullable
 as String,instructions: null == instructions ? _self.instructions : instructions // ignore: cast_nullable_to_non_nullable
-as String,rationale: null == rationale ? _self.rationale : rationale // ignore: cast_nullable_to_non_nullable
+as String,instructionSteps: null == instructionSteps ? _self._instructionSteps : instructionSteps // ignore: cast_nullable_to_non_nullable
+as List<String>,rationale: null == rationale ? _self.rationale : rationale // ignore: cast_nullable_to_non_nullable
 as String,source: null == source ? _self.source : source // ignore: cast_nullable_to_non_nullable
 as String,cookability: null == cookability ? _self.cookability : cookability // ignore: cast_nullable_to_non_nullable
 as String,nutrition: null == nutrition ? _self.nutrition : nutrition // ignore: cast_nullable_to_non_nullable
@@ -5627,7 +5657,7 @@ $HouseholdStockProductCopyWith<$Res> get product {
 /// @nodoc
 mixin _$CookMealResult {
 
- RecipeDetail get recipe; CanonicalNutrition get nutrition; String get cookedAt; List<RestockAlert> get restockAlerts; List<HouseholdStockItem> get updatedStock;
+ RecipeDetail get recipe; String? get mealPlanItemId; CanonicalNutrition get nutrition; String get cookedAt; List<RestockAlert> get restockAlerts; List<HouseholdStockItem> get updatedStock;
 /// Create a copy of CookMealResult
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -5640,16 +5670,16 @@ $CookMealResultCopyWith<CookMealResult> get copyWith => _$CookMealResultCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CookMealResult&&(identical(other.recipe, recipe) || other.recipe == recipe)&&(identical(other.nutrition, nutrition) || other.nutrition == nutrition)&&(identical(other.cookedAt, cookedAt) || other.cookedAt == cookedAt)&&const DeepCollectionEquality().equals(other.restockAlerts, restockAlerts)&&const DeepCollectionEquality().equals(other.updatedStock, updatedStock));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CookMealResult&&(identical(other.recipe, recipe) || other.recipe == recipe)&&(identical(other.mealPlanItemId, mealPlanItemId) || other.mealPlanItemId == mealPlanItemId)&&(identical(other.nutrition, nutrition) || other.nutrition == nutrition)&&(identical(other.cookedAt, cookedAt) || other.cookedAt == cookedAt)&&const DeepCollectionEquality().equals(other.restockAlerts, restockAlerts)&&const DeepCollectionEquality().equals(other.updatedStock, updatedStock));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,recipe,nutrition,cookedAt,const DeepCollectionEquality().hash(restockAlerts),const DeepCollectionEquality().hash(updatedStock));
+int get hashCode => Object.hash(runtimeType,recipe,mealPlanItemId,nutrition,cookedAt,const DeepCollectionEquality().hash(restockAlerts),const DeepCollectionEquality().hash(updatedStock));
 
 @override
 String toString() {
-  return 'CookMealResult(recipe: $recipe, nutrition: $nutrition, cookedAt: $cookedAt, restockAlerts: $restockAlerts, updatedStock: $updatedStock)';
+  return 'CookMealResult(recipe: $recipe, mealPlanItemId: $mealPlanItemId, nutrition: $nutrition, cookedAt: $cookedAt, restockAlerts: $restockAlerts, updatedStock: $updatedStock)';
 }
 
 
@@ -5660,7 +5690,7 @@ abstract mixin class $CookMealResultCopyWith<$Res>  {
   factory $CookMealResultCopyWith(CookMealResult value, $Res Function(CookMealResult) _then) = _$CookMealResultCopyWithImpl;
 @useResult
 $Res call({
- RecipeDetail recipe, CanonicalNutrition nutrition, String cookedAt, List<RestockAlert> restockAlerts, List<HouseholdStockItem> updatedStock
+ RecipeDetail recipe, String? mealPlanItemId, CanonicalNutrition nutrition, String cookedAt, List<RestockAlert> restockAlerts, List<HouseholdStockItem> updatedStock
 });
 
 
@@ -5677,10 +5707,11 @@ class _$CookMealResultCopyWithImpl<$Res>
 
 /// Create a copy of CookMealResult
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? recipe = null,Object? nutrition = null,Object? cookedAt = null,Object? restockAlerts = null,Object? updatedStock = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? recipe = null,Object? mealPlanItemId = freezed,Object? nutrition = null,Object? cookedAt = null,Object? restockAlerts = null,Object? updatedStock = null,}) {
   return _then(_self.copyWith(
 recipe: null == recipe ? _self.recipe : recipe // ignore: cast_nullable_to_non_nullable
-as RecipeDetail,nutrition: null == nutrition ? _self.nutrition : nutrition // ignore: cast_nullable_to_non_nullable
+as RecipeDetail,mealPlanItemId: freezed == mealPlanItemId ? _self.mealPlanItemId : mealPlanItemId // ignore: cast_nullable_to_non_nullable
+as String?,nutrition: null == nutrition ? _self.nutrition : nutrition // ignore: cast_nullable_to_non_nullable
 as CanonicalNutrition,cookedAt: null == cookedAt ? _self.cookedAt : cookedAt // ignore: cast_nullable_to_non_nullable
 as String,restockAlerts: null == restockAlerts ? _self.restockAlerts : restockAlerts // ignore: cast_nullable_to_non_nullable
 as List<RestockAlert>,updatedStock: null == updatedStock ? _self.updatedStock : updatedStock // ignore: cast_nullable_to_non_nullable
@@ -5787,10 +5818,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( RecipeDetail recipe,  CanonicalNutrition nutrition,  String cookedAt,  List<RestockAlert> restockAlerts,  List<HouseholdStockItem> updatedStock)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( RecipeDetail recipe,  String? mealPlanItemId,  CanonicalNutrition nutrition,  String cookedAt,  List<RestockAlert> restockAlerts,  List<HouseholdStockItem> updatedStock)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CookMealResult() when $default != null:
-return $default(_that.recipe,_that.nutrition,_that.cookedAt,_that.restockAlerts,_that.updatedStock);case _:
+return $default(_that.recipe,_that.mealPlanItemId,_that.nutrition,_that.cookedAt,_that.restockAlerts,_that.updatedStock);case _:
   return orElse();
 
 }
@@ -5808,10 +5839,10 @@ return $default(_that.recipe,_that.nutrition,_that.cookedAt,_that.restockAlerts,
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( RecipeDetail recipe,  CanonicalNutrition nutrition,  String cookedAt,  List<RestockAlert> restockAlerts,  List<HouseholdStockItem> updatedStock)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( RecipeDetail recipe,  String? mealPlanItemId,  CanonicalNutrition nutrition,  String cookedAt,  List<RestockAlert> restockAlerts,  List<HouseholdStockItem> updatedStock)  $default,) {final _that = this;
 switch (_that) {
 case _CookMealResult():
-return $default(_that.recipe,_that.nutrition,_that.cookedAt,_that.restockAlerts,_that.updatedStock);case _:
+return $default(_that.recipe,_that.mealPlanItemId,_that.nutrition,_that.cookedAt,_that.restockAlerts,_that.updatedStock);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -5828,10 +5859,10 @@ return $default(_that.recipe,_that.nutrition,_that.cookedAt,_that.restockAlerts,
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( RecipeDetail recipe,  CanonicalNutrition nutrition,  String cookedAt,  List<RestockAlert> restockAlerts,  List<HouseholdStockItem> updatedStock)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( RecipeDetail recipe,  String? mealPlanItemId,  CanonicalNutrition nutrition,  String cookedAt,  List<RestockAlert> restockAlerts,  List<HouseholdStockItem> updatedStock)?  $default,) {final _that = this;
 switch (_that) {
 case _CookMealResult() when $default != null:
-return $default(_that.recipe,_that.nutrition,_that.cookedAt,_that.restockAlerts,_that.updatedStock);case _:
+return $default(_that.recipe,_that.mealPlanItemId,_that.nutrition,_that.cookedAt,_that.restockAlerts,_that.updatedStock);case _:
   return null;
 
 }
@@ -5843,10 +5874,11 @@ return $default(_that.recipe,_that.nutrition,_that.cookedAt,_that.restockAlerts,
 @JsonSerializable()
 
 class _CookMealResult implements CookMealResult {
-  const _CookMealResult({required this.recipe, this.nutrition = const CanonicalNutrition(), required this.cookedAt, final  List<RestockAlert> restockAlerts = const <RestockAlert>[], final  List<HouseholdStockItem> updatedStock = const <HouseholdStockItem>[]}): _restockAlerts = restockAlerts,_updatedStock = updatedStock;
+  const _CookMealResult({required this.recipe, this.mealPlanItemId, this.nutrition = const CanonicalNutrition(), required this.cookedAt, final  List<RestockAlert> restockAlerts = const <RestockAlert>[], final  List<HouseholdStockItem> updatedStock = const <HouseholdStockItem>[]}): _restockAlerts = restockAlerts,_updatedStock = updatedStock;
   factory _CookMealResult.fromJson(Map<String, dynamic> json) => _$CookMealResultFromJson(json);
 
 @override final  RecipeDetail recipe;
+@override final  String? mealPlanItemId;
 @override@JsonKey() final  CanonicalNutrition nutrition;
 @override final  String cookedAt;
  final  List<RestockAlert> _restockAlerts;
@@ -5877,16 +5909,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CookMealResult&&(identical(other.recipe, recipe) || other.recipe == recipe)&&(identical(other.nutrition, nutrition) || other.nutrition == nutrition)&&(identical(other.cookedAt, cookedAt) || other.cookedAt == cookedAt)&&const DeepCollectionEquality().equals(other._restockAlerts, _restockAlerts)&&const DeepCollectionEquality().equals(other._updatedStock, _updatedStock));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CookMealResult&&(identical(other.recipe, recipe) || other.recipe == recipe)&&(identical(other.mealPlanItemId, mealPlanItemId) || other.mealPlanItemId == mealPlanItemId)&&(identical(other.nutrition, nutrition) || other.nutrition == nutrition)&&(identical(other.cookedAt, cookedAt) || other.cookedAt == cookedAt)&&const DeepCollectionEquality().equals(other._restockAlerts, _restockAlerts)&&const DeepCollectionEquality().equals(other._updatedStock, _updatedStock));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,recipe,nutrition,cookedAt,const DeepCollectionEquality().hash(_restockAlerts),const DeepCollectionEquality().hash(_updatedStock));
+int get hashCode => Object.hash(runtimeType,recipe,mealPlanItemId,nutrition,cookedAt,const DeepCollectionEquality().hash(_restockAlerts),const DeepCollectionEquality().hash(_updatedStock));
 
 @override
 String toString() {
-  return 'CookMealResult(recipe: $recipe, nutrition: $nutrition, cookedAt: $cookedAt, restockAlerts: $restockAlerts, updatedStock: $updatedStock)';
+  return 'CookMealResult(recipe: $recipe, mealPlanItemId: $mealPlanItemId, nutrition: $nutrition, cookedAt: $cookedAt, restockAlerts: $restockAlerts, updatedStock: $updatedStock)';
 }
 
 
@@ -5897,7 +5929,7 @@ abstract mixin class _$CookMealResultCopyWith<$Res> implements $CookMealResultCo
   factory _$CookMealResultCopyWith(_CookMealResult value, $Res Function(_CookMealResult) _then) = __$CookMealResultCopyWithImpl;
 @override @useResult
 $Res call({
- RecipeDetail recipe, CanonicalNutrition nutrition, String cookedAt, List<RestockAlert> restockAlerts, List<HouseholdStockItem> updatedStock
+ RecipeDetail recipe, String? mealPlanItemId, CanonicalNutrition nutrition, String cookedAt, List<RestockAlert> restockAlerts, List<HouseholdStockItem> updatedStock
 });
 
 
@@ -5914,10 +5946,11 @@ class __$CookMealResultCopyWithImpl<$Res>
 
 /// Create a copy of CookMealResult
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? recipe = null,Object? nutrition = null,Object? cookedAt = null,Object? restockAlerts = null,Object? updatedStock = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? recipe = null,Object? mealPlanItemId = freezed,Object? nutrition = null,Object? cookedAt = null,Object? restockAlerts = null,Object? updatedStock = null,}) {
   return _then(_CookMealResult(
 recipe: null == recipe ? _self.recipe : recipe // ignore: cast_nullable_to_non_nullable
-as RecipeDetail,nutrition: null == nutrition ? _self.nutrition : nutrition // ignore: cast_nullable_to_non_nullable
+as RecipeDetail,mealPlanItemId: freezed == mealPlanItemId ? _self.mealPlanItemId : mealPlanItemId // ignore: cast_nullable_to_non_nullable
+as String?,nutrition: null == nutrition ? _self.nutrition : nutrition // ignore: cast_nullable_to_non_nullable
 as CanonicalNutrition,cookedAt: null == cookedAt ? _self.cookedAt : cookedAt // ignore: cast_nullable_to_non_nullable
 as String,restockAlerts: null == restockAlerts ? _self._restockAlerts : restockAlerts // ignore: cast_nullable_to_non_nullable
 as List<RestockAlert>,updatedStock: null == updatedStock ? _self._updatedStock : updatedStock // ignore: cast_nullable_to_non_nullable

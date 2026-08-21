@@ -209,6 +209,7 @@ _MealPlanSummary _$MealPlanSummaryFromJson(Map<String, dynamic> json) =>
       employeeName: json['employeeName'] as String,
       employerName: json['employerName'] as String,
       status: json['status'] as String,
+      source: json['source'] as String? ?? 'AI',
       title: json['title'] as String,
       startsOn: json['startsOn'] as String?,
       endsOn: json['endsOn'] as String?,
@@ -228,6 +229,7 @@ Map<String, dynamic> _$MealPlanSummaryToJson(_MealPlanSummary instance) =>
       'employeeName': instance.employeeName,
       'employerName': instance.employerName,
       'status': instance.status,
+      'source': instance.source,
       'title': instance.title,
       'startsOn': instance.startsOn,
       'endsOn': instance.endsOn,
@@ -268,6 +270,7 @@ _MealPlanItem _$MealPlanItemFromJson(Map<String, dynamic> json) =>
       recipe: json['recipe'] == null
           ? null
           : RecipeDetail.fromJson(json['recipe'] as Map<String, dynamic>),
+      cookedAt: json['cookedAt'] as String?,
       sortOrder: (json['sortOrder'] as num).toInt(),
     );
 
@@ -291,6 +294,7 @@ Map<String, dynamic> _$MealPlanItemToJson(_MealPlanItem instance) =>
       'measureUnitLabel': instance.measureUnitLabel,
       'recipeId': instance.recipeId,
       'recipe': instance.recipe,
+      'cookedAt': instance.cookedAt,
       'sortOrder': instance.sortOrder,
     };
 
@@ -326,6 +330,10 @@ _MealPlanProfileSnapshot _$MealPlanProfileSnapshotFromJson(
       .map((e) => e as String)
       .toList(),
   goals: (json['goals'] as List<dynamic>).map((e) => e as String).toList(),
+  targetEnergyKcal: (json['targetEnergyKcal'] as num?)?.toInt() ?? 0,
+  targetProteinMg: (json['targetProteinMg'] as num?)?.toInt() ?? 0,
+  targetCarbsMg: (json['targetCarbsMg'] as num?)?.toInt() ?? 0,
+  targetFatMg: (json['targetFatMg'] as num?)?.toInt() ?? 0,
 );
 
 Map<String, dynamic> _$MealPlanProfileSnapshotToJson(
@@ -339,6 +347,10 @@ Map<String, dynamic> _$MealPlanProfileSnapshotToJson(
   'activityLevel': instance.activityLevel,
   'allergies': instance.allergies,
   'goals': instance.goals,
+  'targetEnergyKcal': instance.targetEnergyKcal,
+  'targetProteinMg': instance.targetProteinMg,
+  'targetCarbsMg': instance.targetCarbsMg,
+  'targetFatMg': instance.targetFatMg,
 };
 
 _MealPlanDetail _$MealPlanDetailFromJson(Map<String, dynamic> json) =>
@@ -348,6 +360,7 @@ _MealPlanDetail _$MealPlanDetailFromJson(Map<String, dynamic> json) =>
       employeeName: json['employeeName'] as String,
       employerName: json['employerName'] as String,
       status: json['status'] as String,
+      source: json['source'] as String? ?? 'AI',
       title: json['title'] as String,
       startsOn: json['startsOn'] as String?,
       endsOn: json['endsOn'] as String?,
@@ -375,6 +388,7 @@ Map<String, dynamic> _$MealPlanDetailToJson(_MealPlanDetail instance) =>
       'employeeName': instance.employeeName,
       'employerName': instance.employerName,
       'status': instance.status,
+      'source': instance.source,
       'title': instance.title,
       'startsOn': instance.startsOn,
       'endsOn': instance.endsOn,
@@ -426,6 +440,11 @@ _RecipeDetail _$RecipeDetailFromJson(Map<String, dynamic> json) =>
       title: json['title'] as String,
       mealSlot: json['mealSlot'] as String,
       instructions: json['instructions'] as String? ?? '',
+      instructionSteps:
+          (json['instructionSteps'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const <String>[],
       rationale: json['rationale'] as String? ?? '',
       source: json['source'] as String? ?? 'AI',
       cookability: json['cookability'] as String? ?? 'partial',
@@ -450,6 +469,7 @@ Map<String, dynamic> _$RecipeDetailToJson(_RecipeDetail instance) =>
       'title': instance.title,
       'mealSlot': instance.mealSlot,
       'instructions': instance.instructions,
+      'instructionSteps': instance.instructionSteps,
       'rationale': instance.rationale,
       'source': instance.source,
       'cookability': instance.cookability,
@@ -550,6 +570,7 @@ _CookMealResult _$CookMealResultFromJson(
   Map<String, dynamic> json,
 ) => _CookMealResult(
   recipe: RecipeDetail.fromJson(json['recipe'] as Map<String, dynamic>),
+  mealPlanItemId: json['mealPlanItemId'] as String?,
   nutrition: json['nutrition'] == null
       ? const CanonicalNutrition()
       : CanonicalNutrition.fromJson(json['nutrition'] as Map<String, dynamic>),
@@ -569,6 +590,7 @@ _CookMealResult _$CookMealResultFromJson(
 Map<String, dynamic> _$CookMealResultToJson(_CookMealResult instance) =>
     <String, dynamic>{
       'recipe': instance.recipe,
+      'mealPlanItemId': instance.mealPlanItemId,
       'nutrition': instance.nutrition,
       'cookedAt': instance.cookedAt,
       'restockAlerts': instance.restockAlerts,

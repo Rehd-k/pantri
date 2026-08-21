@@ -25,6 +25,9 @@ class NutritionRepository {
   Future<CookMealResult> cookRecipe(String recipeId) =>
       _api.cookRecipe(recipeId);
 
+  Future<CookMealResult> cookMealItem(String itemId) =>
+      _api.cookMealItem(itemId);
+
   Future<NutritionProgressReport> getProgress({String? from, String? to}) =>
       _api.getProgress(from: from, to: to);
 }

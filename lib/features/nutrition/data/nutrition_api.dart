@@ -91,6 +91,17 @@ class NutritionApi {
     }
   }
 
+  Future<CookMealResult> cookMealItem(String itemId) async {
+    try {
+      final response = await _dio.post<Map<String, dynamic>>(
+        '/nutrition/meal-plans/items/$itemId/cook',
+      );
+      return CookMealResult.fromJson(response.data!);
+    } on DioException catch (e) {
+      throw mapDioError(e);
+    }
+  }
+
   Future<NutritionProgressReport> getProgress({
     String? from,
     String? to,

@@ -63,6 +63,8 @@ abstract class MarketplaceProduct with _$MarketplaceProduct {
     required String subcategoryName,
     required String measureFamilyId,
     MeasureFamily? measureFamily,
+    String? recipeUnitId,
+    MeasureUnit? recipeUnit,
     required String name,
     required String imageUrl,
     required int fromPriceKobo,
@@ -112,4 +114,35 @@ abstract class MarketplaceProduct with _$MarketplaceProduct {
         ? 'from ${pack.packageLabel}'
         : pack.packageLabel;
   }
+
+  MeasureUnit? get resolvedRecipeUnit =>
+      recipeUnit ?? measureFamily?.defaultRecipeUnit;
+
+  int? get recipeUnitCanonical {
+    final unit = resolvedRecipeUnit;
+    if (unit == null) return null;
+    if (recipeUnitOverrideMg != null && recipeUnitOverrideMg! > 0) {
+      return recipeUnitOverrideMg;
+    }
+    if (recipeUnitOverrideMl != null && recipeUnitOverrideMl! > 0) {
+      return recipeUnitOverrideMl;
+    }
+    return unit.milligrams ?? unit.millilitres ?? unit.piecesPerUnit;
+  }
+
+  String? recipeYieldLabel(ProductPack pack) {
+    final unit = resolvedRecipeUnit;
+    final perUnit = recipeUnitCanonical;
+    if (unit == null || perUnit == null || perUnit <= 0) return null;
+    final packAmount = pack.amountMg ?? pack.amountMl ?? pack.amountEach;
+    if (packAmount == null || packAmount < perUnit) return null;
+    final count = packAmount ~/ perUnit;
+    return '~$count ${_pluralUnitName(unit.name, count)}';
+  }
+}
+
+String _pluralUnitName(String name, int count) {
+  if (count == 1) return name;
+  if (name.toLowerCase().endsWith('s')) return name;
+  return '${name}s';
 }
