@@ -15,6 +15,7 @@ import '../../features/auth/providers/auth_notifier.dart';
 import '../../features/auth/providers/auth_state.dart';
 import '../../features/nutrition/presentation/health_questionnaire_screen.dart';
 import '../../features/onboarding/presentation/onboarding_screen.dart';
+import '../../features/onboarding/presentation/preference_quiz_screen.dart';
 import '../../features/onboarding/providers/first_launch_provider.dart';
 import 'role_home_pages.dart';
 
@@ -28,6 +29,7 @@ class AuthRouteGuard extends AutoRouteGuard {
   static const _authRoutes = {
     WelcomeRoute.name,
     OnboardingRoute.name,
+    PreferenceQuizRoute.name,
     LoginRoute.name,
     RegisterHubRoute.name,
     RegisterEmployeeRoute.name,
@@ -96,8 +98,22 @@ class AuthRouteGuard extends AutoRouteGuard {
       _replaceStack(resolver, router, const WelcomeRoute());
       return;
     }
-    if (routeName == OnboardingRoute.name && _hasSeenOnboarding()) {
+    if (routeName == OnboardingRoute.name && _hasSeenIntro()) {
+      _replaceStack(
+        resolver,
+        router,
+        _hasFinishedQuiz()
+            ? const WelcomeRoute()
+            : const PreferenceQuizRoute(),
+      );
+      return;
+    }
+    if (routeName == PreferenceQuizRoute.name && _hasFinishedQuiz()) {
       _replaceStack(resolver, router, const WelcomeRoute());
+      return;
+    }
+    if (routeName == PreferenceQuizRoute.name && !_hasSeenIntro()) {
+      _replaceStack(resolver, router, const OnboardingRoute());
       return;
     }
     if (!isAuthRoute) {
@@ -125,15 +141,23 @@ class AuthRouteGuard extends AutoRouteGuard {
     if (firstLaunch is FirstLaunchUnknown) {
       return null;
     }
-    if (firstLaunch is FirstLaunchLoaded && !firstLaunch.hasSeenOnboarding) {
+    if (firstLaunch is FirstLaunchLoaded && !firstLaunch.hasSeenIntro) {
       return const OnboardingRoute();
+    }
+    if (firstLaunch is FirstLaunchLoaded && !firstLaunch.hasFinishedQuiz) {
+      return const PreferenceQuizRoute();
     }
     return const WelcomeRoute();
   }
 
-  bool _hasSeenOnboarding() {
+  bool _hasSeenIntro() {
     final firstLaunch = _ref.read(firstLaunchProvider);
-    return firstLaunch is FirstLaunchLoaded && firstLaunch.hasSeenOnboarding;
+    return firstLaunch is FirstLaunchLoaded && firstLaunch.hasSeenIntro;
+  }
+
+  bool _hasFinishedQuiz() {
+    final firstLaunch = _ref.read(firstLaunchProvider);
+    return firstLaunch is FirstLaunchLoaded && firstLaunch.hasFinishedQuiz;
   }
 
   bool _isAllowedRoute(String routeName, UserRole role) {
@@ -163,6 +187,7 @@ class AppRouter extends RootStackRouter {
   List<AutoRoute> get routes => [
     AutoRoute(page: SplashRoute.page, path: '/', initial: true),
     AutoRoute(page: OnboardingRoute.page, path: '/onboarding'),
+    AutoRoute(page: PreferenceQuizRoute.page, path: '/onboarding/preferences'),
     AutoRoute(page: WelcomeRoute.page, path: '/welcome'),
     AutoRoute(page: LoginRoute.page, path: '/login'),
     AutoRoute(page: RegisterHubRoute.page, path: '/register'),

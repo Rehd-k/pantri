@@ -59,6 +59,13 @@ class AuthScaffold extends StatelessWidget {
                           )
                         else
                           const SizedBox(width: AppSpacing.md),
+                        Image.asset(
+                          'assets/logo.png',
+                          width: 28,
+                          height: 28,
+                          semanticLabel: 'Pantri',
+                        ),
+                        const SizedBox(width: AppSpacing.sm),
                         Text(
                           'Pantri',
                           style: Theme.of(context).textTheme.titleLarge

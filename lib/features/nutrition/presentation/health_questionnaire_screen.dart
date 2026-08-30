@@ -8,8 +8,11 @@ import '../../../core/theme/app_spacing.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/app_empty_state.dart';
 import '../data/nutrition_repository.dart';
+import '../domain/household_sizing.dart';
+import '../domain/lifestyle_options.dart';
 import '../domain/nutrition_models.dart';
 import '../providers/nutrition_providers.dart';
+import '../../onboarding/providers/first_launch_provider.dart';
 import 'meal_plan_detail_screen.dart';
 
 @RoutePage()
@@ -34,18 +37,6 @@ class _HealthQuestionnaireScreenState
   final _customGoalController = TextEditingController();
 
   static const _genders = ['Prefer not to say', 'Female', 'Male', 'Non-binary'];
-
-  static final _lifestyles = [
-    ('EVERYTHING', 'Everything', 'No restrictions', Icons.restaurant_outlined),
-    ('VEGAN', 'Vegan', 'Plant-based only', Icons.eco_outlined),
-    (
-      'VEGETARIAN',
-      'Vegetarian',
-      'No meat, includes eggs/dairy',
-      Icons.egg_outlined,
-    ),
-    ('KETO', 'Keto', 'High fat, low carb', Icons.lunch_dining_outlined),
-  ];
 
   static final _activities = [
     (
@@ -128,13 +119,26 @@ class _HealthQuestionnaireScreenState
     final textTheme = Theme.of(context).textTheme;
 
     profileAsync.whenData((profile) {
-      if (!_hydrated) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (!mounted || _hydrated) return;
-          ref.read(questionnaireDraftProvider.notifier).hydrate(profile);
-          setState(() => _hydrated = true);
-        });
-      }
+      catalogAsync.whenData((catalog) {
+        if (!_hydrated) {
+          WidgetsBinding.instance.addPostFrameCallback((_) async {
+            if (!mounted || _hydrated) return;
+            if (profile != null) {
+              ref.read(questionnaireDraftProvider.notifier).hydrate(profile);
+            } else {
+              final stash =
+                  await ref.read(onboardingPrefsStorageProvider).read();
+              if (stash != null) {
+                ref.read(questionnaireDraftProvider.notifier).hydrateFromPrefs(
+                      prefs: stash,
+                      catalog: catalog,
+                    );
+              }
+            }
+            if (mounted) setState(() => _hydrated = true);
+          });
+        }
+      });
     });
 
     return Scaffold(
@@ -166,12 +170,14 @@ class _HealthQuestionnaireScreenState
           message: e is ApiException ? e.message : e.toString(),
         ),
         data: (catalog) {
-          final progress = (_step + 1) / 4;
+          final lastStep = 4;
+          final progress = (_step + 1) / 5;
           final stepTitle = switch (_step) {
-            0 => 'Physical Profile',
-            1 => 'Dietary Lifestyle',
-            2 => 'Activity Level',
-            _ => 'Primary Goals',
+            0 => 'Household',
+            1 => 'Kitchen',
+            2 => 'About you',
+            3 => 'Activity',
+            _ => 'Your goals',
           };
 
           return SafeArea(
@@ -189,7 +195,7 @@ class _HealthQuestionnaireScreenState
                       Row(
                         children: [
                           Text(
-                            'STEP ${_step + 1} OF 4',
+                            'STEP ${_step + 1} OF 5',
                             style: textTheme.labelLarge?.copyWith(
                               color: colorScheme.primary,
                               fontWeight: FontWeight.w800,
@@ -227,14 +233,15 @@ class _HealthQuestionnaireScreenState
                       AppSpacing.xxl,
                     ),
                     child: switch (_step) {
-                      0 => _buildPhysicalStep(draft, colorScheme, textTheme),
+                      0 => _buildHouseholdStep(draft, colorScheme, textTheme),
                       1 => _buildDietStep(
                         draft,
                         catalog,
                         colorScheme,
                         textTheme,
                       ),
-                      2 => _buildActivityStep(draft, colorScheme, textTheme),
+                      2 => _buildPhysicalStep(draft, colorScheme, textTheme),
+                      3 => _buildActivityStep(draft, colorScheme, textTheme),
                       _ => _buildGoalsStep(
                         draft,
                         catalog,
@@ -266,12 +273,12 @@ class _HealthQuestionnaireScreenState
                       if (_step > 0) const SizedBox(width: AppSpacing.md),
                       Expanded(
                         child: AppButton(
-                          label: _step == 3 ? 'Generate plan' : 'Next',
+                          label: _step == lastStep ? 'Generate plan' : 'Next',
                           loading: _submitting,
                           onPressed: _submitting
                               ? null
                               : () {
-                                  if (_step < 3) {
+                                  if (_step < lastStep) {
                                     setState(() => _step += 1);
                                   } else {
                                     _submit();
@@ -290,6 +297,67 @@ class _HealthQuestionnaireScreenState
     );
   }
 
+  Widget _buildHouseholdStep(
+    QuestionnaireDraft draft,
+    ColorScheme colorScheme,
+    TextTheme textTheme,
+  ) {
+    return _CardShell(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Who are you stocking for?',
+            style: textTheme.headlineSmall?.copyWith(
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const SizedBox(height: AppSpacing.xs),
+          Text(
+            'This sizes pantry packages and meal portions. Nutrition goals stay yours.',
+            style: textTheme.bodyMedium?.copyWith(
+              color: colorScheme.onSurfaceVariant,
+            ),
+          ),
+          const SizedBox(height: AppSpacing.lg),
+          for (final size in HouseholdSizing.sizeChoices)
+            Padding(
+              padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+              child: _SelectableTile(
+                selected: draft.householdSize == size ||
+                    (size == 5 && draft.householdSize >= 5),
+                icon: size <= 1
+                    ? Icons.person_outline
+                    : size == 2
+                        ? Icons.people_outline
+                        : Icons.groups_outlined,
+                title: HouseholdSizing.sizeLabel(size),
+                subtitle: HouseholdSizing.sizeSubtitle(size),
+                showRadio: true,
+                onTap: () => ref
+                    .read(questionnaireDraftProvider.notifier)
+                    .setHouseholdSize(size),
+              ),
+            ),
+          if (draft.householdSize > 1) ...[
+            const SizedBox(height: AppSpacing.md),
+            SwitchListTile(
+              contentPadding: EdgeInsets.zero,
+              title: const Text('Children eat with us'),
+              subtitle: const Text(
+                'We rank milder, shareable meals. We will not ask for their stats.',
+              ),
+              value: draft.hasChildren,
+              onChanged: (value) => ref
+                  .read(questionnaireDraftProvider.notifier)
+                  .setHasChildren(value),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
   Widget _buildPhysicalStep(
     QuestionnaireDraft draft,
     ColorScheme colorScheme,
@@ -300,11 +368,22 @@ class _HealthQuestionnaireScreenState
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Let's start with the basics",
+            draft.householdSize > 1
+                ? "Your stats — not the household's"
+                : "Let's start with the basics",
             style: textTheme.headlineSmall?.copyWith(
               fontWeight: FontWeight.w700,
             ),
           ),
+          if (draft.householdSize > 1) ...[
+            const SizedBox(height: AppSpacing.xs),
+            Text(
+              'Dashboard calories and macros are yours. Pantry sizing uses household size.',
+              style: textTheme.bodyMedium?.copyWith(
+                color: colorScheme.onSurfaceVariant,
+              ),
+            ),
+          ],
           const SizedBox(height: AppSpacing.lg),
           Row(
             children: [
@@ -371,20 +450,24 @@ class _HealthQuestionnaireScreenState
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Dietary Lifestyle',
+            draft.householdSize > 1
+                ? 'How does this kitchen eat?'
+                : 'How do you eat?',
             style: textTheme.headlineSmall?.copyWith(
               fontWeight: FontWeight.w700,
             ),
           ),
           const SizedBox(height: AppSpacing.xs),
           Text(
-            'Select your primary dietary preference and any allergies.',
+            draft.householdSize > 1
+                ? 'What should we avoid cooking for this household as a whole?'
+                : 'Select your primary dietary preference and any allergies.',
             style: textTheme.bodyMedium?.copyWith(
               color: colorScheme.onSurfaceVariant,
             ),
           ),
           const SizedBox(height: AppSpacing.lg),
-          ..._lifestyles.map((item) {
+          ...lifestylesForHousehold(draft.householdSize).map((item) {
             final selected = draft.lifestyle == item.$1;
             return Padding(
               padding: const EdgeInsets.only(bottom: AppSpacing.sm),
@@ -401,7 +484,9 @@ class _HealthQuestionnaireScreenState
           }),
           const SizedBox(height: AppSpacing.md),
           Text(
-            'Allergies & Sensitivities',
+            draft.householdSize > 1
+                ? 'Allergies in the house'
+                : 'Allergies & Sensitivities',
             style: textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700),
           ),
           const SizedBox(height: AppSpacing.sm),
@@ -493,11 +578,22 @@ class _HealthQuestionnaireScreenState
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'What are your primary goals?',
+            draft.householdSize > 1
+                ? 'Your health goals'
+                : 'What are your primary goals?',
             style: textTheme.headlineSmall?.copyWith(
               fontWeight: FontWeight.w700,
             ),
           ),
+          if (draft.householdSize > 1) ...[
+            const SizedBox(height: AppSpacing.xs),
+            Text(
+              'We’ll stock the pantry for ${draft.householdSize} people. These goals personalize YOUR meal suggestions — not everyone in the house.',
+              style: textTheme.bodyMedium?.copyWith(
+                color: colorScheme.onSurfaceVariant,
+              ),
+            ),
+          ],
           const SizedBox(height: AppSpacing.lg),
           GridView.builder(
             shrinkWrap: true,
@@ -784,8 +880,14 @@ class _DropdownField extends StatelessWidget {
         const SizedBox(height: AppSpacing.xs),
         DropdownButtonFormField<String>(
           initialValue: value,
+          isExpanded: true,
           items: items
-              .map((item) => DropdownMenuItem(value: item, child: Text(item)))
+              .map(
+                (item) => DropdownMenuItem(
+                  value: item,
+                  child: Text(item, overflow: TextOverflow.ellipsis),
+                ),
+              )
               .toList(),
           onChanged: (v) {
             if (v != null) onChanged(v);

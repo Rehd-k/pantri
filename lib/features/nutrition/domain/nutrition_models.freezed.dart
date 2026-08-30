@@ -1393,7 +1393,7 @@ as String?,
 /// @nodoc
 mixin _$HealthProfile {
 
- String get id; String get employeeId; int get age; String get gender; int get heightCm; int get weightKg; String get lifestyle; String get activityLevel; int get targetEnergyKcal; int get targetProteinMg; int get targetCarbsMg; int get targetFatMg; int get targetFiberMg; int get targetSugarMg; int get targetSodiumMg; int get targetIronUg; List<HealthProfileAllergy> get allergies; List<HealthProfileGoal> get goals; String get createdAt; String get updatedAt;
+ String get id; String get employeeId; int get age; String get gender; int get heightCm; int get weightKg; String get lifestyle; String get activityLevel; int get householdSize; bool get hasChildren; int get targetEnergyKcal; int get targetProteinMg; int get targetCarbsMg; int get targetFatMg; int get targetFiberMg; int get targetSugarMg; int get targetSodiumMg; int get targetIronUg; List<HealthProfileAllergy> get allergies; List<HealthProfileGoal> get goals; String get createdAt; String get updatedAt;
 /// Create a copy of HealthProfile
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1406,16 +1406,16 @@ $HealthProfileCopyWith<HealthProfile> get copyWith => _$HealthProfileCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HealthProfile&&(identical(other.id, id) || other.id == id)&&(identical(other.employeeId, employeeId) || other.employeeId == employeeId)&&(identical(other.age, age) || other.age == age)&&(identical(other.gender, gender) || other.gender == gender)&&(identical(other.heightCm, heightCm) || other.heightCm == heightCm)&&(identical(other.weightKg, weightKg) || other.weightKg == weightKg)&&(identical(other.lifestyle, lifestyle) || other.lifestyle == lifestyle)&&(identical(other.activityLevel, activityLevel) || other.activityLevel == activityLevel)&&(identical(other.targetEnergyKcal, targetEnergyKcal) || other.targetEnergyKcal == targetEnergyKcal)&&(identical(other.targetProteinMg, targetProteinMg) || other.targetProteinMg == targetProteinMg)&&(identical(other.targetCarbsMg, targetCarbsMg) || other.targetCarbsMg == targetCarbsMg)&&(identical(other.targetFatMg, targetFatMg) || other.targetFatMg == targetFatMg)&&(identical(other.targetFiberMg, targetFiberMg) || other.targetFiberMg == targetFiberMg)&&(identical(other.targetSugarMg, targetSugarMg) || other.targetSugarMg == targetSugarMg)&&(identical(other.targetSodiumMg, targetSodiumMg) || other.targetSodiumMg == targetSodiumMg)&&(identical(other.targetIronUg, targetIronUg) || other.targetIronUg == targetIronUg)&&const DeepCollectionEquality().equals(other.allergies, allergies)&&const DeepCollectionEquality().equals(other.goals, goals)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HealthProfile&&(identical(other.id, id) || other.id == id)&&(identical(other.employeeId, employeeId) || other.employeeId == employeeId)&&(identical(other.age, age) || other.age == age)&&(identical(other.gender, gender) || other.gender == gender)&&(identical(other.heightCm, heightCm) || other.heightCm == heightCm)&&(identical(other.weightKg, weightKg) || other.weightKg == weightKg)&&(identical(other.lifestyle, lifestyle) || other.lifestyle == lifestyle)&&(identical(other.activityLevel, activityLevel) || other.activityLevel == activityLevel)&&(identical(other.householdSize, householdSize) || other.householdSize == householdSize)&&(identical(other.hasChildren, hasChildren) || other.hasChildren == hasChildren)&&(identical(other.targetEnergyKcal, targetEnergyKcal) || other.targetEnergyKcal == targetEnergyKcal)&&(identical(other.targetProteinMg, targetProteinMg) || other.targetProteinMg == targetProteinMg)&&(identical(other.targetCarbsMg, targetCarbsMg) || other.targetCarbsMg == targetCarbsMg)&&(identical(other.targetFatMg, targetFatMg) || other.targetFatMg == targetFatMg)&&(identical(other.targetFiberMg, targetFiberMg) || other.targetFiberMg == targetFiberMg)&&(identical(other.targetSugarMg, targetSugarMg) || other.targetSugarMg == targetSugarMg)&&(identical(other.targetSodiumMg, targetSodiumMg) || other.targetSodiumMg == targetSodiumMg)&&(identical(other.targetIronUg, targetIronUg) || other.targetIronUg == targetIronUg)&&const DeepCollectionEquality().equals(other.allergies, allergies)&&const DeepCollectionEquality().equals(other.goals, goals)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hashAll([runtimeType,id,employeeId,age,gender,heightCm,weightKg,lifestyle,activityLevel,targetEnergyKcal,targetProteinMg,targetCarbsMg,targetFatMg,targetFiberMg,targetSugarMg,targetSodiumMg,targetIronUg,const DeepCollectionEquality().hash(allergies),const DeepCollectionEquality().hash(goals),createdAt,updatedAt]);
+int get hashCode => Object.hashAll([runtimeType,id,employeeId,age,gender,heightCm,weightKg,lifestyle,activityLevel,householdSize,hasChildren,targetEnergyKcal,targetProteinMg,targetCarbsMg,targetFatMg,targetFiberMg,targetSugarMg,targetSodiumMg,targetIronUg,const DeepCollectionEquality().hash(allergies),const DeepCollectionEquality().hash(goals),createdAt,updatedAt]);
 
 @override
 String toString() {
-  return 'HealthProfile(id: $id, employeeId: $employeeId, age: $age, gender: $gender, heightCm: $heightCm, weightKg: $weightKg, lifestyle: $lifestyle, activityLevel: $activityLevel, targetEnergyKcal: $targetEnergyKcal, targetProteinMg: $targetProteinMg, targetCarbsMg: $targetCarbsMg, targetFatMg: $targetFatMg, targetFiberMg: $targetFiberMg, targetSugarMg: $targetSugarMg, targetSodiumMg: $targetSodiumMg, targetIronUg: $targetIronUg, allergies: $allergies, goals: $goals, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'HealthProfile(id: $id, employeeId: $employeeId, age: $age, gender: $gender, heightCm: $heightCm, weightKg: $weightKg, lifestyle: $lifestyle, activityLevel: $activityLevel, householdSize: $householdSize, hasChildren: $hasChildren, targetEnergyKcal: $targetEnergyKcal, targetProteinMg: $targetProteinMg, targetCarbsMg: $targetCarbsMg, targetFatMg: $targetFatMg, targetFiberMg: $targetFiberMg, targetSugarMg: $targetSugarMg, targetSodiumMg: $targetSodiumMg, targetIronUg: $targetIronUg, allergies: $allergies, goals: $goals, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -1426,7 +1426,7 @@ abstract mixin class $HealthProfileCopyWith<$Res>  {
   factory $HealthProfileCopyWith(HealthProfile value, $Res Function(HealthProfile) _then) = _$HealthProfileCopyWithImpl;
 @useResult
 $Res call({
- String id, String employeeId, int age, String gender, int heightCm, int weightKg, String lifestyle, String activityLevel, int targetEnergyKcal, int targetProteinMg, int targetCarbsMg, int targetFatMg, int targetFiberMg, int targetSugarMg, int targetSodiumMg, int targetIronUg, List<HealthProfileAllergy> allergies, List<HealthProfileGoal> goals, String createdAt, String updatedAt
+ String id, String employeeId, int age, String gender, int heightCm, int weightKg, String lifestyle, String activityLevel, int householdSize, bool hasChildren, int targetEnergyKcal, int targetProteinMg, int targetCarbsMg, int targetFatMg, int targetFiberMg, int targetSugarMg, int targetSodiumMg, int targetIronUg, List<HealthProfileAllergy> allergies, List<HealthProfileGoal> goals, String createdAt, String updatedAt
 });
 
 
@@ -1443,7 +1443,7 @@ class _$HealthProfileCopyWithImpl<$Res>
 
 /// Create a copy of HealthProfile
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? employeeId = null,Object? age = null,Object? gender = null,Object? heightCm = null,Object? weightKg = null,Object? lifestyle = null,Object? activityLevel = null,Object? targetEnergyKcal = null,Object? targetProteinMg = null,Object? targetCarbsMg = null,Object? targetFatMg = null,Object? targetFiberMg = null,Object? targetSugarMg = null,Object? targetSodiumMg = null,Object? targetIronUg = null,Object? allergies = null,Object? goals = null,Object? createdAt = null,Object? updatedAt = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? employeeId = null,Object? age = null,Object? gender = null,Object? heightCm = null,Object? weightKg = null,Object? lifestyle = null,Object? activityLevel = null,Object? householdSize = null,Object? hasChildren = null,Object? targetEnergyKcal = null,Object? targetProteinMg = null,Object? targetCarbsMg = null,Object? targetFatMg = null,Object? targetFiberMg = null,Object? targetSugarMg = null,Object? targetSodiumMg = null,Object? targetIronUg = null,Object? allergies = null,Object? goals = null,Object? createdAt = null,Object? updatedAt = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,employeeId: null == employeeId ? _self.employeeId : employeeId // ignore: cast_nullable_to_non_nullable
@@ -1453,7 +1453,9 @@ as String,heightCm: null == heightCm ? _self.heightCm : heightCm // ignore: cast
 as int,weightKg: null == weightKg ? _self.weightKg : weightKg // ignore: cast_nullable_to_non_nullable
 as int,lifestyle: null == lifestyle ? _self.lifestyle : lifestyle // ignore: cast_nullable_to_non_nullable
 as String,activityLevel: null == activityLevel ? _self.activityLevel : activityLevel // ignore: cast_nullable_to_non_nullable
-as String,targetEnergyKcal: null == targetEnergyKcal ? _self.targetEnergyKcal : targetEnergyKcal // ignore: cast_nullable_to_non_nullable
+as String,householdSize: null == householdSize ? _self.householdSize : householdSize // ignore: cast_nullable_to_non_nullable
+as int,hasChildren: null == hasChildren ? _self.hasChildren : hasChildren // ignore: cast_nullable_to_non_nullable
+as bool,targetEnergyKcal: null == targetEnergyKcal ? _self.targetEnergyKcal : targetEnergyKcal // ignore: cast_nullable_to_non_nullable
 as int,targetProteinMg: null == targetProteinMg ? _self.targetProteinMg : targetProteinMg // ignore: cast_nullable_to_non_nullable
 as int,targetCarbsMg: null == targetCarbsMg ? _self.targetCarbsMg : targetCarbsMg // ignore: cast_nullable_to_non_nullable
 as int,targetFatMg: null == targetFatMg ? _self.targetFatMg : targetFatMg // ignore: cast_nullable_to_non_nullable
@@ -1550,10 +1552,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String employeeId,  int age,  String gender,  int heightCm,  int weightKg,  String lifestyle,  String activityLevel,  int targetEnergyKcal,  int targetProteinMg,  int targetCarbsMg,  int targetFatMg,  int targetFiberMg,  int targetSugarMg,  int targetSodiumMg,  int targetIronUg,  List<HealthProfileAllergy> allergies,  List<HealthProfileGoal> goals,  String createdAt,  String updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String employeeId,  int age,  String gender,  int heightCm,  int weightKg,  String lifestyle,  String activityLevel,  int householdSize,  bool hasChildren,  int targetEnergyKcal,  int targetProteinMg,  int targetCarbsMg,  int targetFatMg,  int targetFiberMg,  int targetSugarMg,  int targetSodiumMg,  int targetIronUg,  List<HealthProfileAllergy> allergies,  List<HealthProfileGoal> goals,  String createdAt,  String updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _HealthProfile() when $default != null:
-return $default(_that.id,_that.employeeId,_that.age,_that.gender,_that.heightCm,_that.weightKg,_that.lifestyle,_that.activityLevel,_that.targetEnergyKcal,_that.targetProteinMg,_that.targetCarbsMg,_that.targetFatMg,_that.targetFiberMg,_that.targetSugarMg,_that.targetSodiumMg,_that.targetIronUg,_that.allergies,_that.goals,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.employeeId,_that.age,_that.gender,_that.heightCm,_that.weightKg,_that.lifestyle,_that.activityLevel,_that.householdSize,_that.hasChildren,_that.targetEnergyKcal,_that.targetProteinMg,_that.targetCarbsMg,_that.targetFatMg,_that.targetFiberMg,_that.targetSugarMg,_that.targetSodiumMg,_that.targetIronUg,_that.allergies,_that.goals,_that.createdAt,_that.updatedAt);case _:
   return orElse();
 
 }
@@ -1571,10 +1573,10 @@ return $default(_that.id,_that.employeeId,_that.age,_that.gender,_that.heightCm,
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String employeeId,  int age,  String gender,  int heightCm,  int weightKg,  String lifestyle,  String activityLevel,  int targetEnergyKcal,  int targetProteinMg,  int targetCarbsMg,  int targetFatMg,  int targetFiberMg,  int targetSugarMg,  int targetSodiumMg,  int targetIronUg,  List<HealthProfileAllergy> allergies,  List<HealthProfileGoal> goals,  String createdAt,  String updatedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String employeeId,  int age,  String gender,  int heightCm,  int weightKg,  String lifestyle,  String activityLevel,  int householdSize,  bool hasChildren,  int targetEnergyKcal,  int targetProteinMg,  int targetCarbsMg,  int targetFatMg,  int targetFiberMg,  int targetSugarMg,  int targetSodiumMg,  int targetIronUg,  List<HealthProfileAllergy> allergies,  List<HealthProfileGoal> goals,  String createdAt,  String updatedAt)  $default,) {final _that = this;
 switch (_that) {
 case _HealthProfile():
-return $default(_that.id,_that.employeeId,_that.age,_that.gender,_that.heightCm,_that.weightKg,_that.lifestyle,_that.activityLevel,_that.targetEnergyKcal,_that.targetProteinMg,_that.targetCarbsMg,_that.targetFatMg,_that.targetFiberMg,_that.targetSugarMg,_that.targetSodiumMg,_that.targetIronUg,_that.allergies,_that.goals,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.employeeId,_that.age,_that.gender,_that.heightCm,_that.weightKg,_that.lifestyle,_that.activityLevel,_that.householdSize,_that.hasChildren,_that.targetEnergyKcal,_that.targetProteinMg,_that.targetCarbsMg,_that.targetFatMg,_that.targetFiberMg,_that.targetSugarMg,_that.targetSodiumMg,_that.targetIronUg,_that.allergies,_that.goals,_that.createdAt,_that.updatedAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1591,10 +1593,10 @@ return $default(_that.id,_that.employeeId,_that.age,_that.gender,_that.heightCm,
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String employeeId,  int age,  String gender,  int heightCm,  int weightKg,  String lifestyle,  String activityLevel,  int targetEnergyKcal,  int targetProteinMg,  int targetCarbsMg,  int targetFatMg,  int targetFiberMg,  int targetSugarMg,  int targetSodiumMg,  int targetIronUg,  List<HealthProfileAllergy> allergies,  List<HealthProfileGoal> goals,  String createdAt,  String updatedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String employeeId,  int age,  String gender,  int heightCm,  int weightKg,  String lifestyle,  String activityLevel,  int householdSize,  bool hasChildren,  int targetEnergyKcal,  int targetProteinMg,  int targetCarbsMg,  int targetFatMg,  int targetFiberMg,  int targetSugarMg,  int targetSodiumMg,  int targetIronUg,  List<HealthProfileAllergy> allergies,  List<HealthProfileGoal> goals,  String createdAt,  String updatedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _HealthProfile() when $default != null:
-return $default(_that.id,_that.employeeId,_that.age,_that.gender,_that.heightCm,_that.weightKg,_that.lifestyle,_that.activityLevel,_that.targetEnergyKcal,_that.targetProteinMg,_that.targetCarbsMg,_that.targetFatMg,_that.targetFiberMg,_that.targetSugarMg,_that.targetSodiumMg,_that.targetIronUg,_that.allergies,_that.goals,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.employeeId,_that.age,_that.gender,_that.heightCm,_that.weightKg,_that.lifestyle,_that.activityLevel,_that.householdSize,_that.hasChildren,_that.targetEnergyKcal,_that.targetProteinMg,_that.targetCarbsMg,_that.targetFatMg,_that.targetFiberMg,_that.targetSugarMg,_that.targetSodiumMg,_that.targetIronUg,_that.allergies,_that.goals,_that.createdAt,_that.updatedAt);case _:
   return null;
 
 }
@@ -1606,7 +1608,7 @@ return $default(_that.id,_that.employeeId,_that.age,_that.gender,_that.heightCm,
 @JsonSerializable()
 
 class _HealthProfile implements HealthProfile {
-  const _HealthProfile({required this.id, required this.employeeId, required this.age, required this.gender, required this.heightCm, required this.weightKg, required this.lifestyle, required this.activityLevel, this.targetEnergyKcal = 0, this.targetProteinMg = 0, this.targetCarbsMg = 0, this.targetFatMg = 0, this.targetFiberMg = 0, this.targetSugarMg = 0, this.targetSodiumMg = 0, this.targetIronUg = 0, required final  List<HealthProfileAllergy> allergies, required final  List<HealthProfileGoal> goals, required this.createdAt, required this.updatedAt}): _allergies = allergies,_goals = goals;
+  const _HealthProfile({required this.id, required this.employeeId, required this.age, required this.gender, required this.heightCm, required this.weightKg, required this.lifestyle, required this.activityLevel, this.householdSize = 1, this.hasChildren = false, this.targetEnergyKcal = 0, this.targetProteinMg = 0, this.targetCarbsMg = 0, this.targetFatMg = 0, this.targetFiberMg = 0, this.targetSugarMg = 0, this.targetSodiumMg = 0, this.targetIronUg = 0, required final  List<HealthProfileAllergy> allergies, required final  List<HealthProfileGoal> goals, required this.createdAt, required this.updatedAt}): _allergies = allergies,_goals = goals;
   factory _HealthProfile.fromJson(Map<String, dynamic> json) => _$HealthProfileFromJson(json);
 
 @override final  String id;
@@ -1617,6 +1619,8 @@ class _HealthProfile implements HealthProfile {
 @override final  int weightKg;
 @override final  String lifestyle;
 @override final  String activityLevel;
+@override@JsonKey() final  int householdSize;
+@override@JsonKey() final  bool hasChildren;
 @override@JsonKey() final  int targetEnergyKcal;
 @override@JsonKey() final  int targetProteinMg;
 @override@JsonKey() final  int targetCarbsMg;
@@ -1655,16 +1659,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HealthProfile&&(identical(other.id, id) || other.id == id)&&(identical(other.employeeId, employeeId) || other.employeeId == employeeId)&&(identical(other.age, age) || other.age == age)&&(identical(other.gender, gender) || other.gender == gender)&&(identical(other.heightCm, heightCm) || other.heightCm == heightCm)&&(identical(other.weightKg, weightKg) || other.weightKg == weightKg)&&(identical(other.lifestyle, lifestyle) || other.lifestyle == lifestyle)&&(identical(other.activityLevel, activityLevel) || other.activityLevel == activityLevel)&&(identical(other.targetEnergyKcal, targetEnergyKcal) || other.targetEnergyKcal == targetEnergyKcal)&&(identical(other.targetProteinMg, targetProteinMg) || other.targetProteinMg == targetProteinMg)&&(identical(other.targetCarbsMg, targetCarbsMg) || other.targetCarbsMg == targetCarbsMg)&&(identical(other.targetFatMg, targetFatMg) || other.targetFatMg == targetFatMg)&&(identical(other.targetFiberMg, targetFiberMg) || other.targetFiberMg == targetFiberMg)&&(identical(other.targetSugarMg, targetSugarMg) || other.targetSugarMg == targetSugarMg)&&(identical(other.targetSodiumMg, targetSodiumMg) || other.targetSodiumMg == targetSodiumMg)&&(identical(other.targetIronUg, targetIronUg) || other.targetIronUg == targetIronUg)&&const DeepCollectionEquality().equals(other._allergies, _allergies)&&const DeepCollectionEquality().equals(other._goals, _goals)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HealthProfile&&(identical(other.id, id) || other.id == id)&&(identical(other.employeeId, employeeId) || other.employeeId == employeeId)&&(identical(other.age, age) || other.age == age)&&(identical(other.gender, gender) || other.gender == gender)&&(identical(other.heightCm, heightCm) || other.heightCm == heightCm)&&(identical(other.weightKg, weightKg) || other.weightKg == weightKg)&&(identical(other.lifestyle, lifestyle) || other.lifestyle == lifestyle)&&(identical(other.activityLevel, activityLevel) || other.activityLevel == activityLevel)&&(identical(other.householdSize, householdSize) || other.householdSize == householdSize)&&(identical(other.hasChildren, hasChildren) || other.hasChildren == hasChildren)&&(identical(other.targetEnergyKcal, targetEnergyKcal) || other.targetEnergyKcal == targetEnergyKcal)&&(identical(other.targetProteinMg, targetProteinMg) || other.targetProteinMg == targetProteinMg)&&(identical(other.targetCarbsMg, targetCarbsMg) || other.targetCarbsMg == targetCarbsMg)&&(identical(other.targetFatMg, targetFatMg) || other.targetFatMg == targetFatMg)&&(identical(other.targetFiberMg, targetFiberMg) || other.targetFiberMg == targetFiberMg)&&(identical(other.targetSugarMg, targetSugarMg) || other.targetSugarMg == targetSugarMg)&&(identical(other.targetSodiumMg, targetSodiumMg) || other.targetSodiumMg == targetSodiumMg)&&(identical(other.targetIronUg, targetIronUg) || other.targetIronUg == targetIronUg)&&const DeepCollectionEquality().equals(other._allergies, _allergies)&&const DeepCollectionEquality().equals(other._goals, _goals)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hashAll([runtimeType,id,employeeId,age,gender,heightCm,weightKg,lifestyle,activityLevel,targetEnergyKcal,targetProteinMg,targetCarbsMg,targetFatMg,targetFiberMg,targetSugarMg,targetSodiumMg,targetIronUg,const DeepCollectionEquality().hash(_allergies),const DeepCollectionEquality().hash(_goals),createdAt,updatedAt]);
+int get hashCode => Object.hashAll([runtimeType,id,employeeId,age,gender,heightCm,weightKg,lifestyle,activityLevel,householdSize,hasChildren,targetEnergyKcal,targetProteinMg,targetCarbsMg,targetFatMg,targetFiberMg,targetSugarMg,targetSodiumMg,targetIronUg,const DeepCollectionEquality().hash(_allergies),const DeepCollectionEquality().hash(_goals),createdAt,updatedAt]);
 
 @override
 String toString() {
-  return 'HealthProfile(id: $id, employeeId: $employeeId, age: $age, gender: $gender, heightCm: $heightCm, weightKg: $weightKg, lifestyle: $lifestyle, activityLevel: $activityLevel, targetEnergyKcal: $targetEnergyKcal, targetProteinMg: $targetProteinMg, targetCarbsMg: $targetCarbsMg, targetFatMg: $targetFatMg, targetFiberMg: $targetFiberMg, targetSugarMg: $targetSugarMg, targetSodiumMg: $targetSodiumMg, targetIronUg: $targetIronUg, allergies: $allergies, goals: $goals, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'HealthProfile(id: $id, employeeId: $employeeId, age: $age, gender: $gender, heightCm: $heightCm, weightKg: $weightKg, lifestyle: $lifestyle, activityLevel: $activityLevel, householdSize: $householdSize, hasChildren: $hasChildren, targetEnergyKcal: $targetEnergyKcal, targetProteinMg: $targetProteinMg, targetCarbsMg: $targetCarbsMg, targetFatMg: $targetFatMg, targetFiberMg: $targetFiberMg, targetSugarMg: $targetSugarMg, targetSodiumMg: $targetSodiumMg, targetIronUg: $targetIronUg, allergies: $allergies, goals: $goals, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -1675,7 +1679,7 @@ abstract mixin class _$HealthProfileCopyWith<$Res> implements $HealthProfileCopy
   factory _$HealthProfileCopyWith(_HealthProfile value, $Res Function(_HealthProfile) _then) = __$HealthProfileCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String employeeId, int age, String gender, int heightCm, int weightKg, String lifestyle, String activityLevel, int targetEnergyKcal, int targetProteinMg, int targetCarbsMg, int targetFatMg, int targetFiberMg, int targetSugarMg, int targetSodiumMg, int targetIronUg, List<HealthProfileAllergy> allergies, List<HealthProfileGoal> goals, String createdAt, String updatedAt
+ String id, String employeeId, int age, String gender, int heightCm, int weightKg, String lifestyle, String activityLevel, int householdSize, bool hasChildren, int targetEnergyKcal, int targetProteinMg, int targetCarbsMg, int targetFatMg, int targetFiberMg, int targetSugarMg, int targetSodiumMg, int targetIronUg, List<HealthProfileAllergy> allergies, List<HealthProfileGoal> goals, String createdAt, String updatedAt
 });
 
 
@@ -1692,7 +1696,7 @@ class __$HealthProfileCopyWithImpl<$Res>
 
 /// Create a copy of HealthProfile
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? employeeId = null,Object? age = null,Object? gender = null,Object? heightCm = null,Object? weightKg = null,Object? lifestyle = null,Object? activityLevel = null,Object? targetEnergyKcal = null,Object? targetProteinMg = null,Object? targetCarbsMg = null,Object? targetFatMg = null,Object? targetFiberMg = null,Object? targetSugarMg = null,Object? targetSodiumMg = null,Object? targetIronUg = null,Object? allergies = null,Object? goals = null,Object? createdAt = null,Object? updatedAt = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? employeeId = null,Object? age = null,Object? gender = null,Object? heightCm = null,Object? weightKg = null,Object? lifestyle = null,Object? activityLevel = null,Object? householdSize = null,Object? hasChildren = null,Object? targetEnergyKcal = null,Object? targetProteinMg = null,Object? targetCarbsMg = null,Object? targetFatMg = null,Object? targetFiberMg = null,Object? targetSugarMg = null,Object? targetSodiumMg = null,Object? targetIronUg = null,Object? allergies = null,Object? goals = null,Object? createdAt = null,Object? updatedAt = null,}) {
   return _then(_HealthProfile(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,employeeId: null == employeeId ? _self.employeeId : employeeId // ignore: cast_nullable_to_non_nullable
@@ -1702,7 +1706,9 @@ as String,heightCm: null == heightCm ? _self.heightCm : heightCm // ignore: cast
 as int,weightKg: null == weightKg ? _self.weightKg : weightKg // ignore: cast_nullable_to_non_nullable
 as int,lifestyle: null == lifestyle ? _self.lifestyle : lifestyle // ignore: cast_nullable_to_non_nullable
 as String,activityLevel: null == activityLevel ? _self.activityLevel : activityLevel // ignore: cast_nullable_to_non_nullable
-as String,targetEnergyKcal: null == targetEnergyKcal ? _self.targetEnergyKcal : targetEnergyKcal // ignore: cast_nullable_to_non_nullable
+as String,householdSize: null == householdSize ? _self.householdSize : householdSize // ignore: cast_nullable_to_non_nullable
+as int,hasChildren: null == hasChildren ? _self.hasChildren : hasChildren // ignore: cast_nullable_to_non_nullable
+as bool,targetEnergyKcal: null == targetEnergyKcal ? _self.targetEnergyKcal : targetEnergyKcal // ignore: cast_nullable_to_non_nullable
 as int,targetProteinMg: null == targetProteinMg ? _self.targetProteinMg : targetProteinMg // ignore: cast_nullable_to_non_nullable
 as int,targetCarbsMg: null == targetCarbsMg ? _self.targetCarbsMg : targetCarbsMg // ignore: cast_nullable_to_non_nullable
 as int,targetFatMg: null == targetFatMg ? _self.targetFatMg : targetFatMg // ignore: cast_nullable_to_non_nullable
@@ -1725,7 +1731,7 @@ as String,
 /// @nodoc
 mixin _$UpsertHealthProfileRequest {
 
- int get age; String get gender; int get heightCm; int get weightKg; String get lifestyle; String get activityLevel; List<AllergySelectionRequest> get allergies; List<GoalSelectionRequest> get goals;
+ int get age; String get gender; int get heightCm; int get weightKg; String get lifestyle; String get activityLevel; int get householdSize; bool get hasChildren; List<AllergySelectionRequest> get allergies; List<GoalSelectionRequest> get goals;
 /// Create a copy of UpsertHealthProfileRequest
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1738,16 +1744,16 @@ $UpsertHealthProfileRequestCopyWith<UpsertHealthProfileRequest> get copyWith => 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UpsertHealthProfileRequest&&(identical(other.age, age) || other.age == age)&&(identical(other.gender, gender) || other.gender == gender)&&(identical(other.heightCm, heightCm) || other.heightCm == heightCm)&&(identical(other.weightKg, weightKg) || other.weightKg == weightKg)&&(identical(other.lifestyle, lifestyle) || other.lifestyle == lifestyle)&&(identical(other.activityLevel, activityLevel) || other.activityLevel == activityLevel)&&const DeepCollectionEquality().equals(other.allergies, allergies)&&const DeepCollectionEquality().equals(other.goals, goals));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UpsertHealthProfileRequest&&(identical(other.age, age) || other.age == age)&&(identical(other.gender, gender) || other.gender == gender)&&(identical(other.heightCm, heightCm) || other.heightCm == heightCm)&&(identical(other.weightKg, weightKg) || other.weightKg == weightKg)&&(identical(other.lifestyle, lifestyle) || other.lifestyle == lifestyle)&&(identical(other.activityLevel, activityLevel) || other.activityLevel == activityLevel)&&(identical(other.householdSize, householdSize) || other.householdSize == householdSize)&&(identical(other.hasChildren, hasChildren) || other.hasChildren == hasChildren)&&const DeepCollectionEquality().equals(other.allergies, allergies)&&const DeepCollectionEquality().equals(other.goals, goals));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,age,gender,heightCm,weightKg,lifestyle,activityLevel,const DeepCollectionEquality().hash(allergies),const DeepCollectionEquality().hash(goals));
+int get hashCode => Object.hash(runtimeType,age,gender,heightCm,weightKg,lifestyle,activityLevel,householdSize,hasChildren,const DeepCollectionEquality().hash(allergies),const DeepCollectionEquality().hash(goals));
 
 @override
 String toString() {
-  return 'UpsertHealthProfileRequest(age: $age, gender: $gender, heightCm: $heightCm, weightKg: $weightKg, lifestyle: $lifestyle, activityLevel: $activityLevel, allergies: $allergies, goals: $goals)';
+  return 'UpsertHealthProfileRequest(age: $age, gender: $gender, heightCm: $heightCm, weightKg: $weightKg, lifestyle: $lifestyle, activityLevel: $activityLevel, householdSize: $householdSize, hasChildren: $hasChildren, allergies: $allergies, goals: $goals)';
 }
 
 
@@ -1758,7 +1764,7 @@ abstract mixin class $UpsertHealthProfileRequestCopyWith<$Res>  {
   factory $UpsertHealthProfileRequestCopyWith(UpsertHealthProfileRequest value, $Res Function(UpsertHealthProfileRequest) _then) = _$UpsertHealthProfileRequestCopyWithImpl;
 @useResult
 $Res call({
- int age, String gender, int heightCm, int weightKg, String lifestyle, String activityLevel, List<AllergySelectionRequest> allergies, List<GoalSelectionRequest> goals
+ int age, String gender, int heightCm, int weightKg, String lifestyle, String activityLevel, int householdSize, bool hasChildren, List<AllergySelectionRequest> allergies, List<GoalSelectionRequest> goals
 });
 
 
@@ -1775,7 +1781,7 @@ class _$UpsertHealthProfileRequestCopyWithImpl<$Res>
 
 /// Create a copy of UpsertHealthProfileRequest
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? age = null,Object? gender = null,Object? heightCm = null,Object? weightKg = null,Object? lifestyle = null,Object? activityLevel = null,Object? allergies = null,Object? goals = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? age = null,Object? gender = null,Object? heightCm = null,Object? weightKg = null,Object? lifestyle = null,Object? activityLevel = null,Object? householdSize = null,Object? hasChildren = null,Object? allergies = null,Object? goals = null,}) {
   return _then(_self.copyWith(
 age: null == age ? _self.age : age // ignore: cast_nullable_to_non_nullable
 as int,gender: null == gender ? _self.gender : gender // ignore: cast_nullable_to_non_nullable
@@ -1783,7 +1789,9 @@ as String,heightCm: null == heightCm ? _self.heightCm : heightCm // ignore: cast
 as int,weightKg: null == weightKg ? _self.weightKg : weightKg // ignore: cast_nullable_to_non_nullable
 as int,lifestyle: null == lifestyle ? _self.lifestyle : lifestyle // ignore: cast_nullable_to_non_nullable
 as String,activityLevel: null == activityLevel ? _self.activityLevel : activityLevel // ignore: cast_nullable_to_non_nullable
-as String,allergies: null == allergies ? _self.allergies : allergies // ignore: cast_nullable_to_non_nullable
+as String,householdSize: null == householdSize ? _self.householdSize : householdSize // ignore: cast_nullable_to_non_nullable
+as int,hasChildren: null == hasChildren ? _self.hasChildren : hasChildren // ignore: cast_nullable_to_non_nullable
+as bool,allergies: null == allergies ? _self.allergies : allergies // ignore: cast_nullable_to_non_nullable
 as List<AllergySelectionRequest>,goals: null == goals ? _self.goals : goals // ignore: cast_nullable_to_non_nullable
 as List<GoalSelectionRequest>,
   ));
@@ -1870,10 +1878,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int age,  String gender,  int heightCm,  int weightKg,  String lifestyle,  String activityLevel,  List<AllergySelectionRequest> allergies,  List<GoalSelectionRequest> goals)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int age,  String gender,  int heightCm,  int weightKg,  String lifestyle,  String activityLevel,  int householdSize,  bool hasChildren,  List<AllergySelectionRequest> allergies,  List<GoalSelectionRequest> goals)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _UpsertHealthProfileRequest() when $default != null:
-return $default(_that.age,_that.gender,_that.heightCm,_that.weightKg,_that.lifestyle,_that.activityLevel,_that.allergies,_that.goals);case _:
+return $default(_that.age,_that.gender,_that.heightCm,_that.weightKg,_that.lifestyle,_that.activityLevel,_that.householdSize,_that.hasChildren,_that.allergies,_that.goals);case _:
   return orElse();
 
 }
@@ -1891,10 +1899,10 @@ return $default(_that.age,_that.gender,_that.heightCm,_that.weightKg,_that.lifes
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int age,  String gender,  int heightCm,  int weightKg,  String lifestyle,  String activityLevel,  List<AllergySelectionRequest> allergies,  List<GoalSelectionRequest> goals)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int age,  String gender,  int heightCm,  int weightKg,  String lifestyle,  String activityLevel,  int householdSize,  bool hasChildren,  List<AllergySelectionRequest> allergies,  List<GoalSelectionRequest> goals)  $default,) {final _that = this;
 switch (_that) {
 case _UpsertHealthProfileRequest():
-return $default(_that.age,_that.gender,_that.heightCm,_that.weightKg,_that.lifestyle,_that.activityLevel,_that.allergies,_that.goals);case _:
+return $default(_that.age,_that.gender,_that.heightCm,_that.weightKg,_that.lifestyle,_that.activityLevel,_that.householdSize,_that.hasChildren,_that.allergies,_that.goals);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1911,10 +1919,10 @@ return $default(_that.age,_that.gender,_that.heightCm,_that.weightKg,_that.lifes
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int age,  String gender,  int heightCm,  int weightKg,  String lifestyle,  String activityLevel,  List<AllergySelectionRequest> allergies,  List<GoalSelectionRequest> goals)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int age,  String gender,  int heightCm,  int weightKg,  String lifestyle,  String activityLevel,  int householdSize,  bool hasChildren,  List<AllergySelectionRequest> allergies,  List<GoalSelectionRequest> goals)?  $default,) {final _that = this;
 switch (_that) {
 case _UpsertHealthProfileRequest() when $default != null:
-return $default(_that.age,_that.gender,_that.heightCm,_that.weightKg,_that.lifestyle,_that.activityLevel,_that.allergies,_that.goals);case _:
+return $default(_that.age,_that.gender,_that.heightCm,_that.weightKg,_that.lifestyle,_that.activityLevel,_that.householdSize,_that.hasChildren,_that.allergies,_that.goals);case _:
   return null;
 
 }
@@ -1926,7 +1934,7 @@ return $default(_that.age,_that.gender,_that.heightCm,_that.weightKg,_that.lifes
 @JsonSerializable()
 
 class _UpsertHealthProfileRequest implements UpsertHealthProfileRequest {
-  const _UpsertHealthProfileRequest({required this.age, required this.gender, required this.heightCm, required this.weightKg, required this.lifestyle, required this.activityLevel, required final  List<AllergySelectionRequest> allergies, required final  List<GoalSelectionRequest> goals}): _allergies = allergies,_goals = goals;
+  const _UpsertHealthProfileRequest({required this.age, required this.gender, required this.heightCm, required this.weightKg, required this.lifestyle, required this.activityLevel, this.householdSize = 1, this.hasChildren = false, required final  List<AllergySelectionRequest> allergies, required final  List<GoalSelectionRequest> goals}): _allergies = allergies,_goals = goals;
   factory _UpsertHealthProfileRequest.fromJson(Map<String, dynamic> json) => _$UpsertHealthProfileRequestFromJson(json);
 
 @override final  int age;
@@ -1935,6 +1943,8 @@ class _UpsertHealthProfileRequest implements UpsertHealthProfileRequest {
 @override final  int weightKg;
 @override final  String lifestyle;
 @override final  String activityLevel;
+@override@JsonKey() final  int householdSize;
+@override@JsonKey() final  bool hasChildren;
  final  List<AllergySelectionRequest> _allergies;
 @override List<AllergySelectionRequest> get allergies {
   if (_allergies is EqualUnmodifiableListView) return _allergies;
@@ -1963,16 +1973,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UpsertHealthProfileRequest&&(identical(other.age, age) || other.age == age)&&(identical(other.gender, gender) || other.gender == gender)&&(identical(other.heightCm, heightCm) || other.heightCm == heightCm)&&(identical(other.weightKg, weightKg) || other.weightKg == weightKg)&&(identical(other.lifestyle, lifestyle) || other.lifestyle == lifestyle)&&(identical(other.activityLevel, activityLevel) || other.activityLevel == activityLevel)&&const DeepCollectionEquality().equals(other._allergies, _allergies)&&const DeepCollectionEquality().equals(other._goals, _goals));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UpsertHealthProfileRequest&&(identical(other.age, age) || other.age == age)&&(identical(other.gender, gender) || other.gender == gender)&&(identical(other.heightCm, heightCm) || other.heightCm == heightCm)&&(identical(other.weightKg, weightKg) || other.weightKg == weightKg)&&(identical(other.lifestyle, lifestyle) || other.lifestyle == lifestyle)&&(identical(other.activityLevel, activityLevel) || other.activityLevel == activityLevel)&&(identical(other.householdSize, householdSize) || other.householdSize == householdSize)&&(identical(other.hasChildren, hasChildren) || other.hasChildren == hasChildren)&&const DeepCollectionEquality().equals(other._allergies, _allergies)&&const DeepCollectionEquality().equals(other._goals, _goals));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,age,gender,heightCm,weightKg,lifestyle,activityLevel,const DeepCollectionEquality().hash(_allergies),const DeepCollectionEquality().hash(_goals));
+int get hashCode => Object.hash(runtimeType,age,gender,heightCm,weightKg,lifestyle,activityLevel,householdSize,hasChildren,const DeepCollectionEquality().hash(_allergies),const DeepCollectionEquality().hash(_goals));
 
 @override
 String toString() {
-  return 'UpsertHealthProfileRequest(age: $age, gender: $gender, heightCm: $heightCm, weightKg: $weightKg, lifestyle: $lifestyle, activityLevel: $activityLevel, allergies: $allergies, goals: $goals)';
+  return 'UpsertHealthProfileRequest(age: $age, gender: $gender, heightCm: $heightCm, weightKg: $weightKg, lifestyle: $lifestyle, activityLevel: $activityLevel, householdSize: $householdSize, hasChildren: $hasChildren, allergies: $allergies, goals: $goals)';
 }
 
 
@@ -1983,7 +1993,7 @@ abstract mixin class _$UpsertHealthProfileRequestCopyWith<$Res> implements $Upse
   factory _$UpsertHealthProfileRequestCopyWith(_UpsertHealthProfileRequest value, $Res Function(_UpsertHealthProfileRequest) _then) = __$UpsertHealthProfileRequestCopyWithImpl;
 @override @useResult
 $Res call({
- int age, String gender, int heightCm, int weightKg, String lifestyle, String activityLevel, List<AllergySelectionRequest> allergies, List<GoalSelectionRequest> goals
+ int age, String gender, int heightCm, int weightKg, String lifestyle, String activityLevel, int householdSize, bool hasChildren, List<AllergySelectionRequest> allergies, List<GoalSelectionRequest> goals
 });
 
 
@@ -2000,7 +2010,7 @@ class __$UpsertHealthProfileRequestCopyWithImpl<$Res>
 
 /// Create a copy of UpsertHealthProfileRequest
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? age = null,Object? gender = null,Object? heightCm = null,Object? weightKg = null,Object? lifestyle = null,Object? activityLevel = null,Object? allergies = null,Object? goals = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? age = null,Object? gender = null,Object? heightCm = null,Object? weightKg = null,Object? lifestyle = null,Object? activityLevel = null,Object? householdSize = null,Object? hasChildren = null,Object? allergies = null,Object? goals = null,}) {
   return _then(_UpsertHealthProfileRequest(
 age: null == age ? _self.age : age // ignore: cast_nullable_to_non_nullable
 as int,gender: null == gender ? _self.gender : gender // ignore: cast_nullable_to_non_nullable
@@ -2008,7 +2018,9 @@ as String,heightCm: null == heightCm ? _self.heightCm : heightCm // ignore: cast
 as int,weightKg: null == weightKg ? _self.weightKg : weightKg // ignore: cast_nullable_to_non_nullable
 as int,lifestyle: null == lifestyle ? _self.lifestyle : lifestyle // ignore: cast_nullable_to_non_nullable
 as String,activityLevel: null == activityLevel ? _self.activityLevel : activityLevel // ignore: cast_nullable_to_non_nullable
-as String,allergies: null == allergies ? _self._allergies : allergies // ignore: cast_nullable_to_non_nullable
+as String,householdSize: null == householdSize ? _self.householdSize : householdSize // ignore: cast_nullable_to_non_nullable
+as int,hasChildren: null == hasChildren ? _self.hasChildren : hasChildren // ignore: cast_nullable_to_non_nullable
+as bool,allergies: null == allergies ? _self._allergies : allergies // ignore: cast_nullable_to_non_nullable
 as List<AllergySelectionRequest>,goals: null == goals ? _self._goals : goals // ignore: cast_nullable_to_non_nullable
 as List<GoalSelectionRequest>,
   ));
@@ -3498,7 +3510,7 @@ as List<MealPlanItem>,
 /// @nodoc
 mixin _$MealPlanProfileSnapshot {
 
- int get age; String get gender; int get heightCm; int get weightKg; String get lifestyle; String get activityLevel; List<String> get allergies; List<String> get goals; int get targetEnergyKcal; int get targetProteinMg; int get targetCarbsMg; int get targetFatMg;
+ int get age; String get gender; int get heightCm; int get weightKg; String get lifestyle; String get activityLevel; List<String> get allergies; List<String> get goals; int get householdSize; bool get hasChildren; int get targetEnergyKcal; int get targetProteinMg; int get targetCarbsMg; int get targetFatMg;
 /// Create a copy of MealPlanProfileSnapshot
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -3511,16 +3523,16 @@ $MealPlanProfileSnapshotCopyWith<MealPlanProfileSnapshot> get copyWith => _$Meal
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MealPlanProfileSnapshot&&(identical(other.age, age) || other.age == age)&&(identical(other.gender, gender) || other.gender == gender)&&(identical(other.heightCm, heightCm) || other.heightCm == heightCm)&&(identical(other.weightKg, weightKg) || other.weightKg == weightKg)&&(identical(other.lifestyle, lifestyle) || other.lifestyle == lifestyle)&&(identical(other.activityLevel, activityLevel) || other.activityLevel == activityLevel)&&const DeepCollectionEquality().equals(other.allergies, allergies)&&const DeepCollectionEquality().equals(other.goals, goals)&&(identical(other.targetEnergyKcal, targetEnergyKcal) || other.targetEnergyKcal == targetEnergyKcal)&&(identical(other.targetProteinMg, targetProteinMg) || other.targetProteinMg == targetProteinMg)&&(identical(other.targetCarbsMg, targetCarbsMg) || other.targetCarbsMg == targetCarbsMg)&&(identical(other.targetFatMg, targetFatMg) || other.targetFatMg == targetFatMg));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MealPlanProfileSnapshot&&(identical(other.age, age) || other.age == age)&&(identical(other.gender, gender) || other.gender == gender)&&(identical(other.heightCm, heightCm) || other.heightCm == heightCm)&&(identical(other.weightKg, weightKg) || other.weightKg == weightKg)&&(identical(other.lifestyle, lifestyle) || other.lifestyle == lifestyle)&&(identical(other.activityLevel, activityLevel) || other.activityLevel == activityLevel)&&const DeepCollectionEquality().equals(other.allergies, allergies)&&const DeepCollectionEquality().equals(other.goals, goals)&&(identical(other.householdSize, householdSize) || other.householdSize == householdSize)&&(identical(other.hasChildren, hasChildren) || other.hasChildren == hasChildren)&&(identical(other.targetEnergyKcal, targetEnergyKcal) || other.targetEnergyKcal == targetEnergyKcal)&&(identical(other.targetProteinMg, targetProteinMg) || other.targetProteinMg == targetProteinMg)&&(identical(other.targetCarbsMg, targetCarbsMg) || other.targetCarbsMg == targetCarbsMg)&&(identical(other.targetFatMg, targetFatMg) || other.targetFatMg == targetFatMg));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,age,gender,heightCm,weightKg,lifestyle,activityLevel,const DeepCollectionEquality().hash(allergies),const DeepCollectionEquality().hash(goals),targetEnergyKcal,targetProteinMg,targetCarbsMg,targetFatMg);
+int get hashCode => Object.hash(runtimeType,age,gender,heightCm,weightKg,lifestyle,activityLevel,const DeepCollectionEquality().hash(allergies),const DeepCollectionEquality().hash(goals),householdSize,hasChildren,targetEnergyKcal,targetProteinMg,targetCarbsMg,targetFatMg);
 
 @override
 String toString() {
-  return 'MealPlanProfileSnapshot(age: $age, gender: $gender, heightCm: $heightCm, weightKg: $weightKg, lifestyle: $lifestyle, activityLevel: $activityLevel, allergies: $allergies, goals: $goals, targetEnergyKcal: $targetEnergyKcal, targetProteinMg: $targetProteinMg, targetCarbsMg: $targetCarbsMg, targetFatMg: $targetFatMg)';
+  return 'MealPlanProfileSnapshot(age: $age, gender: $gender, heightCm: $heightCm, weightKg: $weightKg, lifestyle: $lifestyle, activityLevel: $activityLevel, allergies: $allergies, goals: $goals, householdSize: $householdSize, hasChildren: $hasChildren, targetEnergyKcal: $targetEnergyKcal, targetProteinMg: $targetProteinMg, targetCarbsMg: $targetCarbsMg, targetFatMg: $targetFatMg)';
 }
 
 
@@ -3531,7 +3543,7 @@ abstract mixin class $MealPlanProfileSnapshotCopyWith<$Res>  {
   factory $MealPlanProfileSnapshotCopyWith(MealPlanProfileSnapshot value, $Res Function(MealPlanProfileSnapshot) _then) = _$MealPlanProfileSnapshotCopyWithImpl;
 @useResult
 $Res call({
- int age, String gender, int heightCm, int weightKg, String lifestyle, String activityLevel, List<String> allergies, List<String> goals, int targetEnergyKcal, int targetProteinMg, int targetCarbsMg, int targetFatMg
+ int age, String gender, int heightCm, int weightKg, String lifestyle, String activityLevel, List<String> allergies, List<String> goals, int householdSize, bool hasChildren, int targetEnergyKcal, int targetProteinMg, int targetCarbsMg, int targetFatMg
 });
 
 
@@ -3548,7 +3560,7 @@ class _$MealPlanProfileSnapshotCopyWithImpl<$Res>
 
 /// Create a copy of MealPlanProfileSnapshot
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? age = null,Object? gender = null,Object? heightCm = null,Object? weightKg = null,Object? lifestyle = null,Object? activityLevel = null,Object? allergies = null,Object? goals = null,Object? targetEnergyKcal = null,Object? targetProteinMg = null,Object? targetCarbsMg = null,Object? targetFatMg = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? age = null,Object? gender = null,Object? heightCm = null,Object? weightKg = null,Object? lifestyle = null,Object? activityLevel = null,Object? allergies = null,Object? goals = null,Object? householdSize = null,Object? hasChildren = null,Object? targetEnergyKcal = null,Object? targetProteinMg = null,Object? targetCarbsMg = null,Object? targetFatMg = null,}) {
   return _then(_self.copyWith(
 age: null == age ? _self.age : age // ignore: cast_nullable_to_non_nullable
 as int,gender: null == gender ? _self.gender : gender // ignore: cast_nullable_to_non_nullable
@@ -3558,7 +3570,9 @@ as int,lifestyle: null == lifestyle ? _self.lifestyle : lifestyle // ignore: cas
 as String,activityLevel: null == activityLevel ? _self.activityLevel : activityLevel // ignore: cast_nullable_to_non_nullable
 as String,allergies: null == allergies ? _self.allergies : allergies // ignore: cast_nullable_to_non_nullable
 as List<String>,goals: null == goals ? _self.goals : goals // ignore: cast_nullable_to_non_nullable
-as List<String>,targetEnergyKcal: null == targetEnergyKcal ? _self.targetEnergyKcal : targetEnergyKcal // ignore: cast_nullable_to_non_nullable
+as List<String>,householdSize: null == householdSize ? _self.householdSize : householdSize // ignore: cast_nullable_to_non_nullable
+as int,hasChildren: null == hasChildren ? _self.hasChildren : hasChildren // ignore: cast_nullable_to_non_nullable
+as bool,targetEnergyKcal: null == targetEnergyKcal ? _self.targetEnergyKcal : targetEnergyKcal // ignore: cast_nullable_to_non_nullable
 as int,targetProteinMg: null == targetProteinMg ? _self.targetProteinMg : targetProteinMg // ignore: cast_nullable_to_non_nullable
 as int,targetCarbsMg: null == targetCarbsMg ? _self.targetCarbsMg : targetCarbsMg // ignore: cast_nullable_to_non_nullable
 as int,targetFatMg: null == targetFatMg ? _self.targetFatMg : targetFatMg // ignore: cast_nullable_to_non_nullable
@@ -3647,10 +3661,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int age,  String gender,  int heightCm,  int weightKg,  String lifestyle,  String activityLevel,  List<String> allergies,  List<String> goals,  int targetEnergyKcal,  int targetProteinMg,  int targetCarbsMg,  int targetFatMg)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int age,  String gender,  int heightCm,  int weightKg,  String lifestyle,  String activityLevel,  List<String> allergies,  List<String> goals,  int householdSize,  bool hasChildren,  int targetEnergyKcal,  int targetProteinMg,  int targetCarbsMg,  int targetFatMg)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _MealPlanProfileSnapshot() when $default != null:
-return $default(_that.age,_that.gender,_that.heightCm,_that.weightKg,_that.lifestyle,_that.activityLevel,_that.allergies,_that.goals,_that.targetEnergyKcal,_that.targetProteinMg,_that.targetCarbsMg,_that.targetFatMg);case _:
+return $default(_that.age,_that.gender,_that.heightCm,_that.weightKg,_that.lifestyle,_that.activityLevel,_that.allergies,_that.goals,_that.householdSize,_that.hasChildren,_that.targetEnergyKcal,_that.targetProteinMg,_that.targetCarbsMg,_that.targetFatMg);case _:
   return orElse();
 
 }
@@ -3668,10 +3682,10 @@ return $default(_that.age,_that.gender,_that.heightCm,_that.weightKg,_that.lifes
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int age,  String gender,  int heightCm,  int weightKg,  String lifestyle,  String activityLevel,  List<String> allergies,  List<String> goals,  int targetEnergyKcal,  int targetProteinMg,  int targetCarbsMg,  int targetFatMg)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int age,  String gender,  int heightCm,  int weightKg,  String lifestyle,  String activityLevel,  List<String> allergies,  List<String> goals,  int householdSize,  bool hasChildren,  int targetEnergyKcal,  int targetProteinMg,  int targetCarbsMg,  int targetFatMg)  $default,) {final _that = this;
 switch (_that) {
 case _MealPlanProfileSnapshot():
-return $default(_that.age,_that.gender,_that.heightCm,_that.weightKg,_that.lifestyle,_that.activityLevel,_that.allergies,_that.goals,_that.targetEnergyKcal,_that.targetProteinMg,_that.targetCarbsMg,_that.targetFatMg);case _:
+return $default(_that.age,_that.gender,_that.heightCm,_that.weightKg,_that.lifestyle,_that.activityLevel,_that.allergies,_that.goals,_that.householdSize,_that.hasChildren,_that.targetEnergyKcal,_that.targetProteinMg,_that.targetCarbsMg,_that.targetFatMg);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -3688,10 +3702,10 @@ return $default(_that.age,_that.gender,_that.heightCm,_that.weightKg,_that.lifes
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int age,  String gender,  int heightCm,  int weightKg,  String lifestyle,  String activityLevel,  List<String> allergies,  List<String> goals,  int targetEnergyKcal,  int targetProteinMg,  int targetCarbsMg,  int targetFatMg)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int age,  String gender,  int heightCm,  int weightKg,  String lifestyle,  String activityLevel,  List<String> allergies,  List<String> goals,  int householdSize,  bool hasChildren,  int targetEnergyKcal,  int targetProteinMg,  int targetCarbsMg,  int targetFatMg)?  $default,) {final _that = this;
 switch (_that) {
 case _MealPlanProfileSnapshot() when $default != null:
-return $default(_that.age,_that.gender,_that.heightCm,_that.weightKg,_that.lifestyle,_that.activityLevel,_that.allergies,_that.goals,_that.targetEnergyKcal,_that.targetProteinMg,_that.targetCarbsMg,_that.targetFatMg);case _:
+return $default(_that.age,_that.gender,_that.heightCm,_that.weightKg,_that.lifestyle,_that.activityLevel,_that.allergies,_that.goals,_that.householdSize,_that.hasChildren,_that.targetEnergyKcal,_that.targetProteinMg,_that.targetCarbsMg,_that.targetFatMg);case _:
   return null;
 
 }
@@ -3703,7 +3717,7 @@ return $default(_that.age,_that.gender,_that.heightCm,_that.weightKg,_that.lifes
 @JsonSerializable()
 
 class _MealPlanProfileSnapshot implements MealPlanProfileSnapshot {
-  const _MealPlanProfileSnapshot({required this.age, required this.gender, required this.heightCm, required this.weightKg, required this.lifestyle, required this.activityLevel, required final  List<String> allergies, required final  List<String> goals, this.targetEnergyKcal = 0, this.targetProteinMg = 0, this.targetCarbsMg = 0, this.targetFatMg = 0}): _allergies = allergies,_goals = goals;
+  const _MealPlanProfileSnapshot({required this.age, required this.gender, required this.heightCm, required this.weightKg, required this.lifestyle, required this.activityLevel, required final  List<String> allergies, required final  List<String> goals, this.householdSize = 1, this.hasChildren = false, this.targetEnergyKcal = 0, this.targetProteinMg = 0, this.targetCarbsMg = 0, this.targetFatMg = 0}): _allergies = allergies,_goals = goals;
   factory _MealPlanProfileSnapshot.fromJson(Map<String, dynamic> json) => _$MealPlanProfileSnapshotFromJson(json);
 
 @override final  int age;
@@ -3726,6 +3740,8 @@ class _MealPlanProfileSnapshot implements MealPlanProfileSnapshot {
   return EqualUnmodifiableListView(_goals);
 }
 
+@override@JsonKey() final  int householdSize;
+@override@JsonKey() final  bool hasChildren;
 @override@JsonKey() final  int targetEnergyKcal;
 @override@JsonKey() final  int targetProteinMg;
 @override@JsonKey() final  int targetCarbsMg;
@@ -3744,16 +3760,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MealPlanProfileSnapshot&&(identical(other.age, age) || other.age == age)&&(identical(other.gender, gender) || other.gender == gender)&&(identical(other.heightCm, heightCm) || other.heightCm == heightCm)&&(identical(other.weightKg, weightKg) || other.weightKg == weightKg)&&(identical(other.lifestyle, lifestyle) || other.lifestyle == lifestyle)&&(identical(other.activityLevel, activityLevel) || other.activityLevel == activityLevel)&&const DeepCollectionEquality().equals(other._allergies, _allergies)&&const DeepCollectionEquality().equals(other._goals, _goals)&&(identical(other.targetEnergyKcal, targetEnergyKcal) || other.targetEnergyKcal == targetEnergyKcal)&&(identical(other.targetProteinMg, targetProteinMg) || other.targetProteinMg == targetProteinMg)&&(identical(other.targetCarbsMg, targetCarbsMg) || other.targetCarbsMg == targetCarbsMg)&&(identical(other.targetFatMg, targetFatMg) || other.targetFatMg == targetFatMg));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MealPlanProfileSnapshot&&(identical(other.age, age) || other.age == age)&&(identical(other.gender, gender) || other.gender == gender)&&(identical(other.heightCm, heightCm) || other.heightCm == heightCm)&&(identical(other.weightKg, weightKg) || other.weightKg == weightKg)&&(identical(other.lifestyle, lifestyle) || other.lifestyle == lifestyle)&&(identical(other.activityLevel, activityLevel) || other.activityLevel == activityLevel)&&const DeepCollectionEquality().equals(other._allergies, _allergies)&&const DeepCollectionEquality().equals(other._goals, _goals)&&(identical(other.householdSize, householdSize) || other.householdSize == householdSize)&&(identical(other.hasChildren, hasChildren) || other.hasChildren == hasChildren)&&(identical(other.targetEnergyKcal, targetEnergyKcal) || other.targetEnergyKcal == targetEnergyKcal)&&(identical(other.targetProteinMg, targetProteinMg) || other.targetProteinMg == targetProteinMg)&&(identical(other.targetCarbsMg, targetCarbsMg) || other.targetCarbsMg == targetCarbsMg)&&(identical(other.targetFatMg, targetFatMg) || other.targetFatMg == targetFatMg));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,age,gender,heightCm,weightKg,lifestyle,activityLevel,const DeepCollectionEquality().hash(_allergies),const DeepCollectionEquality().hash(_goals),targetEnergyKcal,targetProteinMg,targetCarbsMg,targetFatMg);
+int get hashCode => Object.hash(runtimeType,age,gender,heightCm,weightKg,lifestyle,activityLevel,const DeepCollectionEquality().hash(_allergies),const DeepCollectionEquality().hash(_goals),householdSize,hasChildren,targetEnergyKcal,targetProteinMg,targetCarbsMg,targetFatMg);
 
 @override
 String toString() {
-  return 'MealPlanProfileSnapshot(age: $age, gender: $gender, heightCm: $heightCm, weightKg: $weightKg, lifestyle: $lifestyle, activityLevel: $activityLevel, allergies: $allergies, goals: $goals, targetEnergyKcal: $targetEnergyKcal, targetProteinMg: $targetProteinMg, targetCarbsMg: $targetCarbsMg, targetFatMg: $targetFatMg)';
+  return 'MealPlanProfileSnapshot(age: $age, gender: $gender, heightCm: $heightCm, weightKg: $weightKg, lifestyle: $lifestyle, activityLevel: $activityLevel, allergies: $allergies, goals: $goals, householdSize: $householdSize, hasChildren: $hasChildren, targetEnergyKcal: $targetEnergyKcal, targetProteinMg: $targetProteinMg, targetCarbsMg: $targetCarbsMg, targetFatMg: $targetFatMg)';
 }
 
 
@@ -3764,7 +3780,7 @@ abstract mixin class _$MealPlanProfileSnapshotCopyWith<$Res> implements $MealPla
   factory _$MealPlanProfileSnapshotCopyWith(_MealPlanProfileSnapshot value, $Res Function(_MealPlanProfileSnapshot) _then) = __$MealPlanProfileSnapshotCopyWithImpl;
 @override @useResult
 $Res call({
- int age, String gender, int heightCm, int weightKg, String lifestyle, String activityLevel, List<String> allergies, List<String> goals, int targetEnergyKcal, int targetProteinMg, int targetCarbsMg, int targetFatMg
+ int age, String gender, int heightCm, int weightKg, String lifestyle, String activityLevel, List<String> allergies, List<String> goals, int householdSize, bool hasChildren, int targetEnergyKcal, int targetProteinMg, int targetCarbsMg, int targetFatMg
 });
 
 
@@ -3781,7 +3797,7 @@ class __$MealPlanProfileSnapshotCopyWithImpl<$Res>
 
 /// Create a copy of MealPlanProfileSnapshot
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? age = null,Object? gender = null,Object? heightCm = null,Object? weightKg = null,Object? lifestyle = null,Object? activityLevel = null,Object? allergies = null,Object? goals = null,Object? targetEnergyKcal = null,Object? targetProteinMg = null,Object? targetCarbsMg = null,Object? targetFatMg = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? age = null,Object? gender = null,Object? heightCm = null,Object? weightKg = null,Object? lifestyle = null,Object? activityLevel = null,Object? allergies = null,Object? goals = null,Object? householdSize = null,Object? hasChildren = null,Object? targetEnergyKcal = null,Object? targetProteinMg = null,Object? targetCarbsMg = null,Object? targetFatMg = null,}) {
   return _then(_MealPlanProfileSnapshot(
 age: null == age ? _self.age : age // ignore: cast_nullable_to_non_nullable
 as int,gender: null == gender ? _self.gender : gender // ignore: cast_nullable_to_non_nullable
@@ -3791,7 +3807,9 @@ as int,lifestyle: null == lifestyle ? _self.lifestyle : lifestyle // ignore: cas
 as String,activityLevel: null == activityLevel ? _self.activityLevel : activityLevel // ignore: cast_nullable_to_non_nullable
 as String,allergies: null == allergies ? _self._allergies : allergies // ignore: cast_nullable_to_non_nullable
 as List<String>,goals: null == goals ? _self._goals : goals // ignore: cast_nullable_to_non_nullable
-as List<String>,targetEnergyKcal: null == targetEnergyKcal ? _self.targetEnergyKcal : targetEnergyKcal // ignore: cast_nullable_to_non_nullable
+as List<String>,householdSize: null == householdSize ? _self.householdSize : householdSize // ignore: cast_nullable_to_non_nullable
+as int,hasChildren: null == hasChildren ? _self.hasChildren : hasChildren // ignore: cast_nullable_to_non_nullable
+as bool,targetEnergyKcal: null == targetEnergyKcal ? _self.targetEnergyKcal : targetEnergyKcal // ignore: cast_nullable_to_non_nullable
 as int,targetProteinMg: null == targetProteinMg ? _self.targetProteinMg : targetProteinMg // ignore: cast_nullable_to_non_nullable
 as int,targetCarbsMg: null == targetCarbsMg ? _self.targetCarbsMg : targetCarbsMg // ignore: cast_nullable_to_non_nullable
 as int,targetFatMg: null == targetFatMg ? _self.targetFatMg : targetFatMg // ignore: cast_nullable_to_non_nullable

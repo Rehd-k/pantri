@@ -102,6 +102,8 @@ _HealthProfile _$HealthProfileFromJson(Map<String, dynamic> json) =>
       weightKg: (json['weightKg'] as num).toInt(),
       lifestyle: json['lifestyle'] as String,
       activityLevel: json['activityLevel'] as String,
+      householdSize: (json['householdSize'] as num?)?.toInt() ?? 1,
+      hasChildren: json['hasChildren'] as bool? ?? false,
       targetEnergyKcal: (json['targetEnergyKcal'] as num?)?.toInt() ?? 0,
       targetProteinMg: (json['targetProteinMg'] as num?)?.toInt() ?? 0,
       targetCarbsMg: (json['targetCarbsMg'] as num?)?.toInt() ?? 0,
@@ -130,6 +132,8 @@ Map<String, dynamic> _$HealthProfileToJson(_HealthProfile instance) =>
       'weightKg': instance.weightKg,
       'lifestyle': instance.lifestyle,
       'activityLevel': instance.activityLevel,
+      'householdSize': instance.householdSize,
+      'hasChildren': instance.hasChildren,
       'targetEnergyKcal': instance.targetEnergyKcal,
       'targetProteinMg': instance.targetProteinMg,
       'targetCarbsMg': instance.targetCarbsMg,
@@ -153,6 +157,8 @@ _UpsertHealthProfileRequest _$UpsertHealthProfileRequestFromJson(
   weightKg: (json['weightKg'] as num).toInt(),
   lifestyle: json['lifestyle'] as String,
   activityLevel: json['activityLevel'] as String,
+  householdSize: (json['householdSize'] as num?)?.toInt() ?? 1,
+  hasChildren: json['hasChildren'] as bool? ?? false,
   allergies: (json['allergies'] as List<dynamic>)
       .map((e) => AllergySelectionRequest.fromJson(e as Map<String, dynamic>))
       .toList(),
@@ -170,6 +176,8 @@ Map<String, dynamic> _$UpsertHealthProfileRequestToJson(
   'weightKg': instance.weightKg,
   'lifestyle': instance.lifestyle,
   'activityLevel': instance.activityLevel,
+  'householdSize': instance.householdSize,
+  'hasChildren': instance.hasChildren,
   'allergies': instance.allergies,
   'goals': instance.goals,
 };
@@ -330,6 +338,8 @@ _MealPlanProfileSnapshot _$MealPlanProfileSnapshotFromJson(
       .map((e) => e as String)
       .toList(),
   goals: (json['goals'] as List<dynamic>).map((e) => e as String).toList(),
+  householdSize: (json['householdSize'] as num?)?.toInt() ?? 1,
+  hasChildren: json['hasChildren'] as bool? ?? false,
   targetEnergyKcal: (json['targetEnergyKcal'] as num?)?.toInt() ?? 0,
   targetProteinMg: (json['targetProteinMg'] as num?)?.toInt() ?? 0,
   targetCarbsMg: (json['targetCarbsMg'] as num?)?.toInt() ?? 0,
@@ -347,6 +357,8 @@ Map<String, dynamic> _$MealPlanProfileSnapshotToJson(
   'activityLevel': instance.activityLevel,
   'allergies': instance.allergies,
   'goals': instance.goals,
+  'householdSize': instance.householdSize,
+  'hasChildren': instance.hasChildren,
   'targetEnergyKcal': instance.targetEnergyKcal,
   'targetProteinMg': instance.targetProteinMg,
   'targetCarbsMg': instance.targetCarbsMg,

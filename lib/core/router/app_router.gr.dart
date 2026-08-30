@@ -147,6 +147,22 @@ class PendingApprovalRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [PreferenceQuizScreen]
+class PreferenceQuizRoute extends PageRouteInfo<void> {
+  const PreferenceQuizRoute({List<PageRouteInfo>? children})
+    : super(PreferenceQuizRoute.name, initialChildren: children);
+
+  static const String name = 'PreferenceQuizRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const PreferenceQuizScreen();
+    },
+  );
+}
+
+/// generated route for
 /// [RegisterEmployeeScreen]
 class RegisterEmployeeRoute extends PageRouteInfo<void> {
   const RegisterEmployeeRoute({List<PageRouteInfo>? children})

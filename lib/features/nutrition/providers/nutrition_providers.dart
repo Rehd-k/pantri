@@ -1,11 +1,17 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../onboarding/domain/onboarding_prefs_draft.dart';
 import '../data/nutrition_repository.dart';
 import '../domain/nutrition_models.dart';
 
 final nutritionCatalogProvider =
     FutureProvider.autoDispose<NutritionCatalog>((ref) {
   return ref.watch(nutritionRepositoryProvider).getCatalog();
+});
+
+final publicNutritionCatalogProvider =
+    FutureProvider.autoDispose<NutritionCatalog>((ref) {
+  return ref.watch(nutritionRepositoryProvider).getPublicCatalog();
 });
 
 final healthProfileProvider =
@@ -44,6 +50,8 @@ class QuestionnaireDraft {
     this.weightKg = 70,
     this.lifestyle = 'EVERYTHING',
     this.activityLevel = 'MODERATE',
+    this.householdSize = 1,
+    this.hasChildren = false,
     this.selectedAllergyIds = const {},
     this.customAllergies = const [],
     this.selectedGoalIds = const {},
@@ -56,6 +64,8 @@ class QuestionnaireDraft {
   final int weightKg;
   final String lifestyle;
   final String activityLevel;
+  final int householdSize;
+  final bool hasChildren;
   final Set<String> selectedAllergyIds;
   final List<String> customAllergies;
   final Set<String> selectedGoalIds;
@@ -68,11 +78,14 @@ class QuestionnaireDraft {
     int? weightKg,
     String? lifestyle,
     String? activityLevel,
+    int? householdSize,
+    bool? hasChildren,
     Set<String>? selectedAllergyIds,
     List<String>? customAllergies,
     Set<String>? selectedGoalIds,
     List<String>? customGoals,
   }) {
+    final nextSize = householdSize ?? this.householdSize;
     return QuestionnaireDraft(
       age: age ?? this.age,
       gender: gender ?? this.gender,
@@ -80,6 +93,8 @@ class QuestionnaireDraft {
       weightKg: weightKg ?? this.weightKg,
       lifestyle: lifestyle ?? this.lifestyle,
       activityLevel: activityLevel ?? this.activityLevel,
+      householdSize: nextSize,
+      hasChildren: nextSize > 1 && (hasChildren ?? this.hasChildren),
       selectedAllergyIds: selectedAllergyIds ?? this.selectedAllergyIds,
       customAllergies: customAllergies ?? this.customAllergies,
       selectedGoalIds: selectedGoalIds ?? this.selectedGoalIds,
@@ -95,6 +110,8 @@ class QuestionnaireDraft {
       weightKg: weightKg,
       lifestyle: lifestyle,
       activityLevel: activityLevel,
+      householdSize: householdSize,
+      hasChildren: householdSize > 1 && hasChildren,
       allergies: [
         ...selectedAllergyIds.map(
           (id) => AllergySelectionRequest(allergyId: id),
@@ -126,6 +143,8 @@ class QuestionnaireNotifier extends Notifier<QuestionnaireDraft> {
       weightKg: profile.weightKg,
       lifestyle: profile.lifestyle,
       activityLevel: profile.activityLevel,
+      householdSize: profile.householdSize,
+      hasChildren: profile.hasChildren,
       selectedAllergyIds: {
         for (final a in profile.allergies)
           if (a.allergyId != null) a.allergyId!,
@@ -154,6 +173,44 @@ class QuestionnaireNotifier extends Notifier<QuestionnaireDraft> {
   void setLifestyle(String value) => state = state.copyWith(lifestyle: value);
   void setActivityLevel(String value) =>
       state = state.copyWith(activityLevel: value);
+  void setHouseholdSize(int value) {
+    final nextLifestyle =
+        value <= 1 && state.lifestyle == 'MIXED' ? 'EVERYTHING' : null;
+    state = state.copyWith(
+      householdSize: value,
+      lifestyle: nextLifestyle,
+    );
+  }
+  void setHasChildren(bool value) =>
+      state = state.copyWith(hasChildren: value);
+
+  void hydrateFromPrefs({
+    required OnboardingPrefsDraft prefs,
+    required NutritionCatalog catalog,
+  }) {
+    final allergyIds = {
+      for (final allergy in catalog.allergies)
+        if (prefs.allergySlugs.contains(allergy.slug)) allergy.id,
+    };
+    final goalIds = {
+      for (final goal in catalog.goals)
+        if (prefs.goalSlugs.contains(goal.slug)) goal.id,
+    };
+    state = QuestionnaireDraft(
+      age: prefs.age,
+      gender: prefs.gender,
+      heightCm: prefs.heightCm,
+      weightKg: prefs.weightKg,
+      lifestyle: prefs.lifestyle,
+      activityLevel: prefs.activityLevel,
+      householdSize: prefs.householdSize,
+      hasChildren: prefs.hasChildren,
+      selectedAllergyIds: allergyIds,
+      customAllergies: prefs.customAllergies,
+      selectedGoalIds: goalIds,
+      customGoals: prefs.customGoals,
+    );
+  }
 
   void toggleAllergy(String id) {
     final next = {...state.selectedAllergyIds};

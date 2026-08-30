@@ -11,6 +11,8 @@ class NutritionRepository {
 
   Future<NutritionCatalog> getCatalog() => _api.getCatalog();
 
+  Future<NutritionCatalog> getPublicCatalog() => _api.getPublicCatalog();
+
   Future<HealthProfile?> getProfile() => _api.getProfile();
 
   Future<HealthProfile> upsertProfile(UpsertHealthProfileRequest request) =>

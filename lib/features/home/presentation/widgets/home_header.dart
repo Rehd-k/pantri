@@ -47,12 +47,23 @@ class HomeHeader extends StatelessWidget {
         ),
         const SizedBox(width: AppSpacing.md),
         Expanded(
-          child: Text(
-            'Pantri',
-            style: textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.w800,
-              color: colorScheme.tertiary,
-            ),
+          child: Row(
+            children: [
+              Image.asset(
+                'assets/logo.png',
+                width: 28,
+                height: 28,
+                semanticLabel: 'Pantri',
+              ),
+              const SizedBox(width: AppSpacing.sm),
+              Text(
+                'Pantri',
+                style: textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.w800,
+                  color: colorScheme.tertiary,
+                ),
+              ),
+            ],
           ),
         ),
         IconButton(

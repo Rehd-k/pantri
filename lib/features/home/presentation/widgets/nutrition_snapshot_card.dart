@@ -70,6 +70,7 @@ class NutritionSnapshotCard extends ConsumerWidget {
               ),
               data: (report) => _NutritionSnapshotBody(
                 report: report,
+                householdSize: profile.householdSize,
                 onTap: onOpenProgress ?? onTap,
               ),
             );
@@ -84,10 +85,12 @@ class _NutritionSnapshotBody extends StatelessWidget {
   const _NutritionSnapshotBody({
     required this.report,
     required this.onTap,
+    required this.householdSize,
   });
 
   final NutritionProgressReport report;
   final VoidCallback onTap;
+  final int householdSize;
 
   @override
   Widget build(BuildContext context) {
@@ -180,6 +183,15 @@ class _NutritionSnapshotBody extends StatelessWidget {
                   color: colorScheme.onSurfaceVariant,
                 ),
               ),
+              if (householdSize > 1) ...[
+                const SizedBox(height: AppSpacing.xs),
+                Text(
+                  'Targets are yours · pantry sized for $householdSize',
+                  style: textTheme.bodySmall?.copyWith(
+                    color: colorScheme.onSurfaceVariant,
+                  ),
+                ),
+              ],
             ],
           ),
         ),

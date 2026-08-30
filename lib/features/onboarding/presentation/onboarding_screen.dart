@@ -48,9 +48,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
   Future<void> _complete() async {
     if (_completing) return;
     setState(() => _completing = true);
-    await ref.read(firstLaunchProvider.notifier).markSeen();
+    await ref.read(firstLaunchProvider.notifier).markIntroSeen();
     if (!mounted) return;
-    await context.router.replace(const WelcomeRoute());
+    await context.router.replace(const PreferenceQuizRoute());
   }
 
   void _next() {

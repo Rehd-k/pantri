@@ -11,6 +11,7 @@ import '../domain/register_supplier_request.dart';
 import '../domain/user_role.dart';
 import '../domain/user_status.dart';
 import 'auth_state.dart';
+import '../../onboarding/providers/onboarding_profile_flush.dart';
 
 final authNotifierProvider = NotifierProvider<AuthNotifier, AuthState>(
   AuthNotifier.new,
@@ -49,6 +50,7 @@ class AuthNotifier extends Notifier<AuthState> {
         state = const AuthUnauthenticated();
       } else {
         state = AuthAuthenticated(user);
+        await flushOnboardingPrefs(ref, user.role);
       }
     } catch (e) {
       state = AuthError(e.toString());
@@ -69,6 +71,7 @@ class AuthNotifier extends Notifier<AuthState> {
         return;
       }
       state = AuthAuthenticated(response.user);
+      await flushOnboardingPrefs(ref, response.user.role);
     } on ApiException catch (e) {
       if (e.isPendingApproval) {
         state = AuthPendingApproval(message: e.message);
@@ -101,6 +104,7 @@ class AuthNotifier extends Notifier<AuthState> {
         ),
       );
       state = AuthAuthenticated(response.user);
+      await flushOnboardingPrefs(ref, response.user.role);
     } on ApiException catch (e) {
       state = AuthError(e.message);
     } catch (e) {

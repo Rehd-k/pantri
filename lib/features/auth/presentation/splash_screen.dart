@@ -42,18 +42,17 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              'Pantri',
-              style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                color: colorScheme.primary,
-                fontWeight: FontWeight.w700,
-              ),
+            Image.asset(
+              'assets/logo.png',
+              width: 96,
+              height: 96,
+              semanticLabel: 'Pantri',
             ),
             const SizedBox(height: AppSpacing.xl),
             const CircularProgressIndicator(),

@@ -19,6 +19,17 @@ class NutritionApi {
     }
   }
 
+  Future<NutritionCatalog> getPublicCatalog() async {
+    try {
+      final response = await _dio.get<Map<String, dynamic>>(
+        '/public/nutrition/catalog',
+      );
+      return NutritionCatalog.fromJson(response.data!);
+    } on DioException catch (e) {
+      throw mapDioError(e);
+    }
+  }
+
   Future<HealthProfile?> getProfile() async {
     try {
       final response = await _dio.get<Map<String, dynamic>>(

@@ -14,10 +14,12 @@ import '../../marketplace/providers/marketplace_providers.dart';
 import '../../nutrition/presentation/progress_report_screen.dart';
 import '../../nutrition/providers/nutrition_providers.dart';
 import '../../packages/presentation/packages_screen.dart';
+import '../../packages/providers/packages_providers.dart';
 import '../../shell/employee_bottom_nav.dart';
 import '../providers/home_providers.dart';
 import 'widgets/current_meal_card.dart';
 import 'widgets/home_header.dart';
+import 'widgets/household_package_card.dart';
 import 'widgets/next_deduction_card.dart';
 import 'widgets/nutrition_snapshot_card.dart';
 import 'widgets/quick_actions_row.dart';
@@ -60,7 +62,8 @@ class HomeScreen extends ConsumerWidget {
       ..invalidate(marketplaceBannersProvider)
       ..invalidate(healthProfileProvider)
       ..invalidate(mealPlansProvider)
-      ..invalidate(nutritionProgressProvider('today'));
+      ..invalidate(nutritionProgressProvider('today'))
+      ..invalidate(curatedPackagesProvider);
 
     await Future.wait([
       ref.read(employeeDashboardProvider.future),
@@ -69,6 +72,7 @@ class HomeScreen extends ConsumerWidget {
       ref.read(healthProfileProvider.future),
       ref.read(mealPlansProvider.future),
       ref.read(nutritionProgressProvider('today').future),
+      ref.read(curatedPackagesProvider.future),
     ]);
   }
 
@@ -273,6 +277,20 @@ class HomeScreen extends ConsumerWidget {
                       Navigator.of(context).push(
                         MaterialPageRoute<void>(
                           builder: (_) => const ProgressReportScreen(),
+                        ),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: AppSpacing.xxl),
+                  HouseholdPackageCard(
+                    onOpenPackages: () {
+                      if (onOpenPackages != null) {
+                        onOpenPackages!();
+                        return;
+                      }
+                      Navigator.of(context).push(
+                        MaterialPageRoute<void>(
+                          builder: (_) => const PackagesScreen(),
                         ),
                       );
                     },
