@@ -21,7 +21,7 @@ const onboardingSlides = <OnboardingSlide>[
     title: 'Shop now, pay from salary',
     body:
         'Stock your pantry without paying upfront. Checkout uses your '
-        'employer-backed credit line — not card or cash.',
+        'employer-backed credit line  not card or cash.',
     kind: OnboardingIllustrationKind.creditShop,
     accent: OnboardingAccent.primary,
   ),

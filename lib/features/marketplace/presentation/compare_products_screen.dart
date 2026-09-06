@@ -26,19 +26,15 @@ class CompareProductsScreen extends ConsumerWidget {
     final bAsync = ref.watch(productDetailProvider(productIdB));
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Compare Products'),
-      ),
+      appBar: AppBar(title: const Text('Compare Products')),
       body: aAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(child: Text('$e')),
         data: (productA) => bAsync.when(
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (e, _) => Center(child: Text('$e')),
-          data: (productB) => _CompareBody(
-            productA: productA,
-            productB: productB,
-          ),
+          data: (productB) =>
+              _CompareBody(productA: productA, productB: productB),
         ),
       ),
     );
@@ -46,10 +42,7 @@ class CompareProductsScreen extends ConsumerWidget {
 }
 
 class _CompareBody extends ConsumerWidget {
-  const _CompareBody({
-    required this.productA,
-    required this.productB,
-  });
+  const _CompareBody({required this.productA, required this.productB});
 
   final MarketplaceProduct productA;
   final MarketplaceProduct productB;
@@ -64,20 +57,16 @@ class _CompareBody extends ConsumerWidget {
       children: [
         Text(
           'Compare Products',
-          style: Theme.of(context)
-              .textTheme
-              .headlineSmall
-              ?.copyWith(fontWeight: FontWeight.w800),
+          style: Theme.of(
+            context,
+          ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w800),
         ),
         const SizedBox(height: AppSpacing.lg),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-              child: _CompareProductCard(
-                product: productA,
-                bestValue: aBest,
-              ),
+              child: _CompareProductCard(product: productA, bestValue: aBest),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(
@@ -86,21 +75,19 @@ class _CompareBody extends ConsumerWidget {
               ),
               child: CircleAvatar(
                 radius: 18,
-                backgroundColor:
-                    Theme.of(context).colorScheme.surfaceContainerHighest,
+                backgroundColor: Theme.of(
+                  context,
+                ).colorScheme.surfaceContainerHighest,
                 child: Text(
                   'VS',
-                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                        fontWeight: FontWeight.w800,
-                      ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.labelSmall?.copyWith(fontWeight: FontWeight.w800),
                 ),
               ),
             ),
             Expanded(
-              child: _CompareProductCard(
-                product: productB,
-                bestValue: !aBest,
-              ),
+              child: _CompareProductCard(product: productB, bestValue: !aBest),
             ),
           ],
         ),
@@ -151,9 +138,7 @@ class _CompareBody extends ConsumerWidget {
       if (packId == null) {
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('This product has no sellable packs'),
-            ),
+            const SnackBar(content: Text('This product has no sellable packs')),
           );
         }
         return;
@@ -167,18 +152,13 @@ class _CompareBody extends ConsumerWidget {
     } catch (e) {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(e is ApiException ? e.message : e.toString()),
-          ),
+          SnackBar(content: Text(e is ApiException ? e.message : e.toString())),
         );
       }
     }
   }
 
-  List<_RowData> _buildRows(
-    MarketplaceProduct a,
-    MarketplaceProduct b,
-  ) {
+  List<_RowData> _buildRows(MarketplaceProduct a, MarketplaceProduct b) {
     final rows = <_RowData>[
       _RowData(
         label: 'Wholesale price',
@@ -198,8 +178,8 @@ class _CompareBody extends ConsumerWidget {
       rows.add(
         _RowData(
           label: 'Origin',
-          left: a.origin.isEmpty ? '—' : a.origin,
-          right: b.origin.isEmpty ? '—' : b.origin,
+          left: a.origin.isEmpty ? '' : a.origin,
+          right: b.origin.isEmpty ? '' : b.origin,
         ),
       );
     }
@@ -221,10 +201,7 @@ class _CompareBody extends ConsumerWidget {
 }
 
 class _CompareProductCard extends StatelessWidget {
-  const _CompareProductCard({
-    required this.product,
-    required this.bestValue,
-  });
+  const _CompareProductCard({required this.product, required this.bestValue});
 
   final MarketplaceProduct product;
   final bool bestValue;
@@ -252,9 +229,9 @@ class _CompareProductCard extends StatelessWidget {
                 Text(
                   'Best Value',
                   style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w700,
-                      ),
+                    color: Colors.white,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ],
             ),
@@ -291,15 +268,15 @@ class _CompareProductCard extends StatelessWidget {
               Text(
                 product.packageLabel,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: colorScheme.onSurfaceVariant,
-                    ),
+                  color: colorScheme.onSurfaceVariant,
+                ),
               ),
               Text(
                 MoneyKobo.formatNaira(product.priceKobo),
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w800,
-                      color: colorScheme.tertiary,
-                    ),
+                  fontWeight: FontWeight.w800,
+                  color: colorScheme.tertiary,
+                ),
               ),
             ],
           ),
@@ -343,8 +320,8 @@ class _CompareRow extends StatelessWidget {
             row.label,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
           ),
         ),
         Expanded(
@@ -356,11 +333,7 @@ class _CompareRow extends StatelessWidget {
 }
 
 class _Cell extends StatelessWidget {
-  const _Cell({
-    required this.text,
-    required this.wins,
-    this.alignEnd = false,
-  });
+  const _Cell({required this.text, required this.wins, this.alignEnd = false});
 
   final String text;
   final bool wins;
@@ -369,8 +342,9 @@ class _Cell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment:
-          alignEnd ? MainAxisAlignment.end : MainAxisAlignment.start,
+      mainAxisAlignment: alignEnd
+          ? MainAxisAlignment.end
+          : MainAxisAlignment.start,
       children: [
         if (wins && !alignEnd) ...[
           const Icon(Icons.check_circle, size: 16, color: Color(0xFF1B7A4E)),
@@ -381,8 +355,8 @@ class _Cell extends StatelessWidget {
             text,
             textAlign: alignEnd ? TextAlign.right : TextAlign.left,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontWeight: wins ? FontWeight.w700 : null,
-                ),
+              fontWeight: wins ? FontWeight.w700 : null,
+            ),
           ),
         ),
         if (wins && alignEnd) ...[
@@ -410,19 +384,19 @@ class _NutritionCompareSection extends StatelessWidget {
     final hasFacts = a.hasValues || b.hasValues;
     final rows = <_RowData>[
       _nutrientRow('Calories', a.energyKcal, b.energyKcal, 'kcal', false),
-      _nutrientRow('Protein', _grams(a.proteinMg), _grams(b.proteinMg), 'g', true),
+      _nutrientRow(
+        'Protein',
+        _grams(a.proteinMg),
+        _grams(b.proteinMg),
+        'g',
+        true,
+      ),
       _nutrientRow('Carbs', _grams(a.carbsMg), _grams(b.carbsMg), 'g', true),
       _nutrientRow('Fat', _grams(a.fatMg), _grams(b.fatMg), 'g', false),
       _nutrientRow('Fiber', _grams(a.fiberMg), _grams(b.fiberMg), 'g', true),
       _nutrientRow('Sugar', _grams(a.sugarMg), _grams(b.sugarMg), 'g', false),
       _nutrientRow('Sodium', a.sodiumMg, b.sodiumMg, 'mg', false),
-      _nutrientRow(
-        'Iron',
-        _grams(a.ironUg),
-        _grams(b.ironUg),
-        'mg',
-        true,
-      ),
+      _nutrientRow('Iron', _grams(a.ironUg), _grams(b.ironUg), 'mg', true),
     ];
     final allergenA = productA.allergens.map((e) => e.name).join(', ');
     final allergenB = productB.allergens.map((e) => e.name).join(', ');
@@ -442,24 +416,24 @@ class _NutritionCompareSection extends StatelessWidget {
         children: [
           Text(
             'Nutrition',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w800,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w800),
           ),
           const SizedBox(height: AppSpacing.xs),
           Text(
             'Per 100g serving',
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
           ),
           const SizedBox(height: AppSpacing.md),
           if (!hasFacts)
             Text(
               'Nutrition facts are not listed for these products yet.',
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
             )
           else
             for (var i = 0; i < rows.length; i++) ...[
@@ -491,8 +465,8 @@ class _NutritionCompareSection extends StatelessWidget {
     }
     return _RowData(
       label: label,
-      left: left == 0 ? '—' : '$left $unit',
-      right: right == 0 ? '—' : '$right $unit',
+      left: left == 0 ? '' : '$left $unit',
+      right: right == 0 ? '' : '$right $unit',
       leftWins: leftWins,
       rightWins: rightWins,
     );

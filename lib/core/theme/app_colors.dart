@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 /// Pantri brand color tokens. Widgets must use [ThemeData.colorScheme], not these
-/// constants directly — except when building [ColorScheme]s in [AppColors].
+/// constants directly  except when building [ColorScheme]s in [AppColors].
 abstract final class AppColors {
   static const Color primary = Color(0xFF1B7A4E);
   static const Color primaryDark = Color(0xFF4CAF7A);

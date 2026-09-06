@@ -6,7 +6,6 @@ import '../../../core/theme/app_spacing.dart';
 import '../../../core/widgets/app_empty_state.dart';
 import '../../auth/providers/auth_notifier.dart';
 import '../../auth/providers/auth_state.dart';
-import '../../inventory/presentation/pantry_screen.dart';
 import '../../inventory/presentation/restock_sheet.dart';
 import '../../inventory/providers/inventory_providers.dart';
 import '../../marketplace/presentation/widgets/banner_carousel.dart';
@@ -138,22 +137,22 @@ class HomeScreen extends ConsumerWidget {
                       ],
                     ),
                   ),
-                  const SizedBox(height: AppSpacing.sm),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute<void>(
-                          builder: (_) => const PantryScreen(),
-                        ),
-                      );
-                    },
-                    child: Text(
-                      'Ready to stock up your pantry?',
-                      style: textTheme.bodyLarge?.copyWith(
-                        color: colorScheme.onSurface.withValues(alpha: 0.55),
-                      ),
-                    ),
-                  ),
+                  // const SizedBox(height: AppSpacing.sm),
+                  // TextButton(
+                  //   onPressed: () {
+                  //     Navigator.of(context).push(
+                  //       MaterialPageRoute<void>(
+                  //         builder: (_) => const PantryScreen(),
+                  //       ),
+                  //     );
+                  //   },
+                  //   child: Text(
+                  //     'Ready to stock up your pantry?',
+                  //     style: textTheme.bodyLarge?.copyWith(
+                  //       color: colorScheme.onSurface.withValues(alpha: 0.55),
+                  //     ),
+                  //   ),
+                  // ),
                   if (user?.verificationStatus != null &&
                       user!.verificationStatus != 'APPROVED') ...[
                     const SizedBox(height: AppSpacing.md),
@@ -217,15 +216,10 @@ class HomeScreen extends ConsumerWidget {
                           title: Text(
                             '${alerts.length} pantry item${alerts.length == 1 ? '' : 's'} ran out',
                           ),
-                          subtitle: const Text(
-                            'Stock up from the marketplace',
-                          ),
+                          subtitle: const Text('Stock up from the marketplace'),
                           trailing: const Icon(Icons.chevron_right),
-                          onTap: () => showRestockSheet(
-                            context,
-                            ref,
-                            alerts: alerts,
-                          ),
+                          onTap: () =>
+                              showRestockSheet(context, ref, alerts: alerts),
                         ),
                       );
                     },

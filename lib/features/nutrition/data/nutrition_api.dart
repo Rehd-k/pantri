@@ -91,10 +91,13 @@ class NutritionApi {
     }
   }
 
-  Future<CookMealResult> cookRecipe(String recipeId) async {
+  Future<CookMealResult> cookRecipe(String recipeId, {int? servings}) async {
     try {
       final response = await _dio.post<Map<String, dynamic>>(
         '/nutrition/recipes/$recipeId/cook',
+        data: {
+          if (servings != null) 'servings': servings,
+        },
       );
       return CookMealResult.fromJson(response.data!);
     } on DioException catch (e) {
@@ -102,12 +105,84 @@ class NutritionApi {
     }
   }
 
-  Future<CookMealResult> cookMealItem(String itemId) async {
+  Future<CookMealResult> cookMealItem(String itemId, {int? servings}) async {
     try {
       final response = await _dio.post<Map<String, dynamic>>(
         '/nutrition/meal-plans/items/$itemId/cook',
+        data: {
+          if (servings != null) 'servings': servings,
+        },
       );
       return CookMealResult.fromJson(response.data!);
+    } on DioException catch (e) {
+      throw mapDioError(e);
+    }
+  }
+
+  Future<Map<String, dynamic>> skipMealItem(String itemId) async {
+    try {
+      final response = await _dio.post<Map<String, dynamic>>(
+        '/nutrition/meal-plans/items/$itemId/skip',
+        data: {},
+      );
+      return response.data!;
+    } on DioException catch (e) {
+      throw mapDioError(e);
+    }
+  }
+
+  Future<ReplenishmentSuggestion> getReplenishment() async {
+    try {
+      final response = await _dio.get<Map<String, dynamic>>(
+        '/nutrition/meal-plans/replenishment',
+      );
+      return ReplenishmentSuggestion.fromJson(response.data!);
+    } on DioException catch (e) {
+      throw mapDioError(e);
+    }
+  }
+
+  Future<ReplenishmentSuggestion> addReplenishmentToCart() async {
+    try {
+      final response = await _dio.post<Map<String, dynamic>>(
+        '/nutrition/meal-plans/replenishment/add-to-cart',
+      );
+      return ReplenishmentSuggestion.fromJson(response.data!);
+    } on DioException catch (e) {
+      throw mapDioError(e);
+    }
+  }
+
+  Future<List<ProgressCheckpoint>> listCheckpoints() async {
+    try {
+      final response = await _dio.get<List<dynamic>>(
+        '/nutrition/progress-checkpoints',
+      );
+      return response.data!
+          .map((e) => ProgressCheckpoint.fromJson(e as Map<String, dynamic>))
+          .toList();
+    } on DioException catch (e) {
+      throw mapDioError(e);
+    }
+  }
+
+  Future<ProgressCheckpoint> addCheckpoint({
+    required String metricKey,
+    required double value,
+    String unitLabel = 'kg',
+    String? note,
+  }) async {
+    try {
+      final response = await _dio.post<Map<String, dynamic>>(
+        '/nutrition/progress-checkpoints',
+        data: {
+          'metricKey': metricKey,
+          'value': value,
+          'unitLabel': unitLabel,
+          if (note != null) 'note': note,
+        },
+      );
+      return ProgressCheckpoint.fromJson(response.data!);
     } on DioException catch (e) {
       throw mapDioError(e);
     }

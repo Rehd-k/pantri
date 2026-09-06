@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/analytics/analytics_events.dart';
+import '../../../core/analytics/analytics_service.dart';
 import '../../../core/network/api_exception.dart';
 import '../../../core/theme/app_radius.dart';
 import '../../../core/theme/app_spacing.dart';
@@ -60,6 +62,12 @@ class _MarketplaceSearchScreenState
     _debounce = Timer(const Duration(milliseconds: 320), () {
       if (!mounted) return;
       setState(() => _query = value.trim());
+      if (_query.isNotEmpty) {
+        ref.read(analyticsServiceProvider).track(
+              AnalyticsEvents.searchSubmitted,
+              metadata: {'query': _query},
+            );
+      }
     });
   }
 
@@ -81,6 +89,35 @@ class _MarketplaceSearchScreenState
     final subsAsync = widget.categoryId == null
         ? null
         : ref.watch(activeSubcategoriesProvider(widget.categoryId!));
+
+    ref.listen(productSearchProvider(_params), (prev, next) {
+      next.whenData((response) {
+        if (_query.isEmpty) return;
+        final analytics = ref.read(analyticsServiceProvider);
+        if (response.items.isEmpty) {
+          analytics.track(
+            AnalyticsEvents.searchNoResults,
+            metadata: {'query': _query, 'resultCount': 0},
+          );
+        } else {
+          analytics.track(
+            AnalyticsEvents.searchResults,
+            metadata: {'query': _query, 'resultCount': response.total},
+          );
+        }
+      });
+    });
+
+    if (widget.categoryId != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ref.read(analyticsServiceProvider).track(
+              AnalyticsEvents.categoryViewed,
+              entityType: 'category',
+              entityId: widget.categoryId,
+              metadata: {'categoryName': widget.categoryName},
+            );
+      });
+    }
 
     return Scaffold(
       backgroundColor: colorScheme.surface,

@@ -49,9 +49,9 @@ class ThemePreviewScreen extends StatelessWidget {
           Text('Display Large', style: textTheme.displayLarge),
           Text('Headline Medium', style: textTheme.headlineMedium),
           Text('Title Large', style: textTheme.titleLarge),
-          Text('Body Large — marketplace body copy', style: textTheme.bodyLarge),
-          Text('Body Medium — supporting detail', style: textTheme.bodyMedium),
-          Text('Label Small — captions & meta', style: textTheme.labelSmall),
+          Text('Body Large  marketplace body copy', style: textTheme.bodyLarge),
+          Text('Body Medium  supporting detail', style: textTheme.bodyMedium),
+          Text('Label Small  captions & meta', style: textTheme.labelSmall),
           const SizedBox(height: AppSpacing.xxl),
           Text('Buttons', style: textTheme.titleLarge),
           const SizedBox(height: AppSpacing.md),
@@ -75,11 +75,7 @@ class ThemePreviewScreen extends StatelessWidget {
                 variant: AppButtonVariant.destructive,
                 onPressed: () {},
               ),
-              const AppButton(
-                label: 'Loading',
-                loading: true,
-                onPressed: null,
-              ),
+              const AppButton(label: 'Loading', loading: true, onPressed: null),
               AppButton(
                 label: 'Compact',
                 size: AppButtonSize.compact,
@@ -115,7 +111,7 @@ class ThemePreviewScreen extends StatelessWidget {
                 Text('Family Package', style: textTheme.titleMedium),
                 const SizedBox(height: AppSpacing.xs),
                 Text(
-                  'Rice, oil, and essentials — split across 5 payroll cycles.',
+                  'Rice, oil, and essentials  split across 5 payroll cycles.',
                   style: textTheme.bodyMedium,
                 ),
               ],
@@ -177,11 +173,7 @@ class _Swatch extends StatelessWidget {
             ),
           ),
           const SizedBox(height: AppSpacing.xs),
-          Text(
-            label,
-            textAlign: TextAlign.center,
-            style: textTheme.labelSmall,
-          ),
+          Text(label, textAlign: TextAlign.center, style: textTheme.labelSmall),
         ],
       ),
     );

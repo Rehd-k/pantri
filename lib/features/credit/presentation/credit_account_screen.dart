@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
+import '../../../core/analytics/analytics_events.dart';
+import '../../../core/analytics/analytics_service.dart';
 import '../../../core/network/api_exception.dart';
 import '../../../core/theme/app_radius.dart';
 import '../../../core/theme/app_spacing.dart';
@@ -31,6 +33,13 @@ class _CreditAccountScreenState extends ConsumerState<CreditAccountScreen> {
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final analytics = ref.read(analyticsServiceProvider);
+      analytics.track(AnalyticsEvents.creditViewed);
+      analytics.track(AnalyticsEvents.creditLimitViewed);
+      analytics.track(AnalyticsEvents.availableCreditViewed);
+      analytics.track(AnalyticsEvents.payrollInfoViewed);
+    });
   }
 
   @override

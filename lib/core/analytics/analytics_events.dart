@@ -1,0 +1,39 @@
+/// Mirrored from backend `analytics/taxonomy/analytics-events.ts`.
+abstract final class AnalyticsEvents {
+  static const accountCreated = 'employee.account_created';
+  static const invitationAccepted = 'employee.invitation_accepted';
+  static const registrationCompleted = 'employee.registration_completed';
+  static const profileCompleted = 'employee.profile_completed';
+  static const accountActivated = 'employee.account_activated';
+  static const accountDeactivated = 'employee.account_deactivated';
+  static const appOpened = 'employee.app_opened';
+  static const sessionStarted = 'employee.session_started';
+  static const sessionEnded = 'employee.session_ended';
+  static const login = 'employee.login';
+  static const logout = 'employee.logout';
+  static const categoryViewed = 'employee.category_viewed';
+  static const productViewed = 'employee.product_viewed';
+  static const searchSubmitted = 'employee.search_submitted';
+  static const searchResults = 'employee.search_results';
+  static const searchNoResults = 'employee.search_no_results';
+  static const productAddedToCart = 'employee.product_added_to_cart';
+  static const productRemovedFromCart = 'employee.product_removed_from_cart';
+  static const cartViewed = 'employee.cart_viewed';
+  static const checkoutStarted = 'employee.checkout_started';
+  static const checkoutStepCompleted = 'employee.checkout_step_completed';
+  static const checkoutAbandoned = 'employee.checkout_abandoned';
+  static const orderSubmitted = 'employee.order_submitted';
+  static const orderCompleted = 'employee.order_completed';
+  static const orderCancelled = 'employee.order_cancelled';
+  static const orderDelivered = 'employee.order_delivered';
+  static const orderPartiallyFulfilled = 'employee.order_partially_fulfilled';
+  static const refundIssued = 'employee.refund_issued';
+  static const orderViewed = 'employee.order_viewed';
+  static const creditViewed = 'employee.credit_viewed';
+  static const creditLimitViewed = 'employee.credit_limit_viewed';
+  static const availableCreditViewed = 'employee.available_credit_viewed';
+  static const payrollInfoViewed = 'employee.payroll_info_viewed';
+  static const notificationOpened = 'employee.notification_opened';
+  static const notificationIgnored = 'employee.notification_ignored';
+  static const ctaClicked = 'employee.cta_clicked';
+}

@@ -1,19 +1,25 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/router/app_router.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../onboarding/data/onboarding_slides.dart';
 import '../../onboarding/presentation/widgets/onboarding_illustration.dart';
+import '../../onboarding/providers/first_launch_provider.dart';
 import 'widgets/auth_scaffold.dart';
 
 @RoutePage()
-class WelcomeScreen extends StatelessWidget {
+class WelcomeScreen extends ConsumerWidget {
   const WelcomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final firstLaunch = ref.watch(firstLaunchProvider);
+    final quizFinished =
+        firstLaunch is FirstLaunchLoaded && firstLaunch.hasFinishedQuiz;
+
     return AuthScaffold(
       showBack: false,
       footer: Column(
@@ -26,10 +32,14 @@ class WelcomeScreen extends StatelessWidget {
           ),
           const SizedBox(height: AppSpacing.md),
           AppButton(
-            label: 'Create an account',
+            label: quizFinished ? 'Create an account' : 'Get started',
             expanded: true,
             variant: AppButtonVariant.outlined,
-            onPressed: () => context.router.push(const RegisterHubRoute()),
+            onPressed: () => context.router.push(
+              quizFinished
+                  ? const RegisterHubRoute()
+                  : const PreferenceQuizRoute(),
+            ),
           ),
         ],
       ),

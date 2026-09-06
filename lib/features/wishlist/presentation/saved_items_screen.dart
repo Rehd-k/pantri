@@ -30,7 +30,9 @@ class _SavedItemsScreenState extends ConsumerState<SavedItemsScreen> {
       } else {
         if (_selectedIds.length >= 2) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Select exactly 2 products to compare')),
+            const SnackBar(
+              content: Text('Select exactly 2 products to compare'),
+            ),
           );
           return;
         }
@@ -49,10 +51,8 @@ class _SavedItemsScreenState extends ConsumerState<SavedItemsScreen> {
     final ids = _selectedIds.toList();
     Navigator.of(context).push(
       MaterialPageRoute<void>(
-        builder: (_) => CompareProductsScreen(
-          productIdA: ids[0],
-          productIdB: ids[1],
-        ),
+        builder: (_) =>
+            CompareProductsScreen(productIdA: ids[0], productIdB: ids[1]),
       ),
     );
   }
@@ -93,8 +93,7 @@ class _SavedItemsScreenState extends ConsumerState<SavedItemsScreen> {
             return const AppEmptyState(
               icon: Icons.favorite_border,
               title: 'No saved items',
-              message:
-                  'Tap the heart on a product to save it here for later.',
+              message: 'Tap the heart on a product to save it here for later.',
             );
           }
 
@@ -115,16 +114,12 @@ class _SavedItemsScreenState extends ConsumerState<SavedItemsScreen> {
                         children: [
                           Text(
                             'Saved Items',
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineSmall
+                            style: Theme.of(context).textTheme.headlineSmall
                                 ?.copyWith(fontWeight: FontWeight.w800),
                           ),
                           Text(
                             '${data.total} item${data.total == 1 ? '' : 's'} in your wishlist',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium
+                            style: Theme.of(context).textTheme.bodyMedium
                                 ?.copyWith(color: colorScheme.onSurfaceVariant),
                           ),
                         ],
@@ -135,7 +130,7 @@ class _SavedItemsScreenState extends ConsumerState<SavedItemsScreen> {
                         final lines = data.items
                             .map(
                               (i) =>
-                                  '${i.name} ${i.packageLabel} — ${MoneyKobo.formatNaira(i.priceKobo)}',
+                                  '${i.name} ${i.packageLabel}  ${MoneyKobo.formatNaira(i.priceKobo)}',
                             )
                             .join('\n');
                         Share.share('My Pantri wishlist:\n$lines');
@@ -156,7 +151,9 @@ class _SavedItemsScreenState extends ConsumerState<SavedItemsScreen> {
                     width: double.infinity,
                     padding: const EdgeInsets.all(AppSpacing.md),
                     decoration: BoxDecoration(
-                      color: colorScheme.primaryContainer.withValues(alpha: 0.55),
+                      color: colorScheme.primaryContainer.withValues(
+                        alpha: 0.55,
+                      ),
                       borderRadius: AppRadius.borderLg,
                     ),
                     child: Row(
@@ -179,7 +176,9 @@ class _SavedItemsScreenState extends ConsumerState<SavedItemsScreen> {
                 ),
               if (_selecting)
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.lg,
+                  ),
                   child: Row(
                     children: [
                       Expanded(
@@ -189,8 +188,9 @@ class _SavedItemsScreenState extends ConsumerState<SavedItemsScreen> {
                         ),
                       ),
                       FilledButton(
-                        onPressed:
-                            _selectedIds.length == 2 ? _openCompare : null,
+                        onPressed: _selectedIds.length == 2
+                            ? _openCompare
+                            : null,
                         child: const Text('Compare'),
                       ),
                     ],
@@ -343,9 +343,7 @@ class _SavedItemCard extends StatelessWidget {
                         top: AppSpacing.xs,
                         right: AppSpacing.xs,
                         child: Icon(
-                          selected
-                              ? Icons.check_circle
-                              : Icons.circle_outlined,
+                          selected ? Icons.check_circle : Icons.circle_outlined,
                           color: selected
                               ? colorScheme.primary
                               : colorScheme.onSurface,
@@ -359,10 +357,9 @@ class _SavedItemCard extends StatelessWidget {
                 '${item.name} ${item.packageLabel}'.trim(),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: Theme.of(context)
-                    .textTheme
-                    .titleSmall
-                    ?.copyWith(fontWeight: FontWeight.w700),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700),
               ),
               const SizedBox(height: AppSpacing.xs),
               Row(
@@ -370,17 +367,17 @@ class _SavedItemCard extends StatelessWidget {
                   Text(
                     MoneyKobo.formatNaira(item.priceKobo),
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w800,
-                        ),
+                      fontWeight: FontWeight.w800,
+                    ),
                   ),
                   if (item.priceDropped) ...[
                     const SizedBox(width: AppSpacing.xs),
                     Text(
                       MoneyKobo.formatNaira(item.priceKoboAtSave),
                       style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                            decoration: TextDecoration.lineThrough,
-                            color: colorScheme.onSurfaceVariant,
-                          ),
+                        decoration: TextDecoration.lineThrough,
+                        color: colorScheme.onSurfaceVariant,
+                      ),
                     ),
                   ],
                 ],
@@ -422,9 +419,9 @@ class _Badge extends StatelessWidget {
       child: Text(
         label,
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: Colors.white,
-              fontWeight: FontWeight.w700,
-            ),
+          color: Colors.white,
+          fontWeight: FontWeight.w700,
+        ),
       ),
     );
   }

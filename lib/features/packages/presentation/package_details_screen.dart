@@ -41,23 +41,20 @@ class _PackageDetailsScreenState extends ConsumerState<PackageDetailsScreen> {
   Future<void> _subscribe(PantryPackage pkg) async {
     setState(() => _busy = true);
     try {
-      await ref.read(packagesRepositoryProvider).subscribe(
-            pkg.id,
-            items: _itemsPayload(pkg),
-          );
+      await ref
+          .read(packagesRepositoryProvider)
+          .subscribe(pkg.id, items: _itemsPayload(pkg));
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Subscription pending — payroll setup coming soon.'),
+          content: Text('Subscription pending  payroll setup coming soon.'),
         ),
       );
       ref.invalidate(minePackagesProvider);
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(e is ApiException ? e.message : e.toString()),
-        ),
+        SnackBar(content: Text(e is ApiException ? e.message : e.toString())),
       );
     } finally {
       if (mounted) setState(() => _busy = false);
@@ -67,10 +64,9 @@ class _PackageDetailsScreenState extends ConsumerState<PackageDetailsScreen> {
   Future<void> _addToCart(PantryPackage pkg) async {
     setState(() => _busy = true);
     try {
-      await ref.read(packagesRepositoryProvider).addToCart(
-            pkg.id,
-            items: _itemsPayload(pkg),
-          );
+      await ref
+          .read(packagesRepositoryProvider)
+          .addToCart(pkg.id, items: _itemsPayload(pkg));
       await ref.read(cartNotifierProvider.notifier).load();
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
@@ -79,9 +75,7 @@ class _PackageDetailsScreenState extends ConsumerState<PackageDetailsScreen> {
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(e is ApiException ? e.message : e.toString()),
-        ),
+        SnackBar(content: Text(e is ApiException ? e.message : e.toString())),
       );
     } finally {
       if (mounted) setState(() => _busy = false);
@@ -105,9 +99,8 @@ class _PackageDetailsScreenState extends ConsumerState<PackageDetailsScreen> {
     final colorScheme = Theme.of(context).colorScheme;
 
     return async.when(
-      loading: () => const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      ),
+      loading: () =>
+          const Scaffold(body: Center(child: CircularProgressIndicator())),
       error: (e, _) => Scaffold(
         appBar: AppBar(),
         body: AppEmptyState(
@@ -142,9 +135,8 @@ class _PackageDetailsScreenState extends ConsumerState<PackageDetailsScreen> {
                   background: Image.network(
                     pkg.coverImageUrl,
                     fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) => ColoredBox(
-                      color: colorScheme.surfaceContainerHighest,
-                    ),
+                    errorBuilder: (_, __, ___) =>
+                        ColoredBox(color: colorScheme.surfaceContainerHighest),
                   ),
                 ),
               ),
@@ -174,43 +166,39 @@ class _PackageDetailsScreenState extends ConsumerState<PackageDetailsScreen> {
                               vertical: 6,
                             ),
                             decoration: BoxDecoration(
-                              color: colorScheme.primary.withValues(alpha: 0.12),
+                              color: colorScheme.primary.withValues(
+                                alpha: 0.12,
+                              ),
                               borderRadius: BorderRadius.circular(999),
                             ),
                             child: Text(
                               'Most Popular Bundle',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .labelMedium
+                              style: Theme.of(context).textTheme.labelMedium
                                   ?.copyWith(
                                     color: colorScheme.primary,
                                     fontWeight: FontWeight.w700,
                                   ),
                             ),
                           ),
-                        if (pkg.isPopular) const SizedBox(height: AppSpacing.md),
+                        if (pkg.isPopular)
+                          const SizedBox(height: AppSpacing.md),
                         Text(
                           pkg.name,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineSmall
+                          style: Theme.of(context).textTheme.headlineSmall
                               ?.copyWith(fontWeight: FontWeight.w800),
                         ),
                         const SizedBox(height: AppSpacing.sm),
                         Text(
                           pkg.description,
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                color: colorScheme.onSurfaceVariant,
-                              ),
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(color: colorScheme.onSurfaceVariant),
                         ),
                         const SizedBox(height: AppSpacing.xl),
                         _buildTierSavingsCard(pricing),
                         const SizedBox(height: AppSpacing.xl),
                         Text(
                           'Included Provisions',
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium
+                          style: Theme.of(context).textTheme.titleMedium
                               ?.copyWith(fontWeight: FontWeight.w800),
                         ),
                         const SizedBox(height: AppSpacing.md),
@@ -243,14 +231,13 @@ class _PackageDetailsScreenState extends ConsumerState<PackageDetailsScreen> {
                           variant: AppButtonVariant.outlined,
                           icon: Icons.tune,
                           onPressed: () async {
-                            final result =
-                                await Navigator.of(context).push<PantryPackage>(
-                              MaterialPageRoute(
-                                builder: (_) => CustomizePackageScreen(
-                                  package: pkg,
-                                ),
-                              ),
-                            );
+                            final result = await Navigator.of(context)
+                                .push<PantryPackage>(
+                                  MaterialPageRoute(
+                                    builder: (_) =>
+                                        CustomizePackageScreen(package: pkg),
+                                  ),
+                                );
                             if (result != null && mounted) {
                               setState(() => _override = result);
                             }
@@ -259,9 +246,7 @@ class _PackageDetailsScreenState extends ConsumerState<PackageDetailsScreen> {
                         const SizedBox(height: AppSpacing.xl),
                         Text(
                           'Logistics & Payroll',
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium
+                          style: Theme.of(context).textTheme.titleMedium
                               ?.copyWith(fontWeight: FontWeight.w800),
                         ),
                         const SizedBox(height: AppSpacing.md),
@@ -305,15 +290,12 @@ class _PackageDetailsScreenState extends ConsumerState<PackageDetailsScreen> {
                         children: [
                           Text(
                             'Total Cost',
-                            style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                                  color: colorScheme.onSurfaceVariant,
-                                ),
+                            style: Theme.of(context).textTheme.labelSmall
+                                ?.copyWith(color: colorScheme.onSurfaceVariant),
                           ),
                           Text(
                             MoneyKobo.formatNaira(pricing.totalKobo),
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleLarge
+                            style: Theme.of(context).textTheme.titleLarge
                                 ?.copyWith(fontWeight: FontWeight.w800),
                           ),
                         ],
@@ -365,16 +347,16 @@ class _PackageDetailsScreenState extends ConsumerState<PackageDetailsScreen> {
                       ? 'TIER SAVINGS'
                       : '${applied.label} SAVINGS UNLOCKED',
                   style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        color: colorScheme.primary,
-                        fontWeight: FontWeight.w800,
-                      ),
+                    color: colorScheme.primary,
+                    fontWeight: FontWeight.w800,
+                  ),
                 ),
               ),
               Text(
                 '${pricing.discountPercent}% Off Retail',
-                style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                      fontWeight: FontWeight.w700,
-                    ),
+                style: Theme.of(
+                  context,
+                ).textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w700),
               ),
             ],
           ),
@@ -394,8 +376,8 @@ class _PackageDetailsScreenState extends ConsumerState<PackageDetailsScreen> {
               child: Text(
                 'Next tier at ${MoneyKobo.formatNaira(next.minSpendKobo)} total spend',
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: colorScheme.onSurfaceVariant,
-                    ),
+                  color: colorScheme.onSurfaceVariant,
+                ),
               ),
             ),
           ],
@@ -440,8 +422,10 @@ class _ProvisionCard extends StatelessWidget {
                 height: 36,
                 width: 36,
                 fit: BoxFit.cover,
-                errorBuilder: (_, __, ___) =>
-                    Icon(Icons.inventory_2_outlined, color: colorScheme.tertiary),
+                errorBuilder: (_, __, ___) => Icon(
+                  Icons.inventory_2_outlined,
+                  color: colorScheme.tertiary,
+                ),
               ),
             )
           else
@@ -451,18 +435,17 @@ class _ProvisionCard extends StatelessWidget {
             title,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: Theme.of(context)
-                .textTheme
-                .titleSmall
-                ?.copyWith(fontWeight: FontWeight.w700),
+            style: Theme.of(
+              context,
+            ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700),
           ),
           Text(
             subtitle,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: colorScheme.onSurfaceVariant,
-                ),
+              color: colorScheme.onSurfaceVariant,
+            ),
           ),
         ],
       ),
@@ -471,11 +454,7 @@ class _ProvisionCard extends StatelessWidget {
 }
 
 class _InfoRow extends StatelessWidget {
-  const _InfoRow({
-    required this.icon,
-    required this.title,
-    required this.body,
-  });
+  const _InfoRow({required this.icon, required this.title, required this.body});
 
   final IconData icon;
   final String title;
@@ -499,17 +478,16 @@ class _InfoRow extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: Theme.of(context)
-                    .textTheme
-                    .titleSmall
-                    ?.copyWith(fontWeight: FontWeight.w700),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700),
               ),
               const SizedBox(height: 4),
               Text(
                 body,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: colorScheme.onSurfaceVariant,
-                    ),
+                  color: colorScheme.onSurfaceVariant,
+                ),
               ),
             ],
           ),

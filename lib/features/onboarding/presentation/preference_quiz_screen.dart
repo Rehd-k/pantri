@@ -60,7 +60,9 @@ class _PreferenceQuizScreenState extends ConsumerState<PreferenceQuizScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await ref.read(onboardingPrefsDraftProvider.notifier).hydrateFromStorage();
+      await ref
+          .read(onboardingPrefsDraftProvider.notifier)
+          .hydrateFromStorage();
       if (!mounted) return;
       final draft = ref.read(onboardingPrefsDraftProvider);
       setState(() {
@@ -89,9 +91,9 @@ class _PreferenceQuizScreenState extends ConsumerState<PreferenceQuizScreen> {
   }
 
   Future<void> _persist(OnboardingPrefsDraft draft, {int? step}) {
-    return ref.read(onboardingPrefsDraftProvider.notifier).persist(
-          draft.copyWith(step: step ?? _stepIndex),
-        );
+    return ref
+        .read(onboardingPrefsDraftProvider.notifier)
+        .persist(draft.copyWith(step: step ?? _stepIndex));
   }
 
   Future<void> _skip() async {
@@ -100,22 +102,24 @@ class _PreferenceQuizScreenState extends ConsumerState<PreferenceQuizScreen> {
     await ref.read(onboardingPrefsDraftProvider.notifier).skip();
     await ref.read(firstLaunchProvider.notifier).markQuizFinished();
     if (!mounted) return;
-    await context.router.replace(const WelcomeRoute());
+    await context.router.replace(const RegisterHubRoute());
   }
 
   Future<void> _finish(OnboardingPrefsDraft draft) async {
     if (!draft.canComplete) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Select at least one goal')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Select at least one goal')));
       return;
     }
     if (_busy) return;
     setState(() => _busy = true);
-    await ref.read(onboardingPrefsDraftProvider.notifier).completeAndPersist(draft);
+    await ref
+        .read(onboardingPrefsDraftProvider.notifier)
+        .completeAndPersist(draft);
     await ref.read(firstLaunchProvider.notifier).markQuizFinished();
     if (!mounted) return;
-    await context.router.replace(const WelcomeRoute());
+    await context.router.replace(const RegisterHubRoute());
   }
 
   Future<void> _next(OnboardingPrefsDraft draft) async {
@@ -156,10 +160,7 @@ class _PreferenceQuizScreenState extends ConsumerState<PreferenceQuizScreen> {
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [
-                colorScheme.primaryContainer,
-                colorScheme.surface,
-              ],
+              colors: [colorScheme.primaryContainer, colorScheme.surface],
             ),
           ),
           child: SafeArea(
@@ -309,13 +310,14 @@ class _PreferenceQuizScreenState extends ConsumerState<PreferenceQuizScreen> {
           Padding(
             padding: const EdgeInsets.only(bottom: AppSpacing.sm),
             child: _ChoiceTile(
-              selected: draft.householdSize == size ||
+              selected:
+                  draft.householdSize == size ||
                   (size == 5 && draft.householdSize >= 5),
               icon: size <= 1
                   ? Icons.person_outline
                   : size == 2
-                      ? Icons.people_outline
-                      : Icons.groups_outlined,
+                  ? Icons.people_outline
+                  : Icons.groups_outlined,
               title: HouseholdSizing.sizeLabel(size),
               subtitle: HouseholdSizing.sizeSubtitle(size),
               onTap: () {
@@ -436,7 +438,9 @@ class _PreferenceQuizScreenState extends ConsumerState<PreferenceQuizScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          draft.isFamily ? 'Any allergies in the house?' : 'Any food allergies?',
+          draft.isFamily
+              ? 'Any allergies in the house?'
+              : 'Any food allergies?',
           style: textTheme.headlineMedium?.copyWith(
             fontWeight: FontWeight.w800,
             height: 1.15,
@@ -488,7 +492,9 @@ class _PreferenceQuizScreenState extends ConsumerState<PreferenceQuizScreen> {
                   (label) => InputChip(
                     label: Text(label),
                     onDeleted: () {
-                      ref.read(onboardingPrefsDraftProvider.notifier).persist(
+                      ref
+                          .read(onboardingPrefsDraftProvider.notifier)
+                          .persist(
                             draft.copyWith(
                               customAllergies: draft.customAllergies
                                   .where((e) => e != label)
@@ -512,7 +518,9 @@ class _PreferenceQuizScreenState extends ConsumerState<PreferenceQuizScreen> {
                       )) {
                         return;
                       }
-                      ref.read(onboardingPrefsDraftProvider.notifier).persist(
+                      ref
+                          .read(onboardingPrefsDraftProvider.notifier)
+                          .persist(
                             draft.copyWith(
                               customAllergies: [
                                 ...draft.customAllergies,
@@ -556,7 +564,7 @@ class _PreferenceQuizScreenState extends ConsumerState<PreferenceQuizScreen> {
         const SizedBox(height: AppSpacing.sm),
         Text(
           draft.isFamily
-              ? 'Dashboard calories and macros are yours — not the whole household.'
+              ? 'Dashboard calories and macros are yours  not the whole household.'
               : 'We use this to set your daily calorie and macro targets.',
           style: textTheme.bodyLarge?.copyWith(
             color: colorScheme.onSurface.withValues(alpha: 0.72),
@@ -663,7 +671,7 @@ class _PreferenceQuizScreenState extends ConsumerState<PreferenceQuizScreen> {
         const SizedBox(height: AppSpacing.sm),
         Text(
           draft.isFamily
-              ? 'We’ll stock the pantry for ${draft.householdSize} people. These goals personalize YOUR meal suggestions — not everyone in the house.'
+              ? 'We’ll stock the pantry for ${draft.householdSize} people. These goals personalize YOUR meal suggestions  not everyone in the house.'
               : 'Pick at least one. We use this for your meal plan and dashboard.',
           style: textTheme.bodyLarge?.copyWith(
             color: colorScheme.onSurface.withValues(alpha: 0.72),
@@ -706,7 +714,9 @@ class _PreferenceQuizScreenState extends ConsumerState<PreferenceQuizScreen> {
                       (label) => InputChip(
                         label: Text(label),
                         onDeleted: () {
-                          ref.read(onboardingPrefsDraftProvider.notifier).persist(
+                          ref
+                              .read(onboardingPrefsDraftProvider.notifier)
+                              .persist(
                                 draft.copyWith(
                                   customGoals: draft.customGoals
                                       .where((e) => e != label)
@@ -730,7 +740,9 @@ class _PreferenceQuizScreenState extends ConsumerState<PreferenceQuizScreen> {
                           )) {
                             return;
                           }
-                          ref.read(onboardingPrefsDraftProvider.notifier).persist(
+                          ref
+                              .read(onboardingPrefsDraftProvider.notifier)
+                              .persist(
                                 draft.copyWith(
                                   customGoals: [...draft.customGoals, trimmed],
                                 ),

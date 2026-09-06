@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
+import '../../../core/analytics/analytics_events.dart';
+import '../../../core/analytics/analytics_service.dart';
 import '../../../core/network/api_exception.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/utils/money_kobo.dart';
@@ -10,14 +12,31 @@ import '../../../core/widgets/app_empty_state.dart';
 import '../domain/order_models.dart';
 import '../providers/orders_providers.dart';
 
-class OrderDetailScreen extends ConsumerWidget {
+class OrderDetailScreen extends ConsumerStatefulWidget {
   const OrderDetailScreen({super.key, required this.orderId});
 
   final String orderId;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final order = ref.watch(employeeOrderProvider(orderId));
+  ConsumerState<OrderDetailScreen> createState() => _OrderDetailScreenState();
+}
+
+class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(analyticsServiceProvider).track(
+            AnalyticsEvents.orderViewed,
+            entityType: 'order',
+            entityId: widget.orderId,
+          );
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final order = ref.watch(employeeOrderProvider(widget.orderId));
     return Scaffold(
       appBar: AppBar(title: const Text('Order details')),
       body: order.when(
@@ -29,8 +48,8 @@ class OrderDetailScreen extends ConsumerWidget {
         ),
         data: (value) => RefreshIndicator(
           onRefresh: () async {
-            ref.invalidate(employeeOrderProvider(orderId));
-            await ref.read(employeeOrderProvider(orderId).future);
+            ref.invalidate(employeeOrderProvider(widget.orderId));
+            await ref.read(employeeOrderProvider(widget.orderId).future);
           },
           child: ListView(
             padding: const EdgeInsets.all(AppSpacing.xl),

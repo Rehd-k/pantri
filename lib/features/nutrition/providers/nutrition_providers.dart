@@ -42,6 +42,16 @@ final nutritionProgressProvider = FutureProvider.autoDispose
       );
 });
 
+final progressCheckpointsProvider =
+    FutureProvider.autoDispose<List<ProgressCheckpoint>>((ref) {
+  return ref.watch(nutritionRepositoryProvider).listCheckpoints();
+});
+
+final replenishmentProvider =
+    FutureProvider.autoDispose<ReplenishmentSuggestion>((ref) {
+  return ref.watch(nutritionRepositoryProvider).getReplenishment();
+});
+
 class QuestionnaireDraft {
   const QuestionnaireDraft({
     this.age = 28,

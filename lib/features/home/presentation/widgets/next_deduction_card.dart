@@ -54,7 +54,7 @@ class NextDeductionCard extends StatelessWidget {
             const SizedBox(height: AppSpacing.md),
             Text(
               deduction == null
-                  ? '—'
+                  ? ''
                   : MoneyKobo.formatNaira(deduction!.amountKobo),
               style: textTheme.headlineMedium?.copyWith(
                 fontWeight: FontWeight.w800,

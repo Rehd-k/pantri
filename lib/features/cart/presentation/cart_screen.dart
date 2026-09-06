@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/analytics/analytics_events.dart';
+import '../../../core/analytics/analytics_service.dart';
 import '../../../core/theme/app_radius.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/utils/money_kobo.dart';
@@ -26,10 +28,19 @@ class _CartScreenState extends ConsumerState<CartScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(cartNotifierProvider.notifier).load();
+      ref.read(analyticsServiceProvider).track(AnalyticsEvents.cartViewed);
     });
   }
 
   Future<void> _startCheckout(BuildContext context) async {
+    ref.read(analyticsServiceProvider).track(
+          AnalyticsEvents.checkoutStarted,
+          metadata: {'cta': 'cart_checkout'},
+        );
+    ref.read(analyticsServiceProvider).track(
+          AnalyticsEvents.ctaClicked,
+          metadata: {'cta': 'start_checkout'},
+        );
     try {
       final location =
           await ref.read(checkoutRepositoryProvider).getLocation();
@@ -38,7 +49,16 @@ class _CartScreenState extends ConsumerState<CartScreen> {
         final saved = await Navigator.of(context).push<bool>(
           MaterialPageRoute(builder: (_) => const SetLocationScreen()),
         );
-        if (saved != true || !context.mounted) return;
+        if (saved != true || !context.mounted) {
+          ref
+              .read(analyticsServiceProvider)
+              .track(AnalyticsEvents.checkoutAbandoned);
+          return;
+        }
+        ref.read(analyticsServiceProvider).track(
+              AnalyticsEvents.checkoutStepCompleted,
+              metadata: {'step': 'location'},
+            );
       }
       await Navigator.of(context).push(
         MaterialPageRoute(builder: (_) => const SelectPickupPointScreen()),

@@ -126,13 +126,13 @@ class _HealthQuestionnaireScreenState
             if (profile != null) {
               ref.read(questionnaireDraftProvider.notifier).hydrate(profile);
             } else {
-              final stash =
-                  await ref.read(onboardingPrefsStorageProvider).read();
+              final stash = await ref
+                  .read(onboardingPrefsStorageProvider)
+                  .read();
               if (stash != null) {
-                ref.read(questionnaireDraftProvider.notifier).hydrateFromPrefs(
-                      prefs: stash,
-                      catalog: catalog,
-                    );
+                ref
+                    .read(questionnaireDraftProvider.notifier)
+                    .hydrateFromPrefs(prefs: stash, catalog: catalog);
               }
             }
             if (mounted) setState(() => _hydrated = true);
@@ -324,13 +324,14 @@ class _HealthQuestionnaireScreenState
             Padding(
               padding: const EdgeInsets.only(bottom: AppSpacing.sm),
               child: _SelectableTile(
-                selected: draft.householdSize == size ||
+                selected:
+                    draft.householdSize == size ||
                     (size == 5 && draft.householdSize >= 5),
                 icon: size <= 1
                     ? Icons.person_outline
                     : size == 2
-                        ? Icons.people_outline
-                        : Icons.groups_outlined,
+                    ? Icons.people_outline
+                    : Icons.groups_outlined,
                 title: HouseholdSizing.sizeLabel(size),
                 subtitle: HouseholdSizing.sizeSubtitle(size),
                 showRadio: true,
@@ -369,7 +370,7 @@ class _HealthQuestionnaireScreenState
         children: [
           Text(
             draft.householdSize > 1
-                ? "Your stats — not the household's"
+                ? "Your stats  not the household's"
                 : "Let's start with the basics",
             style: textTheme.headlineSmall?.copyWith(
               fontWeight: FontWeight.w700,
@@ -588,7 +589,7 @@ class _HealthQuestionnaireScreenState
           if (draft.householdSize > 1) ...[
             const SizedBox(height: AppSpacing.xs),
             Text(
-              'We’ll stock the pantry for ${draft.householdSize} people. These goals personalize YOUR meal suggestions — not everyone in the house.',
+              'We’ll stock the pantry for ${draft.householdSize} people. These goals personalize YOUR meal suggestions  not everyone in the house.',
               style: textTheme.bodyMedium?.copyWith(
                 color: colorScheme.onSurfaceVariant,
               ),

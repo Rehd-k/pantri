@@ -92,6 +92,50 @@ class _ProgressReportScreenState extends ConsumerState<ProgressReportScreen> {
                     ),
                   ),
                   const SizedBox(height: AppSpacing.xl),
+                  Consumer(
+                    builder: (context, ref, _) {
+                      final checkpoints =
+                          ref.watch(progressCheckpointsProvider);
+                      return checkpoints.when(
+                        loading: () => const SizedBox.shrink(),
+                        error: (_, __) => const SizedBox.shrink(),
+                        data: (rows) {
+                          final weights = rows
+                              .where((r) => r.metricKey == 'weight_kg')
+                              .toList();
+                          if (weights.isEmpty) {
+                            return const SizedBox.shrink();
+                          }
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Text(
+                                'Weight checkpoints',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium
+                                    ?.copyWith(fontWeight: FontWeight.w800),
+                              ),
+                              const SizedBox(height: AppSpacing.md),
+                              for (final row in weights)
+                                ListTile(
+                                  contentPadding: EdgeInsets.zero,
+                                  title: Text(
+                                    '${row.value.toStringAsFixed(1)} ${row.unitLabel.isEmpty ? 'kg' : row.unitLabel}',
+                                  ),
+                                  subtitle: Text(
+                                    DateFormat.yMMMd().format(
+                                      DateTime.parse(row.recordedAt).toLocal(),
+                                    ),
+                                  ),
+                                ),
+                              const SizedBox(height: AppSpacing.xl),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                  ),
                   _ProgressBar(
                     label: 'Calories',
                     progress: report.totals.energyKcal,

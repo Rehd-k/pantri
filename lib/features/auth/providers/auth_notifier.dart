@@ -1,5 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/analytics/analytics_events.dart';
+import '../../../core/analytics/analytics_service.dart';
 import '../../../core/network/api_exception.dart';
 import '../../../core/network/dio_client.dart';
 import '../data/auth_repository.dart';
@@ -72,6 +74,7 @@ class AuthNotifier extends Notifier<AuthState> {
       }
       state = AuthAuthenticated(response.user);
       await flushOnboardingPrefs(ref, response.user.role);
+      ref.read(analyticsServiceProvider).track(AnalyticsEvents.login);
     } on ApiException catch (e) {
       if (e.isPendingApproval) {
         state = AuthPendingApproval(message: e.message);
@@ -105,6 +108,10 @@ class AuthNotifier extends Notifier<AuthState> {
       );
       state = AuthAuthenticated(response.user);
       await flushOnboardingPrefs(ref, response.user.role);
+      final analytics = ref.read(analyticsServiceProvider);
+      analytics.track(AnalyticsEvents.accountCreated);
+      analytics.track(AnalyticsEvents.invitationAccepted);
+      analytics.track(AnalyticsEvents.registrationCompleted);
     } on ApiException catch (e) {
       state = AuthError(e.message);
     } catch (e) {
@@ -179,6 +186,8 @@ class AuthNotifier extends Notifier<AuthState> {
   }
 
   Future<void> logout() async {
+    ref.read(analyticsServiceProvider).track(AnalyticsEvents.logout);
+    await ref.read(analyticsServiceProvider).flush();
     await _repo.logout();
     state = const AuthUnauthenticated();
   }

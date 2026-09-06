@@ -24,11 +24,36 @@ class NutritionRepository {
 
   Future<MealPlanDetail> generateMealPlan() => _api.generateMealPlan();
 
-  Future<CookMealResult> cookRecipe(String recipeId) =>
-      _api.cookRecipe(recipeId);
+  Future<CookMealResult> cookRecipe(String recipeId, {int? servings}) =>
+      _api.cookRecipe(recipeId, servings: servings);
 
-  Future<CookMealResult> cookMealItem(String itemId) =>
-      _api.cookMealItem(itemId);
+  Future<CookMealResult> cookMealItem(String itemId, {int? servings}) =>
+      _api.cookMealItem(itemId, servings: servings);
+
+  Future<Map<String, dynamic>> skipMealItem(String itemId) =>
+      _api.skipMealItem(itemId);
+
+  Future<ReplenishmentSuggestion> getReplenishment() =>
+      _api.getReplenishment();
+
+  Future<ReplenishmentSuggestion> addReplenishmentToCart() =>
+      _api.addReplenishmentToCart();
+
+  Future<List<ProgressCheckpoint>> listCheckpoints() =>
+      _api.listCheckpoints();
+
+  Future<ProgressCheckpoint> addCheckpoint({
+    required String metricKey,
+    required double value,
+    String unitLabel = 'kg',
+    String? note,
+  }) =>
+      _api.addCheckpoint(
+        metricKey: metricKey,
+        value: value,
+        unitLabel: unitLabel,
+        note: note,
+      );
 
   Future<NutritionProgressReport> getProgress({String? from, String? to}) =>
       _api.getProgress(from: from, to: to);

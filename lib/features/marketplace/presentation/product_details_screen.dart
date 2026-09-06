@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../../core/analytics/analytics_events.dart';
+import '../../../core/analytics/analytics_service.dart';
 import '../../../core/network/api_exception.dart';
 import '../../../core/config/app_config.dart';
 import '../../../core/theme/app_radius.dart';
@@ -41,6 +43,21 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
   int _reviewTake = 10;
   bool _adding = false;
   bool _wishlistBusy = false;
+  bool _viewTracked = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_viewTracked) return;
+      _viewTracked = true;
+      ref.read(analyticsServiceProvider).track(
+            AnalyticsEvents.productViewed,
+            entityType: 'product',
+            entityId: widget.productId,
+          );
+    });
+  }
 
   ProductPack? _packFor(MarketplaceProduct product) {
     final packs = product.activePacks.isNotEmpty
@@ -199,7 +216,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                           tooltip: 'Share',
                           onPressed: () {
                             Share.share(
-                              '${product.name} ${selectedPack?.packageLabel ?? ''} — '
+                              '${product.name} ${selectedPack?.packageLabel ?? ''}  '
                               '${MoneyKobo.formatNaira(selectedPack?.priceKobo ?? product.fromPriceKobo)} on Pantri\n'
                               '${AppConfig.shareBaseUrl}/products/${product.id}',
                               subject: product.name,

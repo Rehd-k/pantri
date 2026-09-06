@@ -100,10 +100,21 @@ _HealthProfile _$HealthProfileFromJson(Map<String, dynamic> json) =>
       gender: json['gender'] as String,
       heightCm: (json['heightCm'] as num).toInt(),
       weightKg: (json['weightKg'] as num).toInt(),
+      targetWeightKg: (json['targetWeightKg'] as num?)?.toInt(),
       lifestyle: json['lifestyle'] as String,
       activityLevel: json['activityLevel'] as String,
       householdSize: (json['householdSize'] as num?)?.toInt() ?? 1,
       hasChildren: json['hasChildren'] as bool? ?? false,
+      foodPreferences:
+          (json['foodPreferences'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const <String>[],
+      foodsToAvoid:
+          (json['foodsToAvoid'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const <String>[],
       targetEnergyKcal: (json['targetEnergyKcal'] as num?)?.toInt() ?? 0,
       targetProteinMg: (json['targetProteinMg'] as num?)?.toInt() ?? 0,
       targetCarbsMg: (json['targetCarbsMg'] as num?)?.toInt() ?? 0,
@@ -130,10 +141,13 @@ Map<String, dynamic> _$HealthProfileToJson(_HealthProfile instance) =>
       'gender': instance.gender,
       'heightCm': instance.heightCm,
       'weightKg': instance.weightKg,
+      'targetWeightKg': instance.targetWeightKg,
       'lifestyle': instance.lifestyle,
       'activityLevel': instance.activityLevel,
       'householdSize': instance.householdSize,
       'hasChildren': instance.hasChildren,
+      'foodPreferences': instance.foodPreferences,
+      'foodsToAvoid': instance.foodsToAvoid,
       'targetEnergyKcal': instance.targetEnergyKcal,
       'targetProteinMg': instance.targetProteinMg,
       'targetCarbsMg': instance.targetCarbsMg,
@@ -155,10 +169,21 @@ _UpsertHealthProfileRequest _$UpsertHealthProfileRequestFromJson(
   gender: json['gender'] as String,
   heightCm: (json['heightCm'] as num).toInt(),
   weightKg: (json['weightKg'] as num).toInt(),
+  targetWeightKg: (json['targetWeightKg'] as num?)?.toInt(),
   lifestyle: json['lifestyle'] as String,
   activityLevel: json['activityLevel'] as String,
   householdSize: (json['householdSize'] as num?)?.toInt() ?? 1,
   hasChildren: json['hasChildren'] as bool? ?? false,
+  foodPreferences:
+      (json['foodPreferences'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList() ??
+      const <String>[],
+  foodsToAvoid:
+      (json['foodsToAvoid'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList() ??
+      const <String>[],
   allergies: (json['allergies'] as List<dynamic>)
       .map((e) => AllergySelectionRequest.fromJson(e as Map<String, dynamic>))
       .toList(),
@@ -174,10 +199,13 @@ Map<String, dynamic> _$UpsertHealthProfileRequestToJson(
   'gender': instance.gender,
   'heightCm': instance.heightCm,
   'weightKg': instance.weightKg,
+  'targetWeightKg': instance.targetWeightKg,
   'lifestyle': instance.lifestyle,
   'activityLevel': instance.activityLevel,
   'householdSize': instance.householdSize,
   'hasChildren': instance.hasChildren,
+  'foodPreferences': instance.foodPreferences,
+  'foodsToAvoid': instance.foodsToAvoid,
   'allergies': instance.allergies,
   'goals': instance.goals,
 };
@@ -278,6 +306,9 @@ _MealPlanItem _$MealPlanItemFromJson(Map<String, dynamic> json) =>
       recipe: json['recipe'] == null
           ? null
           : RecipeDetail.fromJson(json['recipe'] as Map<String, dynamic>),
+      status: json['status'] as String? ?? 'PLANNED',
+      servings: (json['servings'] as num?)?.toInt() ?? 1,
+      substitutedRecipeId: json['substitutedRecipeId'] as String?,
       cookedAt: json['cookedAt'] as String?,
       sortOrder: (json['sortOrder'] as num).toInt(),
     );
@@ -302,6 +333,9 @@ Map<String, dynamic> _$MealPlanItemToJson(_MealPlanItem instance) =>
       'measureUnitLabel': instance.measureUnitLabel,
       'recipeId': instance.recipeId,
       'recipe': instance.recipe,
+      'status': instance.status,
+      'servings': instance.servings,
+      'substitutedRecipeId': instance.substitutedRecipeId,
       'cookedAt': instance.cookedAt,
       'sortOrder': instance.sortOrder,
     };
@@ -423,6 +457,7 @@ _RecipeIngredient _$RecipeIngredientFromJson(Map<String, dynamic> json) =>
       productImageUrl: json['productImageUrl'] as String,
       measureUnitId: json['measureUnitId'] as String?,
       measureUnitLabel: json['measureUnitLabel'] as String?,
+      displayLabel: json['displayLabel'] as String? ?? '',
       quantity: (json['quantity'] as num).toInt(),
       quantityCanonical: (json['quantityCanonical'] as num).toInt(),
       haveCanonical: (json['haveCanonical'] as num?)?.toInt() ?? 0,
@@ -438,6 +473,7 @@ Map<String, dynamic> _$RecipeIngredientToJson(_RecipeIngredient instance) =>
       'productImageUrl': instance.productImageUrl,
       'measureUnitId': instance.measureUnitId,
       'measureUnitLabel': instance.measureUnitLabel,
+      'displayLabel': instance.displayLabel,
       'quantity': instance.quantity,
       'quantityCanonical': instance.quantityCanonical,
       'haveCanonical': instance.haveCanonical,
@@ -459,6 +495,7 @@ _RecipeDetail _$RecipeDetailFromJson(Map<String, dynamic> json) =>
           const <String>[],
       rationale: json['rationale'] as String? ?? '',
       source: json['source'] as String? ?? 'AI',
+      baseServings: (json['baseServings'] as num?)?.toInt() ?? 1,
       cookability: json['cookability'] as String? ?? 'partial',
       nutrition: json['nutrition'] == null
           ? const CanonicalNutrition()
@@ -484,6 +521,7 @@ Map<String, dynamic> _$RecipeDetailToJson(_RecipeDetail instance) =>
       'instructionSteps': instance.instructionSteps,
       'rationale': instance.rationale,
       'source': instance.source,
+      'baseServings': instance.baseServings,
       'cookability': instance.cookability,
       'nutrition': instance.nutrition,
       'ingredients': instance.ingredients,
@@ -583,6 +621,7 @@ _CookMealResult _$CookMealResultFromJson(
 ) => _CookMealResult(
   recipe: RecipeDetail.fromJson(json['recipe'] as Map<String, dynamic>),
   mealPlanItemId: json['mealPlanItemId'] as String?,
+  servings: (json['servings'] as num?)?.toInt() ?? 1,
   nutrition: json['nutrition'] == null
       ? const CanonicalNutrition()
       : CanonicalNutrition.fromJson(json['nutrition'] as Map<String, dynamic>),
@@ -603,10 +642,98 @@ Map<String, dynamic> _$CookMealResultToJson(_CookMealResult instance) =>
     <String, dynamic>{
       'recipe': instance.recipe,
       'mealPlanItemId': instance.mealPlanItemId,
+      'servings': instance.servings,
       'nutrition': instance.nutrition,
       'cookedAt': instance.cookedAt,
       'restockAlerts': instance.restockAlerts,
       'updatedStock': instance.updatedStock,
+    };
+
+_ReplenishmentLine _$ReplenishmentLineFromJson(Map<String, dynamic> json) =>
+    _ReplenishmentLine(
+      productId: json['productId'] as String,
+      productName: json['productName'] as String,
+      productImageUrl: json['productImageUrl'] as String,
+      neededCanonical: (json['neededCanonical'] as num).toInt(),
+      haveCanonical: (json['haveCanonical'] as num).toInt(),
+      shortfallCanonical: (json['shortfallCanonical'] as num).toInt(),
+      daysUntilEmpty: (json['daysUntilEmpty'] as num?)?.toInt(),
+      suggestedPackId: json['suggestedPackId'] as String?,
+      suggestedPackLabel: json['suggestedPackLabel'] as String?,
+      suggestedPackQuantity:
+          (json['suggestedPackQuantity'] as num?)?.toInt() ?? 0,
+      unitPriceKobo: (json['unitPriceKobo'] as num?)?.toInt(),
+      lineTotalKobo: (json['lineTotalKobo'] as num?)?.toInt() ?? 0,
+    );
+
+Map<String, dynamic> _$ReplenishmentLineToJson(_ReplenishmentLine instance) =>
+    <String, dynamic>{
+      'productId': instance.productId,
+      'productName': instance.productName,
+      'productImageUrl': instance.productImageUrl,
+      'neededCanonical': instance.neededCanonical,
+      'haveCanonical': instance.haveCanonical,
+      'shortfallCanonical': instance.shortfallCanonical,
+      'daysUntilEmpty': instance.daysUntilEmpty,
+      'suggestedPackId': instance.suggestedPackId,
+      'suggestedPackLabel': instance.suggestedPackLabel,
+      'suggestedPackQuantity': instance.suggestedPackQuantity,
+      'unitPriceKobo': instance.unitPriceKobo,
+      'lineTotalKobo': instance.lineTotalKobo,
+    };
+
+_ReplenishmentSuggestion _$ReplenishmentSuggestionFromJson(
+  Map<String, dynamic> json,
+) => _ReplenishmentSuggestion(
+  minOrderKobo: (json['minOrderKobo'] as num).toInt(),
+  requiredTotalKobo: (json['requiredTotalKobo'] as num).toInt(),
+  recommendedTotalKobo: (json['recommendedTotalKobo'] as num).toInt(),
+  meetsMinimum: json['meetsMinimum'] as bool,
+  message: json['message'] as String,
+  lines:
+      (json['lines'] as List<dynamic>?)
+          ?.map((e) => ReplenishmentLine.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      const <ReplenishmentLine>[],
+  topUpLines:
+      (json['topUpLines'] as List<dynamic>?)
+          ?.map((e) => ReplenishmentLine.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      const <ReplenishmentLine>[],
+);
+
+Map<String, dynamic> _$ReplenishmentSuggestionToJson(
+  _ReplenishmentSuggestion instance,
+) => <String, dynamic>{
+  'minOrderKobo': instance.minOrderKobo,
+  'requiredTotalKobo': instance.requiredTotalKobo,
+  'recommendedTotalKobo': instance.recommendedTotalKobo,
+  'meetsMinimum': instance.meetsMinimum,
+  'message': instance.message,
+  'lines': instance.lines,
+  'topUpLines': instance.topUpLines,
+};
+
+_ProgressCheckpoint _$ProgressCheckpointFromJson(Map<String, dynamic> json) =>
+    _ProgressCheckpoint(
+      id: json['id'] as String,
+      metricKey: json['metricKey'] as String,
+      value: (json['value'] as num).toDouble(),
+      unitLabel: json['unitLabel'] as String? ?? '',
+      recordedAt: json['recordedAt'] as String,
+      note: json['note'] as String?,
+      createdAt: json['createdAt'] as String,
+    );
+
+Map<String, dynamic> _$ProgressCheckpointToJson(_ProgressCheckpoint instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'metricKey': instance.metricKey,
+      'value': instance.value,
+      'unitLabel': instance.unitLabel,
+      'recordedAt': instance.recordedAt,
+      'note': instance.note,
+      'createdAt': instance.createdAt,
     };
 
 _NutrientProgress _$NutrientProgressFromJson(Map<String, dynamic> json) =>

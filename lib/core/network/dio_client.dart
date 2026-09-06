@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../config/app_config.dart';
 import '../storage/token_storage.dart';
 import 'api_exception.dart';
+import 'dev_host_fallback.dart';
 
 final tokenStorageProvider = Provider<TokenStorage>((ref) => TokenStorage());
 
@@ -27,12 +28,13 @@ final dioProvider = Provider<Dio>((ref) {
   final dio = Dio(
     BaseOptions(
       baseUrl: AppConfig.apiBaseUrl,
-      connectTimeout: const Duration(seconds: 15),
+      connectTimeout: const Duration(seconds: 8),
       receiveTimeout: const Duration(seconds: 20),
       headers: const {'Content-Type': 'application/json'},
     ),
   );
 
+  dio.interceptors.add(DevHostFallbackInterceptor(dio));
   dio.interceptors.add(
     InterceptorsWrapper(
       onRequest: (options, handler) async {

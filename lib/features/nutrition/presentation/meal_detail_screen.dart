@@ -78,7 +78,8 @@ class MealDetailScreen extends ConsumerWidget {
         }
 
         final steps = recipeSteps(item.recipe);
-        final cooked = item.cookedAt != null;
+        final cooked = item.status == 'COOKED' || item.cookedAt != null;
+        final skipped = item.status == 'SKIPPED';
         final recipe = item.recipe;
 
         return Scaffold(
@@ -131,7 +132,21 @@ class MealDetailScreen extends ConsumerWidget {
                     ],
                   ),
                 ),
-              if (cooked) const SizedBox(height: AppSpacing.lg),
+              if (skipped)
+                Container(
+                  padding: const EdgeInsets.all(AppSpacing.md),
+                  decoration: BoxDecoration(
+                    color: colorScheme.surfaceContainerHighest,
+                    borderRadius: AppRadius.borderLg,
+                  ),
+                  child: Text(
+                    'Skipped',
+                    style: textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ),
+              if (cooked || skipped) const SizedBox(height: AppSpacing.lg),
               Text(
                 item.title,
                 style: textTheme.headlineSmall?.copyWith(
@@ -147,6 +162,14 @@ class MealDetailScreen extends ConsumerWidget {
                   ),
                 ),
               ],
+              const SizedBox(height: AppSpacing.md),
+              Text(
+                'For ${item.servings} serving${item.servings == 1 ? '' : 's'}',
+                style: textTheme.labelLarge?.copyWith(
+                  color: colorScheme.primary,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
               const SizedBox(height: AppSpacing.xl),
               Text(
                 'How to prepare',
@@ -214,8 +237,9 @@ class MealDetailScreen extends ConsumerWidget {
                     ),
                     title: Text(ingredient.productName),
                     subtitle: Text(
-                      '${ingredient.quantity} ${ingredient.measureUnitLabel ?? 'unit'}'
-                      '${ingredient.isShort ? ' · need more in pantry' : ''}',
+                      ingredient.displayLabel.isNotEmpty
+                          ? '${ingredient.displayLabel}${ingredient.isShort ? ' · need more in pantry' : ''}'
+                          : '${ingredient.quantity} ${ingredient.measureUnitLabel ?? 'unit'}${ingredient.isShort ? ' · need more in pantry' : ''}',
                     ),
                     trailing: Icon(
                       ingredient.isShort
@@ -236,21 +260,32 @@ class MealDetailScreen extends ConsumerWidget {
                 AppSpacing.xl,
                 AppSpacing.lg,
               ),
-              child: cooked
+              child: cooked || skipped
                   ? AppButton(
-                      label: 'Already cooked',
+                      label: cooked ? 'Already cooked' : 'Skipped',
                       icon: Icons.check,
                       onPressed: null,
                     )
-                  : AppButton(
-                      label: recipe?.cookability == 'ready'
-                          ? 'Cooked it'
-                          : 'Stock up missing',
-                      icon: recipe?.cookability == 'ready'
-                          ? Icons.restaurant_outlined
-                          : Icons.shopping_basket_outlined,
-                      onPressed: () =>
-                          _cook(context, ref, mealPlanId, item!),
+                  : Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        AppButton(
+                          label: recipe?.cookability == 'ready'
+                              ? 'Cooked'
+                              : 'Stock up missing',
+                          icon: recipe?.cookability == 'ready'
+                              ? Icons.restaurant_outlined
+                              : Icons.shopping_basket_outlined,
+                          onPressed: () =>
+                              _cook(context, ref, mealPlanId, item!),
+                        ),
+                        const SizedBox(height: AppSpacing.sm),
+                        TextButton(
+                          onPressed: () =>
+                              _skip(context, ref, mealPlanId, item!),
+                          child: const Text('Skip this meal'),
+                        ),
+                      ],
                     ),
             ),
           ),
@@ -279,7 +314,7 @@ class MealDetailScreen extends ConsumerWidget {
     try {
       final result = await ref
           .read(nutritionRepositoryProvider)
-          .cookMealItem(item.id);
+          .cookMealItem(item.id, servings: item.servings);
       ref.invalidate(mealPlansProvider);
       ref.invalidate(mealPlanDetailProvider(mealPlanId));
       ref.invalidate(nutritionProgressProvider('today'));
@@ -292,6 +327,28 @@ class MealDetailScreen extends ConsumerWidget {
       if (result.restockAlerts.isNotEmpty) {
         await showRestockSheet(context, ref, alerts: result.restockAlerts);
       }
+    } catch (e) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e is ApiException ? e.message : e.toString())),
+      );
+    }
+  }
+
+  Future<void> _skip(
+    BuildContext context,
+    WidgetRef ref,
+    String mealPlanId,
+    MealPlanItem item,
+  ) async {
+    try {
+      await ref.read(nutritionRepositoryProvider).skipMealItem(item.id);
+      ref.invalidate(mealPlansProvider);
+      ref.invalidate(mealPlanDetailProvider(mealPlanId));
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Meal skipped — no pantry change.')),
+      );
     } catch (e) {
       if (!context.mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(

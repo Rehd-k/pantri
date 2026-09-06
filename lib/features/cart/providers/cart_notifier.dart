@@ -1,5 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/analytics/analytics_events.dart';
+import '../../../core/analytics/analytics_service.dart';
 import '../../../core/network/api_exception.dart';
 import '../data/cart_repository.dart';
 import '../domain/cart.dart';
@@ -71,6 +73,12 @@ class CartNotifier extends Notifier<CartState> {
         quantity: quantity,
       );
       state = CartLoaded(cart);
+      ref.read(analyticsServiceProvider).track(
+            AnalyticsEvents.productAddedToCart,
+            entityType: 'pack',
+            entityId: packId,
+            metadata: {'quantity': quantity},
+          );
     } catch (e) {
       state = CartError(
         e is ApiException ? e.message : e.toString(),
@@ -105,6 +113,11 @@ class CartNotifier extends Notifier<CartState> {
     try {
       final cart = await _repo.removeItem(packId);
       state = CartLoaded(cart);
+      ref.read(analyticsServiceProvider).track(
+            AnalyticsEvents.productRemovedFromCart,
+            entityType: 'pack',
+            entityId: packId,
+          );
     } catch (e) {
       state = CartError(
         e is ApiException ? e.message : e.toString(),

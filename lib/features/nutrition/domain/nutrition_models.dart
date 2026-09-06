@@ -83,10 +83,13 @@ abstract class HealthProfile with _$HealthProfile {
     required String gender,
     required int heightCm,
     required int weightKg,
+    int? targetWeightKg,
     required String lifestyle,
     required String activityLevel,
     @Default(1) int householdSize,
     @Default(false) bool hasChildren,
+    @Default(<String>[]) List<String> foodPreferences,
+    @Default(<String>[]) List<String> foodsToAvoid,
     @Default(0) int targetEnergyKcal,
     @Default(0) int targetProteinMg,
     @Default(0) int targetCarbsMg,
@@ -112,10 +115,13 @@ abstract class UpsertHealthProfileRequest with _$UpsertHealthProfileRequest {
     required String gender,
     required int heightCm,
     required int weightKg,
+    int? targetWeightKg,
     required String lifestyle,
     required String activityLevel,
     @Default(1) int householdSize,
     @Default(false) bool hasChildren,
+    @Default(<String>[]) List<String> foodPreferences,
+    @Default(<String>[]) List<String> foodsToAvoid,
     required List<AllergySelectionRequest> allergies,
     required List<GoalSelectionRequest> goals,
   }) = _UpsertHealthProfileRequest;
@@ -192,6 +198,9 @@ abstract class MealPlanItem with _$MealPlanItem {
     String? measureUnitLabel,
     String? recipeId,
     RecipeDetail? recipe,
+    @Default('PLANNED') String status,
+    @Default(1) int servings,
+    String? substitutedRecipeId,
     String? cookedAt,
     required int sortOrder,
   }) = _MealPlanItem;
@@ -273,6 +282,7 @@ abstract class RecipeIngredient with _$RecipeIngredient {
     required String productImageUrl,
     String? measureUnitId,
     String? measureUnitLabel,
+    @Default('') String displayLabel,
     required int quantity,
     required int quantityCanonical,
     @Default(0) int haveCanonical,
@@ -295,6 +305,7 @@ abstract class RecipeDetail with _$RecipeDetail {
     @Default(<String>[]) List<String> instructionSteps,
     @Default('') String rationale,
     @Default('AI') String source,
+    @Default(1) int baseServings,
     @Default('partial') String cookability,
     @Default(CanonicalNutrition()) CanonicalNutrition nutrition,
     @Default(<RecipeIngredient>[]) List<RecipeIngredient> ingredients,
@@ -367,6 +378,7 @@ abstract class CookMealResult with _$CookMealResult {
   const factory CookMealResult({
     required RecipeDetail recipe,
     String? mealPlanItemId,
+    @Default(1) int servings,
     @Default(CanonicalNutrition()) CanonicalNutrition nutrition,
     required String cookedAt,
     @Default(<RestockAlert>[]) List<RestockAlert> restockAlerts,
@@ -375,6 +387,59 @@ abstract class CookMealResult with _$CookMealResult {
 
   factory CookMealResult.fromJson(Map<String, dynamic> json) =>
       _$CookMealResultFromJson(json);
+}
+
+@freezed
+abstract class ReplenishmentLine with _$ReplenishmentLine {
+  const factory ReplenishmentLine({
+    required String productId,
+    required String productName,
+    required String productImageUrl,
+    required int neededCanonical,
+    required int haveCanonical,
+    required int shortfallCanonical,
+    int? daysUntilEmpty,
+    String? suggestedPackId,
+    String? suggestedPackLabel,
+    @Default(0) int suggestedPackQuantity,
+    int? unitPriceKobo,
+    @Default(0) int lineTotalKobo,
+  }) = _ReplenishmentLine;
+
+  factory ReplenishmentLine.fromJson(Map<String, dynamic> json) =>
+      _$ReplenishmentLineFromJson(json);
+}
+
+@freezed
+abstract class ReplenishmentSuggestion with _$ReplenishmentSuggestion {
+  const factory ReplenishmentSuggestion({
+    required int minOrderKobo,
+    required int requiredTotalKobo,
+    required int recommendedTotalKobo,
+    required bool meetsMinimum,
+    required String message,
+    @Default(<ReplenishmentLine>[]) List<ReplenishmentLine> lines,
+    @Default(<ReplenishmentLine>[]) List<ReplenishmentLine> topUpLines,
+  }) = _ReplenishmentSuggestion;
+
+  factory ReplenishmentSuggestion.fromJson(Map<String, dynamic> json) =>
+      _$ReplenishmentSuggestionFromJson(json);
+}
+
+@freezed
+abstract class ProgressCheckpoint with _$ProgressCheckpoint {
+  const factory ProgressCheckpoint({
+    required String id,
+    required String metricKey,
+    required double value,
+    @Default('') String unitLabel,
+    required String recordedAt,
+    String? note,
+    required String createdAt,
+  }) = _ProgressCheckpoint;
+
+  factory ProgressCheckpoint.fromJson(Map<String, dynamic> json) =>
+      _$ProgressCheckpointFromJson(json);
 }
 
 @freezed

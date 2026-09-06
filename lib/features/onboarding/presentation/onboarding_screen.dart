@@ -50,7 +50,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
     setState(() => _completing = true);
     await ref.read(firstLaunchProvider.notifier).markIntroSeen();
     if (!mounted) return;
-    await context.router.replace(const PreferenceQuizRoute());
+    await context.router.replace(const WelcomeRoute());
   }
 
   void _next() {

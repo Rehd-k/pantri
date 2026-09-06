@@ -99,17 +99,11 @@ class AuthRouteGuard extends AutoRouteGuard {
       return;
     }
     if (routeName == OnboardingRoute.name && _hasSeenIntro()) {
-      _replaceStack(
-        resolver,
-        router,
-        _hasFinishedQuiz()
-            ? const WelcomeRoute()
-            : const PreferenceQuizRoute(),
-      );
+      _replaceStack(resolver, router, const WelcomeRoute());
       return;
     }
     if (routeName == PreferenceQuizRoute.name && _hasFinishedQuiz()) {
-      _replaceStack(resolver, router, const WelcomeRoute());
+      _replaceStack(resolver, router, const RegisterHubRoute());
       return;
     }
     if (routeName == PreferenceQuizRoute.name && !_hasSeenIntro()) {
@@ -143,9 +137,6 @@ class AuthRouteGuard extends AutoRouteGuard {
     }
     if (firstLaunch is FirstLaunchLoaded && !firstLaunch.hasSeenIntro) {
       return const OnboardingRoute();
-    }
-    if (firstLaunch is FirstLaunchLoaded && !firstLaunch.hasFinishedQuiz) {
-      return const PreferenceQuizRoute();
     }
     return const WelcomeRoute();
   }

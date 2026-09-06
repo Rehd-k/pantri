@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/analytics/analytics_events.dart';
+import '../../../core/analytics/analytics_service.dart';
 import '../../../core/network/api_exception.dart';
 import '../../../core/theme/app_radius.dart';
 import '../../../core/theme/app_spacing.dart';
@@ -39,10 +41,24 @@ class _SelectPickupPointScreenState
 
     setState(() => _submitting = true);
     try {
+      ref.read(analyticsServiceProvider).track(
+            AnalyticsEvents.checkoutStepCompleted,
+            metadata: {'step': 'pickup'},
+          );
       final result = await ref.read(checkoutRepositoryProvider).checkout(
             CheckoutRequest(pickupPointId: point.id),
           );
       await ref.read(cartNotifierProvider.notifier).load();
+      ref.read(analyticsServiceProvider).track(
+            AnalyticsEvents.orderSubmitted,
+            entityType: 'order',
+            entityId: result.id,
+            metadata: {'totalKobo': result.totalKobo},
+          );
+      ref.read(analyticsServiceProvider).track(
+            AnalyticsEvents.ctaClicked,
+            metadata: {'cta': 'confirm_checkout'},
+          );
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
