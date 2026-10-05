@@ -94,11 +94,12 @@ class _ProgressReportScreenState extends ConsumerState<ProgressReportScreen> {
                   const SizedBox(height: AppSpacing.xl),
                   Consumer(
                     builder: (context, ref, _) {
-                      final checkpoints =
-                          ref.watch(progressCheckpointsProvider);
+                      final checkpoints = ref.watch(
+                        progressCheckpointsProvider,
+                      );
                       return checkpoints.when(
                         loading: () => const SizedBox.shrink(),
-                        error: (_, __) => const SizedBox.shrink(),
+                        error: (_, _) => const SizedBox.shrink(),
                         data: (rows) {
                           final weights = rows
                               .where((r) => r.metricKey == 'weight_kg')
@@ -111,9 +112,7 @@ class _ProgressReportScreenState extends ConsumerState<ProgressReportScreen> {
                             children: [
                               Text(
                                 'Weight checkpoints',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleMedium
+                                style: Theme.of(context).textTheme.titleMedium
                                     ?.copyWith(fontWeight: FontWeight.w800),
                               ),
                               const SizedBox(height: AppSpacing.md),

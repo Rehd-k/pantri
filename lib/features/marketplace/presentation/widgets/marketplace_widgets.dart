@@ -60,7 +60,7 @@ class MarketplaceCategoryCard extends StatelessWidget {
                 child: Image.network(
                   category.imageUrl,
                   fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) => Icon(
+                  errorBuilder: (_, _, _) => Icon(
                     Icons.category_outlined,
                     size: 36,
                     color: colorScheme.onTertiaryContainer,
@@ -73,9 +73,9 @@ class MarketplaceCategoryCard extends StatelessWidget {
                 textAlign: TextAlign.center,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                      fontWeight: FontWeight.w700,
-                    ),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700),
               ),
             ],
           ),
@@ -86,11 +86,7 @@ class MarketplaceCategoryCard extends StatelessWidget {
 }
 
 class MarketplacePromoBanner extends StatelessWidget {
-  const MarketplacePromoBanner({
-    super.key,
-    required this.banner,
-    this.onCta,
-  });
+  const MarketplacePromoBanner({super.key, required this.banner, this.onCta});
 
   final MarketplaceBanner banner;
   final VoidCallback? onCta;
@@ -136,25 +132,25 @@ class MarketplacePromoBanner extends StatelessWidget {
                   child: Text(
                     banner.badgeLabel,
                     style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                          color: colorScheme.onTertiary,
-                          fontWeight: FontWeight.w600,
-                        ),
+                      color: colorScheme.onTertiary,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
                 const SizedBox(height: AppSpacing.sm),
                 Text(
                   banner.title,
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        color: colorScheme.onTertiary,
-                        fontWeight: FontWeight.w700,
-                      ),
+                    color: colorScheme.onTertiary,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.xs),
                 Text(
                   banner.subtitle,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: colorScheme.onTertiary.withValues(alpha: 0.9),
-                      ),
+                    color: colorScheme.onTertiary.withValues(alpha: 0.9),
+                  ),
                 ),
               ],
             ),
@@ -195,8 +191,7 @@ class MarketplaceProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
-    final title =
-        '${product.name} ${product.packageLabel}'.trim();
+    final title = '${product.name} ${product.packageLabel}'.trim();
 
     return Material(
       color: colorScheme.surfaceContainerHighest,
@@ -220,7 +215,7 @@ class MarketplaceProductCard extends StatelessWidget {
                         child: Image.network(
                           product.imageUrl,
                           fit: BoxFit.cover,
-                          errorBuilder: (_, __, ___) => ColoredBox(
+                          errorBuilder: (_, _, _) => ColoredBox(
                             color: colorScheme.surfaceContainerHighest,
                             child: Icon(
                               Icons.inventory_2_outlined,
@@ -260,7 +255,9 @@ class MarketplaceProductCard extends StatelessWidget {
                 title,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700),
+                style: textTheme.titleSmall?.copyWith(
+                  fontWeight: FontWeight.w700,
+                ),
               ),
               Text(
                 product.brand,
@@ -293,7 +290,9 @@ class MarketplaceProductCard extends StatelessWidget {
                   style: FilledButton.styleFrom(
                     backgroundColor: colorScheme.surfaceContainerHighest,
                     foregroundColor: colorScheme.onSurface,
-                    padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: AppSpacing.sm,
+                    ),
                   ),
                   child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,

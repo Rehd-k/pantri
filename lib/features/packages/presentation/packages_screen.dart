@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -14,6 +15,7 @@ import '../providers/packages_providers.dart';
 import 'create_package_screen.dart';
 import 'package_details_screen.dart';
 
+@RoutePage()
 class PackagesScreen extends ConsumerStatefulWidget {
   const PackagesScreen({super.key});
 
@@ -26,9 +28,7 @@ class _PackagesScreenState extends ConsumerState<PackagesScreen> {
 
   Future<void> _openCreatePackage(BuildContext context) async {
     await Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (_) => const CreatePackageScreen(),
-      ),
+      MaterialPageRoute<void>(builder: (_) => const CreatePackageScreen()),
     );
     ref.invalidate(communityPackagesProvider);
     ref.invalidate(minePackagesProvider);
@@ -43,8 +43,8 @@ class _PackagesScreenState extends ConsumerState<PackagesScreen> {
     final initials = user == null
         ? '?'
         : '${user.firstName.isNotEmpty ? user.firstName[0] : ''}'
-            '${user.lastName.isNotEmpty ? user.lastName[0] : ''}'
-            .toUpperCase();
+                  '${user.lastName.isNotEmpty ? user.lastName[0] : ''}'
+              .toUpperCase();
 
     final asyncList = _segment == 0
         ? ref.watch(curatedPackagesProvider)
@@ -96,9 +96,7 @@ class _PackagesScreenState extends ConsumerState<PackagesScreen> {
                         foregroundColor: colorScheme.onTertiaryContainer,
                         child: Text(
                           initials,
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleSmall
+                          style: Theme.of(context).textTheme.titleSmall
                               ?.copyWith(fontWeight: FontWeight.w700),
                         ),
                       ),
@@ -117,7 +115,9 @@ class _PackagesScreenState extends ConsumerState<PackagesScreen> {
               ),
               SliverToBoxAdapter(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.lg,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -125,9 +125,8 @@ class _PackagesScreenState extends ConsumerState<PackagesScreen> {
                         _segment == 0
                             ? 'Curated Packages'
                             : 'Community Packages',
-                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                              fontWeight: FontWeight.w800,
-                            ),
+                        style: Theme.of(context).textTheme.headlineSmall
+                            ?.copyWith(fontWeight: FontWeight.w800),
                       ),
                       const SizedBox(height: AppSpacing.sm),
                       Text(
@@ -135,8 +134,8 @@ class _PackagesScreenState extends ConsumerState<PackagesScreen> {
                             ? 'Wholesale savings, tailored for your household size. Select a base package to streamline your monthly pantry restock.'
                             : 'Packages created and shared by people like you.',
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: colorScheme.onSurfaceVariant,
-                            ),
+                          color: colorScheme.onSurfaceVariant,
+                        ),
                       ),
                       const SizedBox(height: AppSpacing.lg),
                       SegmentedButton<int>(
@@ -202,7 +201,7 @@ class _PackagesScreenState extends ConsumerState<PackagesScreen> {
                     ),
                     sliver: SliverList.separated(
                       itemCount: packages.length,
-                      separatorBuilder: (_, __) =>
+                      separatorBuilder: (_, _) =>
                           const SizedBox(height: AppSpacing.lg),
                       itemBuilder: (context, index) {
                         return _PackageCard(
@@ -231,10 +230,7 @@ class _PackagesScreenState extends ConsumerState<PackagesScreen> {
 }
 
 class _PackageCard extends StatelessWidget {
-  const _PackageCard({
-    required this.package,
-    required this.onView,
-  });
+  const _PackageCard({required this.package, required this.onView});
 
   final PackageListItem package;
   final VoidCallback onView;
@@ -258,7 +254,7 @@ class _PackageCard extends StatelessWidget {
             child: Image.network(
               package.coverImageUrl,
               fit: BoxFit.cover,
-              errorBuilder: (_, __, ___) => ColoredBox(
+              errorBuilder: (_, _, _) => ColoredBox(
                 color: colorScheme.surfaceContainerHighest,
                 child: Icon(
                   Icons.image_not_supported_outlined,
@@ -358,10 +354,7 @@ class _PackageCard extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: AppSpacing.lg),
-                AppButton(
-                  label: 'View Details',
-                  onPressed: onView,
-                ),
+                AppButton(label: 'View Details', onPressed: onView),
               ],
             ),
           ),

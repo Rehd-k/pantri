@@ -26,8 +26,8 @@ class CreditApi {
       final response = await _dio.get<List<dynamic>>(
         '/employees/me/ledger',
         queryParameters: {
-          if (limit != null) 'limit': limit,
-          if (cursor != null) 'cursor': cursor,
+          'limit': ?limit,
+          'cursor': ?cursor,
         },
       );
       return response.data!

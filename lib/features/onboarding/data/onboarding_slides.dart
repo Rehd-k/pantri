@@ -18,34 +18,33 @@ class OnboardingSlide {
 
 const onboardingSlides = <OnboardingSlide>[
   OnboardingSlide(
-    title: 'Shop now, pay from salary',
+    title: 'Your Groceries, On Your Terms',
     body:
-        'Stock your pantry without paying upfront. Checkout uses your '
-        'employer-backed credit line  not card or cash.',
+        'Get what your home needs today. No cards, no cash, no upfront costs.',
     kind: OnboardingIllustrationKind.creditShop,
     accent: OnboardingAccent.primary,
   ),
   OnboardingSlide(
-    title: 'Repaid when you get paid',
+    title: 'Set It and Forget It',
     body:
-        'See your limit, balance, and next deduction. A slice of each '
-        'paycheck clears what you owe across 5 or 6 months.',
+        'Watch your balance shrink automatically. Repayments are gently '
+        'spread across your next few paychecks.',
     kind: OnboardingIllustrationKind.payroll,
     accent: OnboardingAccent.secondary,
   ),
   OnboardingSlide(
-    title: 'Marketplace, packages, pickup',
+    title: 'Shop. Share. Pick Up.',
     body:
-        'Browse by category, grab Bachelor or Family baskets, and collect '
-        'at your company hub when the order is ready.',
+        'Build your own cart or grab a pre-sized household package. Collect '
+        'it easily at work when it\'s ready.',
     kind: OnboardingIllustrationKind.marketplace,
     accent: OnboardingAccent.tertiary,
   ),
   OnboardingSlide(
-    title: 'Meals and a smarter pantry',
+    title: 'Eat Better, Restock Faster',
     body:
-        'Complete a short health questionnaire for AI meal plans, track '
-        'household stock, and restock in one tap when you run low.',
+        'Set your health goals for custom meal plans. When the pantry gets '
+        'light, restock it instantly.',
     kind: OnboardingIllustrationKind.meals,
     accent: OnboardingAccent.mixed,
   ),

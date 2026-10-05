@@ -64,10 +64,10 @@ class MarketplaceApi {
         '/marketplace/products',
         queryParameters: {
           if (q != null && q.isNotEmpty) 'q': q,
-          if (categoryId != null) 'categoryId': categoryId,
-          if (subcategoryId != null) 'subcategoryId': subcategoryId,
-          if (skip != null) 'skip': skip,
-          if (take != null) 'take': take,
+          'categoryId': ?categoryId,
+          'subcategoryId': ?subcategoryId,
+          'skip': ?skip,
+          'take': ?take,
         },
       );
       return ProductListResponse.fromJson(response.data!);
@@ -97,8 +97,8 @@ class MarketplaceApi {
         '/marketplace/products/$productId/reviews',
         queryParameters: {
           'sort': sort,
-          if (skip != null) 'skip': skip,
-          if (take != null) 'take': take,
+          'skip': ?skip,
+          'take': ?take,
         },
       );
       return ProductReviewsResponse.fromJson(response.data!);

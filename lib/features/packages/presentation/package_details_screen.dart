@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
@@ -14,8 +15,12 @@ import '../domain/package_models.dart';
 import '../providers/packages_providers.dart';
 import 'customize_package_screen.dart';
 
+@RoutePage()
 class PackageDetailsScreen extends ConsumerStatefulWidget {
-  const PackageDetailsScreen({super.key, required this.packageId});
+  const PackageDetailsScreen({
+    super.key,
+    @PathParam('packageId') required this.packageId,
+  });
 
   final String packageId;
 
@@ -90,7 +95,15 @@ class _PackageDetailsScreenState extends ConsumerState<PackageDetailsScreen> {
     if (pkg.shareBannerUrl.isNotEmpty) {
       buffer.writeln(pkg.shareBannerUrl);
     }
-    await Share.share(buffer.toString());
+    final box = context.findRenderObject() as RenderBox?;
+    await SharePlus.instance.share(
+      ShareParams(
+        text: buffer.toString(),
+        sharePositionOrigin: box == null
+            ? null
+            : box.localToGlobal(Offset.zero) & box.size,
+      ),
+    );
   }
 
   @override
@@ -135,7 +148,7 @@ class _PackageDetailsScreenState extends ConsumerState<PackageDetailsScreen> {
                   background: Image.network(
                     pkg.coverImageUrl,
                     fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) =>
+                    errorBuilder: (_, _, _) =>
                         ColoredBox(color: colorScheme.surfaceContainerHighest),
                   ),
                 ),
@@ -422,7 +435,7 @@ class _ProvisionCard extends StatelessWidget {
                 height: 36,
                 width: 36,
                 fit: BoxFit.cover,
-                errorBuilder: (_, __, ___) => Icon(
+                errorBuilder: (_, _, _) => Icon(
                   Icons.inventory_2_outlined,
                   color: colorScheme.tertiary,
                 ),

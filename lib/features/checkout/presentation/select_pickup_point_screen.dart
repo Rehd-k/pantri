@@ -32,30 +32,33 @@ class _SelectPickupPointScreenState
     final confirmed = await showModalBottomSheet<bool>(
       context: context,
       isScrollControlled: true,
-      builder: (ctx) => _ConfirmCheckoutSheet(
-        point: point,
-        cart: cart,
-      ),
+      builder: (ctx) => _ConfirmCheckoutSheet(point: point, cart: cart),
     );
     if (confirmed != true || !mounted) return;
 
     setState(() => _submitting = true);
     try {
-      ref.read(analyticsServiceProvider).track(
+      ref
+          .read(analyticsServiceProvider)
+          .track(
             AnalyticsEvents.checkoutStepCompleted,
             metadata: {'step': 'pickup'},
           );
-      final result = await ref.read(checkoutRepositoryProvider).checkout(
-            CheckoutRequest(pickupPointId: point.id),
-          );
+      final result = await ref
+          .read(checkoutRepositoryProvider)
+          .checkout(CheckoutRequest(pickupPointId: point.id));
       await ref.read(cartNotifierProvider.notifier).load();
-      ref.read(analyticsServiceProvider).track(
+      ref
+          .read(analyticsServiceProvider)
+          .track(
             AnalyticsEvents.orderSubmitted,
             entityType: 'order',
             entityId: result.id,
             metadata: {'totalKobo': result.totalKobo},
           );
-      ref.read(analyticsServiceProvider).track(
+      ref
+          .read(analyticsServiceProvider)
+          .track(
             AnalyticsEvents.ctaClicked,
             metadata: {'cta': 'confirm_checkout'},
           );
@@ -72,9 +75,7 @@ class _SelectPickupPointScreenState
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(e is ApiException ? e.message : e.toString()),
-        ),
+        SnackBar(content: Text(e is ApiException ? e.message : e.toString())),
       );
     } finally {
       if (mounted) setState(() => _submitting = false);
@@ -115,7 +116,7 @@ class _SelectPickupPointScreenState
           return ListView.separated(
             padding: const EdgeInsets.all(AppSpacing.lg),
             itemCount: points.length,
-            separatorBuilder: (_, __) => const SizedBox(height: AppSpacing.md),
+            separatorBuilder: (_, _) => const SizedBox(height: AppSpacing.md),
             itemBuilder: (context, index) {
               final point = points[index];
               final selected = _selectedId == point.id;
@@ -145,9 +146,7 @@ class _SelectPickupPointScreenState
                             children: [
                               Text(
                                 point.label,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleSmall
+                                style: Theme.of(context).textTheme.titleSmall
                                     ?.copyWith(fontWeight: FontWeight.w700),
                               ),
                               const SizedBox(height: AppSpacing.xs),
@@ -160,13 +159,11 @@ class _SelectPickupPointScreenState
                                 const SizedBox(height: AppSpacing.xs),
                                 Text(
                                   '${point.distanceKm!.toStringAsFixed(1)} km away',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .labelLarge
+                                  style: Theme.of(context).textTheme.labelLarge
                                       ?.copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .tertiary,
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.tertiary,
                                         fontWeight: FontWeight.w700,
                                       ),
                                 ),
@@ -189,16 +186,20 @@ class _SelectPickupPointScreenState
           child: AppButton(
             label: _submitting ? 'Placing order…' : 'Continue',
             loading: _submitting,
-            onPressed: _submitting ||
+            onPressed:
+                _submitting ||
                     _selectedId == null ||
                     cart == null ||
                     cart.items.isEmpty
                 ? null
                 : () {
-                    final points =
-                        ref.read(employeePickupPointsProvider).asData?.value;
-                    final point =
-                        points?.where((p) => p.id == _selectedId).firstOrNull;
+                    final points = ref
+                        .read(employeePickupPointsProvider)
+                        .asData
+                        ?.value;
+                    final point = points
+                        ?.where((p) => p.id == _selectedId)
+                        .firstOrNull;
                     if (point == null) return;
                     _confirm(point, cart);
                   },
@@ -210,10 +211,7 @@ class _SelectPickupPointScreenState
 }
 
 class _ConfirmCheckoutSheet extends StatelessWidget {
-  const _ConfirmCheckoutSheet({
-    required this.point,
-    required this.cart,
-  });
+  const _ConfirmCheckoutSheet({required this.point, required this.cart});
 
   final PickupPoint point;
   final Cart cart;
@@ -267,8 +265,8 @@ class _ConfirmCheckoutSheet extends StatelessWidget {
             'This total will be reserved against your revolving credit '
             'account and repaid via payroll deduction.',
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
           ),
           const SizedBox(height: AppSpacing.lg),
           AppButton(
@@ -293,9 +291,9 @@ class _ConfirmCheckoutSheet extends StatelessWidget {
     bool emphasize = false,
   }) {
     final style = emphasize
-        ? Theme.of(context).textTheme.titleSmall?.copyWith(
-              fontWeight: FontWeight.w800,
-            )
+        ? Theme.of(
+            context,
+          ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w800)
         : Theme.of(context).textTheme.bodyMedium;
     return Row(
       children: [

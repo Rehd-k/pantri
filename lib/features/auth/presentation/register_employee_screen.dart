@@ -7,6 +7,9 @@ import '../../../core/router/app_router.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/app_text_field.dart';
+import '../../onboarding/domain/setup_steps.dart';
+import '../../onboarding/presentation/widgets/setup_progress.dart';
+import '../../onboarding/providers/first_launch_provider.dart';
 import '../providers/auth_notifier.dart';
 import '../providers/auth_state.dart';
 import 'widgets/auth_password_field.dart';
@@ -15,7 +18,9 @@ import 'widgets/auth_validators.dart';
 
 @RoutePage()
 class RegisterEmployeeScreen extends ConsumerStatefulWidget {
-  const RegisterEmployeeScreen({super.key});
+  const RegisterEmployeeScreen({super.key, this.inviteCode});
+
+  final String? inviteCode;
 
   @override
   ConsumerState<RegisterEmployeeScreen> createState() =>
@@ -36,12 +41,19 @@ class _RegisterEmployeeScreenState
   String? _emailError;
   String? _passwordError;
   String? _inviteError;
+  var _stepsReady = false;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    final code = widget.inviteCode?.trim();
+    if (code != null && code.isNotEmpty) {
+      _inviteCode.text = code;
+    }
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       ref.read(authNotifierProvider.notifier).clearError();
+      await ref.read(onboardingPrefsDraftProvider.notifier).hydrateFromStorage();
+      if (mounted) setState(() => _stepsReady = true);
     });
   }
 
@@ -101,6 +113,8 @@ class _RegisterEmployeeScreenState
     final authState = ref.watch(authNotifierProvider);
     final loading = authState is AuthLoading;
     final error = authState is AuthError ? authState.message : null;
+    final draft = ref.watch(onboardingPrefsDraftProvider);
+    final steps = setupStepsFor(householdSize: draft.householdSize);
 
     ref.listen<AuthState>(authNotifierProvider, (previous, next) {
       if (next is AuthAuthenticated) {
@@ -109,6 +123,7 @@ class _RegisterEmployeeScreenState
     });
 
     return AuthScaffold(
+      headerColor: Theme.of(context).colorScheme.tertiaryContainer,
       child: AutofillGroup(
         child: ListView(
           padding: const EdgeInsets.fromLTRB(
@@ -118,6 +133,10 @@ class _RegisterEmployeeScreenState
             AppSpacing.xl,
           ),
           children: [
+            if (_stepsReady) ...[
+              SetupProgress(steps: steps, index: steps.length - 1),
+              const SizedBox(height: AppSpacing.lg),
+            ],
             const AuthScreenHeader(
               title: 'Join your company',
               subtitle:

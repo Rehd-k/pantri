@@ -30,7 +30,7 @@ class InventoryApi {
         data: {
           'productId': productId,
           'quantity': quantity,
-          if (measureUnitId != null) 'measureUnitId': measureUnitId,
+          'measureUnitId': ?measureUnitId,
         },
       );
       return HouseholdStockItem.fromJson(response.data!);
@@ -48,9 +48,8 @@ class InventoryApi {
       final response = await _dio.patch<Map<String, dynamic>>(
         '/inventory/$stockId',
         data: {
-          if (quantityCanonical != null) 'quantityCanonical': quantityCanonical,
-          if (restockThresholdCanonical != null)
-            'restockThresholdCanonical': restockThresholdCanonical,
+          'quantityCanonical': ?quantityCanonical,
+          'restockThresholdCanonical': ?restockThresholdCanonical,
         },
       );
       return HouseholdStockItem.fromJson(response.data!);

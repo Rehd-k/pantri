@@ -64,12 +64,14 @@ class _EmployeeShellState extends ConsumerState<EmployeeShell> {
   @override
   void initState() {
     super.initState();
-    final clamped = widget.initialIndex.clamp(
-      0,
-      _employeeDestinations.length - 1,
-    );
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(employeeTabIndexProvider.notifier).setIndex(clamped);
+      final requested = ref.read(requestedEmployeeTabProvider.notifier).take();
+      final chosen = ref.read(employeeTabIndexProvider);
+      // Keep a tab a deep link already selected in this frame. Otherwise a
+      // cold start would be forced back to Home after that selection.
+      final index = (requested ?? (chosen != 0 ? chosen : widget.initialIndex))
+          .clamp(0, _employeeDestinations.length - 1);
+      ref.read(employeeTabIndexProvider.notifier).setIndex(index);
       ref.read(cartNotifierProvider.notifier).load();
     });
   }

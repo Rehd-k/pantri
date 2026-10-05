@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_spacing.dart';
+import '../../../../core/widgets/pantri_logo.dart';
 import '../../../auth/domain/auth_user.dart';
 
 class HomeHeader extends StatelessWidget {
@@ -46,24 +47,13 @@ class HomeHeader extends StatelessWidget {
           ),
         ),
         const SizedBox(width: AppSpacing.md),
-        Expanded(
-          child: Row(
-            children: [
-              Image.asset(
-                'assets/logo.png',
-                width: 28,
-                height: 28,
-                semanticLabel: 'Pantri',
-              ),
-              const SizedBox(width: AppSpacing.sm),
-              Text(
-                'Pantri',
-                style: textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.w800,
-                  color: colorScheme.tertiary,
-                ),
-              ),
-            ],
+        const Expanded(
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: PantriLogo(
+              variant: PantriLogoVariant.lockup,
+              height: 28,
+            ),
           ),
         ),
         IconButton(

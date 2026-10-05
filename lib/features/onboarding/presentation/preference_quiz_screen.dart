@@ -8,14 +8,15 @@ import '../../../core/router/app_router.dart';
 import '../../../core/theme/app_radius.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/widgets/app_button.dart';
+import '../../../core/widgets/pantri_logo.dart';
 import '../../nutrition/domain/household_sizing.dart';
 import '../../nutrition/domain/lifestyle_options.dart';
 import '../../nutrition/domain/nutrition_models.dart';
 import '../../nutrition/providers/nutrition_providers.dart';
 import '../domain/onboarding_prefs_draft.dart';
+import '../domain/setup_steps.dart';
 import '../providers/first_launch_provider.dart';
-
-enum _QuizStep { household, kids, lifestyle, allergies, aboutYou, goals }
+import 'widgets/setup_progress.dart';
 
 @RoutePage()
 class PreferenceQuizScreen extends ConsumerStatefulWidget {
@@ -66,7 +67,7 @@ class _PreferenceQuizScreenState extends ConsumerState<PreferenceQuizScreen> {
       if (!mounted) return;
       final draft = ref.read(onboardingPrefsDraftProvider);
       setState(() {
-        _stepIndex = draft.step.clamp(0, 8);
+        _stepIndex = draft.step.clamp(0, 6);
         _hydrated = true;
       });
     });
@@ -79,15 +80,10 @@ class _PreferenceQuizScreenState extends ConsumerState<PreferenceQuizScreen> {
     super.dispose();
   }
 
-  List<_QuizStep> _stepsFor(OnboardingPrefsDraft draft) {
-    return [
-      _QuizStep.household,
-      if (draft.householdSize > 1) _QuizStep.kids,
-      _QuizStep.lifestyle,
-      _QuizStep.allergies,
-      _QuizStep.aboutYou,
-      _QuizStep.goals,
-    ];
+  List<SetupStep> _stepsFor(OnboardingPrefsDraft draft) {
+    return setupStepsFor(
+      householdSize: draft.householdSize,
+    ).where((step) => step.kind != SetupStepKind.account).toList();
   }
 
   Future<void> _persist(OnboardingPrefsDraft draft, {int? step}) {
@@ -102,7 +98,8 @@ class _PreferenceQuizScreenState extends ConsumerState<PreferenceQuizScreen> {
     await ref.read(onboardingPrefsDraftProvider.notifier).skip();
     await ref.read(firstLaunchProvider.notifier).markQuizFinished();
     if (!mounted) return;
-    await context.router.replace(const RegisterHubRoute());
+    await context.router.push(RegisterEmployeeRoute());
+    if (mounted) setState(() => _busy = false);
   }
 
   Future<void> _finish(OnboardingPrefsDraft draft) async {
@@ -119,7 +116,8 @@ class _PreferenceQuizScreenState extends ConsumerState<PreferenceQuizScreen> {
         .completeAndPersist(draft);
     await ref.read(firstLaunchProvider.notifier).markQuizFinished();
     if (!mounted) return;
-    await context.router.replace(const RegisterHubRoute());
+    await context.router.push(RegisterEmployeeRoute());
+    if (mounted) setState(() => _busy = false);
   }
 
   Future<void> _next(OnboardingPrefsDraft draft) async {
@@ -145,8 +143,9 @@ class _PreferenceQuizScreenState extends ConsumerState<PreferenceQuizScreen> {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
     final steps = _stepsFor(draft);
+    final allSteps = setupStepsFor(householdSize: draft.householdSize);
     final index = _stepIndex.clamp(0, steps.length - 1);
-    final step = steps[index];
+    final step = steps[index].kind;
     final isLast = index >= steps.length - 1;
     final overlay = colorScheme.brightness == Brightness.dark
         ? SystemUiOverlayStyle.light
@@ -160,7 +159,7 @@ class _PreferenceQuizScreenState extends ConsumerState<PreferenceQuizScreen> {
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [colorScheme.primaryContainer, colorScheme.surface],
+              colors: [colorScheme.tertiaryContainer, colorScheme.surface],
             ),
           ),
           child: SafeArea(
@@ -172,12 +171,9 @@ class _PreferenceQuizScreenState extends ConsumerState<PreferenceQuizScreen> {
                     height: 56,
                     child: Row(
                       children: [
-                        Text(
-                          'Pantri',
-                          style: textTheme.titleLarge?.copyWith(
-                            color: colorScheme.primary,
-                            fontWeight: FontWeight.w800,
-                          ),
+                        const PantriLogo(
+                          variant: PantriLogoVariant.lockup,
+                          height: 28,
                         ),
                         const Spacer(),
                         AppButton(
@@ -189,65 +185,46 @@ class _PreferenceQuizScreenState extends ConsumerState<PreferenceQuizScreen> {
                       ],
                     ),
                   ),
-                  ClipRRect(
-                    borderRadius: AppRadius.borderFull,
-                    child: LinearProgressIndicator(
-                      value: (index + 1) / steps.length,
-                      minHeight: 8,
-                      backgroundColor: colorScheme.surfaceContainerHighest,
-                      color: colorScheme.secondary,
-                    ),
-                  ),
-                  const SizedBox(height: AppSpacing.md),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'STEP ${index + 1} OF ${steps.length}',
-                      style: textTheme.labelLarge?.copyWith(
-                        color: colorScheme.primary,
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: 1.1,
-                      ),
-                    ),
-                  ),
+                  SetupProgress(steps: allSteps, index: index),
                   const SizedBox(height: AppSpacing.lg),
                   Expanded(
                     child: !_hydrated
                         ? const Center(child: CircularProgressIndicator())
                         : SingleChildScrollView(
                             child: switch (step) {
-                              _QuizStep.household => _buildHousehold(
+                              SetupStepKind.household => _buildHousehold(
                                 draft,
                                 colorScheme,
                                 textTheme,
                               ),
-                              _QuizStep.kids => _buildKids(
+                              SetupStepKind.kids => _buildKids(
                                 draft,
                                 colorScheme,
                                 textTheme,
                               ),
-                              _QuizStep.lifestyle => _buildLifestyle(
+                              SetupStepKind.lifestyle => _buildLifestyle(
                                 draft,
                                 colorScheme,
                                 textTheme,
                               ),
-                              _QuizStep.allergies => _buildAllergies(
-                                draft,
-                                catalogAsync,
-                                colorScheme,
-                                textTheme,
-                              ),
-                              _QuizStep.aboutYou => _buildAboutYou(
-                                draft,
-                                colorScheme,
-                                textTheme,
-                              ),
-                              _QuizStep.goals => _buildGoals(
+                              SetupStepKind.allergies => _buildAllergies(
                                 draft,
                                 catalogAsync,
                                 colorScheme,
                                 textTheme,
                               ),
+                              SetupStepKind.aboutYou => _buildAboutYou(
+                                draft,
+                                colorScheme,
+                                textTheme,
+                              ),
+                              SetupStepKind.goals => _buildGoals(
+                                draft,
+                                catalogAsync,
+                                colorScheme,
+                                textTheme,
+                              ),
+                              SetupStepKind.account => const SizedBox.shrink(),
                             },
                           ),
                   ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/app_spacing.dart';
+import '../../../core/widgets/pantri_logo.dart';
 import '../../onboarding/providers/first_launch_provider.dart';
 import '../providers/auth_notifier.dart';
 import '../providers/auth_state.dart';
@@ -48,11 +49,10 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Image.asset(
-              'assets/logo.png',
-              width: 96,
+            const PantriLogo(
+              variant: PantriLogoVariant.mark,
               height: 96,
-              semanticLabel: 'Pantri',
+              forceTone: Brightness.light,
             ),
             const SizedBox(height: AppSpacing.xl),
             const CircularProgressIndicator(),

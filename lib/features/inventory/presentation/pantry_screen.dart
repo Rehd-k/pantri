@@ -123,7 +123,7 @@ class _StockTile extends ConsumerWidget {
           width: 48,
           height: 48,
           fit: BoxFit.cover,
-          errorBuilder: (_, __, ___) => const Icon(Icons.inventory_2_outlined),
+          errorBuilder: (_, _, _) => const Icon(Icons.inventory_2_outlined),
         ),
       ),
       title: Text(item.product.name),
@@ -255,7 +255,7 @@ class _AddPantryItemScreenState extends ConsumerState<AddPantryItemScreen> {
                   }
                   return ListView.separated(
                     itemCount: items.length,
-                    separatorBuilder: (_, __) =>
+                    separatorBuilder: (_, _) =>
                         const SizedBox(height: AppSpacing.sm),
                     itemBuilder: (context, index) {
                       final product = items[index];

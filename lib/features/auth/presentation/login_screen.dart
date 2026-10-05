@@ -6,6 +6,7 @@ import '../../../core/router/app_router.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/app_text_field.dart';
+import '../../onboarding/providers/first_launch_provider.dart';
 import '../providers/auth_notifier.dart';
 import '../providers/auth_state.dart';
 import 'widgets/auth_password_field.dart';
@@ -131,7 +132,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               variant: AppButtonVariant.text,
               onPressed: loading
                   ? null
-                  : () => context.navigateTo(const RegisterHubRoute()),
+                  : () {
+                      final firstLaunch = ref.read(firstLaunchProvider);
+                      final quizFinished =
+                          firstLaunch is FirstLaunchLoaded &&
+                          firstLaunch.hasFinishedQuiz;
+                      if (quizFinished) {
+                        context.router.push(RegisterEmployeeRoute());
+                      } else {
+                        context.router.push(const PreferenceQuizRoute());
+                      }
+                    },
             ),
           ],
         ),

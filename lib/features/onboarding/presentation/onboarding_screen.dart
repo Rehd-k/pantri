@@ -7,6 +7,7 @@ import '../../../core/router/app_router.dart';
 import '../../../core/theme/app_radius.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/widgets/app_button.dart';
+import '../../../core/widgets/pantri_logo.dart';
 import '../data/onboarding_slides.dart';
 import '../providers/first_launch_provider.dart';
 import 'widgets/onboarding_illustration.dart';
@@ -109,14 +110,11 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
                             final delta = (page - index).clamp(-1.0, 1.0);
                             return Opacity(
                               opacity: (1 - delta.abs() * 0.45).clamp(0.4, 1),
-                              child: Transform.translate(
-                                offset: Offset(delta * 36, 0),
-                                child: _SlideBody(
-                                  slide: slide,
-                                  progress: _floatController.value,
-                                  textTheme: textTheme,
-                                  colorScheme: colorScheme,
-                                ),
+                              child: _SlideBody(
+                                slide: slide,
+                                progress: _floatController.value,
+                                textTheme: textTheme,
+                                colorScheme: colorScheme,
                               ),
                             );
                           },
@@ -199,17 +197,13 @@ class _TopBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
     return SizedBox(
       height: 56,
       child: Row(
         children: [
-          Text(
-            'Pantri',
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-              color: colorScheme.primary,
-              fontWeight: FontWeight.w800,
-            ),
+          const PantriLogo(
+            variant: PantriLogoVariant.lockup,
+            height: 28,
           ),
           const Spacer(),
           if (showSkip)

@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
+import '../../../../core/widgets/pantri_logo.dart';
 
 /// Shared branded shell for welcome, login, and registration.
 class AuthScaffold extends StatelessWidget {
@@ -12,11 +13,13 @@ class AuthScaffold extends StatelessWidget {
     required this.child,
     this.showBack = true,
     this.footer,
+    this.headerColor,
   });
 
   final Widget child;
   final bool showBack;
   final Widget? footer;
+  final Color? headerColor;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +36,10 @@ class AuthScaffold extends StatelessWidget {
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [colorScheme.primaryContainer, colorScheme.surface],
+              colors: [
+                headerColor ?? colorScheme.primaryContainer,
+                colorScheme.surface,
+              ],
             ),
           ),
           child: SafeArea(
@@ -59,20 +65,9 @@ class AuthScaffold extends StatelessWidget {
                           )
                         else
                           const SizedBox(width: AppSpacing.md),
-                        Image.asset(
-                          'assets/logo.png',
-                          width: 28,
+                        const PantriLogo(
+                          variant: PantriLogoVariant.lockup,
                           height: 28,
-                          semanticLabel: 'Pantri',
-                        ),
-                        const SizedBox(width: AppSpacing.sm),
-                        Text(
-                          'Pantri',
-                          style: Theme.of(context).textTheme.titleLarge
-                              ?.copyWith(
-                                color: colorScheme.primary,
-                                fontWeight: FontWeight.w800,
-                              ),
                         ),
                       ],
                     ),

@@ -13,7 +13,8 @@ abstract final class AppConfig {
   /// - iOS simulator / desktop: `http://localhost:3000/api/v1`
   static const String apiBaseUrl = String.fromEnvironment(
     'API_BASE_URL',
-    defaultValue: 'http://192.168.1.180:3000/api/v1',
+    defaultValue: 'https://backend.joinpantri.com/api/v1',
+    // 'http://192.168.1.180:3000/api/v1'
   );
 
   /// Extra bases tried in debug when [apiBaseUrl] cannot be reached.
@@ -24,7 +25,7 @@ abstract final class AppConfig {
 
   static const String shareBaseUrl = String.fromEnvironment(
     'APP_SHARE_BASE_URL',
-    defaultValue: 'https://joinpantri.com/app',
+    defaultValue: 'https://joinpantri.com',
   );
 
   static const String appVersion = String.fromEnvironment(

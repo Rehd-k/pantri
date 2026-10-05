@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -11,6 +12,7 @@ import '../domain/order_models.dart';
 import '../providers/orders_providers.dart';
 import 'order_detail_screen.dart';
 
+@RoutePage()
 class OrdersScreen extends ConsumerWidget {
   const OrdersScreen({super.key});
 
@@ -50,7 +52,7 @@ class OrdersScreen extends ConsumerWidget {
               : ListView.separated(
                   padding: const EdgeInsets.all(AppSpacing.xl),
                   itemCount: items.length,
-                  separatorBuilder: (_, __) =>
+                  separatorBuilder: (_, _) =>
                       const SizedBox(height: AppSpacing.md),
                   itemBuilder: (context, index) =>
                       _OrderCard(order: items[index]),

@@ -35,11 +35,13 @@ class WelcomeScreen extends ConsumerWidget {
             label: quizFinished ? 'Create an account' : 'Get started',
             expanded: true,
             variant: AppButtonVariant.outlined,
-            onPressed: () => context.router.push(
-              quizFinished
-                  ? const RegisterHubRoute()
-                  : const PreferenceQuizRoute(),
-            ),
+            onPressed: () {
+              if (quizFinished) {
+                context.router.push(RegisterEmployeeRoute());
+              } else {
+                context.router.push(const PreferenceQuizRoute());
+              }
+            },
           ),
         ],
       ),

@@ -22,7 +22,14 @@ Future<void> shareNutritionCard(
   final directory = await getTemporaryDirectory();
   final file = File('${directory.path}/$fileName.png');
   await file.writeAsBytes(bytes.buffer.asUint8List(), flush: true);
-  await Share.shareXFiles([XFile(file.path)], subject: subject);
+  final origin = boundary.localToGlobal(Offset.zero) & boundary.size;
+  await SharePlus.instance.share(
+    ShareParams(
+      files: [XFile(file.path)],
+      subject: subject,
+      sharePositionOrigin: origin,
+    ),
+  );
 }
 
 class NutritionShareCard extends StatelessWidget {

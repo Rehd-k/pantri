@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -12,8 +13,12 @@ import '../../../core/widgets/app_empty_state.dart';
 import '../domain/order_models.dart';
 import '../providers/orders_providers.dart';
 
+@RoutePage()
 class OrderDetailScreen extends ConsumerStatefulWidget {
-  const OrderDetailScreen({super.key, required this.orderId});
+  const OrderDetailScreen({
+    super.key,
+    @PathParam('orderId') required this.orderId,
+  });
 
   final String orderId;
 

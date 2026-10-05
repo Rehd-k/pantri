@@ -33,17 +33,17 @@ class _CartScreenState extends ConsumerState<CartScreen> {
   }
 
   Future<void> _startCheckout(BuildContext context) async {
-    ref.read(analyticsServiceProvider).track(
+    ref
+        .read(analyticsServiceProvider)
+        .track(
           AnalyticsEvents.checkoutStarted,
           metadata: {'cta': 'cart_checkout'},
         );
-    ref.read(analyticsServiceProvider).track(
-          AnalyticsEvents.ctaClicked,
-          metadata: {'cta': 'start_checkout'},
-        );
+    ref
+        .read(analyticsServiceProvider)
+        .track(AnalyticsEvents.ctaClicked, metadata: {'cta': 'start_checkout'});
     try {
-      final location =
-          await ref.read(checkoutRepositoryProvider).getLocation();
+      final location = await ref.read(checkoutRepositoryProvider).getLocation();
       if (!context.mounted) return;
       if (!location.isSet) {
         final saved = await Navigator.of(context).push<bool>(
@@ -55,7 +55,9 @@ class _CartScreenState extends ConsumerState<CartScreen> {
               .track(AnalyticsEvents.checkoutAbandoned);
           return;
         }
-        ref.read(analyticsServiceProvider).track(
+        ref
+            .read(analyticsServiceProvider)
+            .track(
               AnalyticsEvents.checkoutStepCompleted,
               metadata: {'step': 'location'},
             );
@@ -65,9 +67,9 @@ class _CartScreenState extends ConsumerState<CartScreen> {
       );
     } catch (e) {
       if (!context.mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(e.toString())),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(e.toString())));
     }
   }
 
@@ -118,33 +120,29 @@ class _CartScreenState extends ConsumerState<CartScreen> {
           Expanded(
             child: cart == null && loading
                 ? const Center(child: CircularProgressIndicator())
-                : cart == null || cart.items.isEmpty
-                    ? AppEmptyState(
-                        icon: Icons.shopping_cart_outlined,
-                        title: 'Your cart is empty',
-                        message: 'Browse the marketplace and tap Add.',
-                        actionLabel: 'Back to marketplace',
-                        onAction: () => Navigator.of(context).maybePop(),
-                      )
-                    : ListView(
-                        padding: const EdgeInsets.all(AppSpacing.lg),
-                        children: [
-                          _FreeDeliveryProgress(cart: cart),
-                          const SizedBox(height: AppSpacing.lg),
-                          ...[
-                            for (var i = 0; i < cart.items.length; i++) ...[
-                              if (i > 0)
-                                const SizedBox(height: AppSpacing.md),
-                              _CartItemTile(
-                                item: cart.items[i],
-                                enabled: !loading,
-                              ),
-                            ],
-                          ],
-                          const SizedBox(height: AppSpacing.lg),
-                          _OrderSummary(cart: cart),
+                : cart?.items.isEmpty ?? true
+                ? AppEmptyState(
+                    icon: Icons.shopping_cart_outlined,
+                    title: 'Your cart is empty',
+                    message: 'Browse the marketplace and tap Add.',
+                    actionLabel: 'Back to marketplace',
+                    onAction: () => Navigator.of(context).maybePop(),
+                  )
+                : ListView(
+                    padding: const EdgeInsets.all(AppSpacing.lg),
+                    children: [
+                      _FreeDeliveryProgress(cart: cart!),
+                      const SizedBox(height: AppSpacing.lg),
+                      ...[
+                        for (var i = 0; i < cart.items.length; i++) ...[
+                          if (i > 0) const SizedBox(height: AppSpacing.md),
+                          _CartItemTile(item: cart.items[i], enabled: !loading),
                         ],
-                      ),
+                      ],
+                      const SizedBox(height: AppSpacing.lg),
+                      _OrderSummary(cart: cart),
+                    ],
+                  ),
           ),
           if (cart != null && cart.items.isNotEmpty)
             SafeArea(
@@ -172,11 +170,11 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                         const Spacer(),
                         Text(
                           MoneyKobo.formatNaira(cart.totalKobo),
-                          style:
-                              Theme.of(context).textTheme.titleLarge?.copyWith(
-                                    color: colorScheme.tertiary,
-                                    fontWeight: FontWeight.w800,
-                                  ),
+                          style: Theme.of(context).textTheme.titleLarge
+                              ?.copyWith(
+                                color: colorScheme.tertiary,
+                                fontWeight: FontWeight.w800,
+                              ),
                         ),
                       ],
                     ),
@@ -229,16 +227,16 @@ class _FreeDeliveryProgress extends StatelessWidget {
                   child: Text(
                     'Free Delivery Progress',
                     style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                          fontWeight: FontWeight.w700,
-                        ),
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
                 Text(
                   statusText,
                   style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        color: colorScheme.tertiary,
-                        fontWeight: FontWeight.w700,
-                      ),
+                    color: colorScheme.tertiary,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ],
             ),
@@ -256,8 +254,8 @@ class _FreeDeliveryProgress extends StatelessWidget {
             Text(
               hintText,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: colorScheme.onSurfaceVariant,
-                  ),
+                color: colorScheme.onSurfaceVariant,
+              ),
             ),
           ],
         ),
@@ -285,9 +283,9 @@ class _OrderSummary extends StatelessWidget {
           children: [
             Text(
               'Order Summary',
-              style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.w700,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700),
             ),
             const SizedBox(height: AppSpacing.md),
             _SummaryRow(
@@ -335,9 +333,9 @@ class _SummaryRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final style = emphasize
-        ? Theme.of(context).textTheme.titleSmall?.copyWith(
-              fontWeight: FontWeight.w800,
-            )
+        ? Theme.of(
+            context,
+          ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w800)
         : Theme.of(context).textTheme.bodyMedium;
 
     return Row(
@@ -357,10 +355,7 @@ class _SummaryRow extends StatelessWidget {
 }
 
 class _CartItemTile extends ConsumerWidget {
-  const _CartItemTile({
-    required this.item,
-    required this.enabled,
-  });
+  const _CartItemTile({required this.item, required this.enabled});
 
   final CartItem item;
   final bool enabled;
@@ -385,7 +380,7 @@ class _CartItemTile extends ConsumerWidget {
                 width: 72,
                 height: 72,
                 fit: BoxFit.cover,
-                errorBuilder: (_, __, ___) => ColoredBox(
+                errorBuilder: (_, _, _) => ColoredBox(
                   color: colorScheme.surface,
                   child: const SizedBox(
                     width: 72,
@@ -403,22 +398,22 @@ class _CartItemTile extends ConsumerWidget {
                   Text(
                     '${item.name} ${item.packageLabel}',
                     style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                          fontWeight: FontWeight.w700,
-                        ),
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                   Text(
                     item.brand,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: colorScheme.onSurfaceVariant,
-                        ),
+                      color: colorScheme.onSurfaceVariant,
+                    ),
                   ),
                   const SizedBox(height: AppSpacing.xs),
                   Text(
                     MoneyKobo.formatNaira(item.unitPriceKobo),
                     style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                          color: colorScheme.tertiary,
-                          fontWeight: FontWeight.w700,
-                        ),
+                      color: colorScheme.tertiary,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                   const SizedBox(height: AppSpacing.sm),
                   Row(
@@ -428,9 +423,9 @@ class _CartItemTile extends ConsumerWidget {
                         onPressed: !enabled
                             ? null
                             : () => notifier.setQuantity(
-                                  item.packId,
-                                  item.quantity - 1,
-                                ),
+                                item.packId,
+                                item.quantity - 1,
+                              ),
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(
@@ -438,9 +433,7 @@ class _CartItemTile extends ConsumerWidget {
                         ),
                         child: Text(
                           '${item.quantity}',
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium
+                          style: Theme.of(context).textTheme.titleMedium
                               ?.copyWith(fontWeight: FontWeight.w700),
                         ),
                       ),
@@ -449,16 +442,16 @@ class _CartItemTile extends ConsumerWidget {
                         onPressed: !enabled
                             ? null
                             : () => notifier.setQuantity(
-                                  item.packId,
-                                  item.quantity + 1,
-                                ),
+                                item.packId,
+                                item.quantity + 1,
+                              ),
                       ),
                       const Spacer(),
                       Text(
                         MoneyKobo.formatNaira(item.lineTotalKobo),
                         style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                              fontWeight: FontWeight.w700,
-                            ),
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ],
                   ),

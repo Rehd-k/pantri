@@ -86,7 +86,7 @@ class HouseholdPackageCard extends ConsumerWidget {
                     child: Image.network(
                       match.coverImageUrl,
                       fit: BoxFit.cover,
-                      errorBuilder: (_, __, ___) => ColoredBox(
+                      errorBuilder: (_, _, _) => ColoredBox(
                         color: colorScheme.surfaceContainerHighest,
                         child: Icon(
                           Icons.inventory_2_outlined,

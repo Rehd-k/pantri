@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -26,8 +27,12 @@ import '../providers/marketplace_providers.dart';
 import '../../inventory/presentation/pantry_screen.dart';
 import 'compare_products_screen.dart';
 
+@RoutePage()
 class ProductDetailsScreen extends ConsumerStatefulWidget {
-  const ProductDetailsScreen({super.key, required this.productId});
+  const ProductDetailsScreen({
+    super.key,
+    @PathParam('foodId') required this.productId,
+  });
 
   final String productId;
 
@@ -51,7 +56,9 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_viewTracked) return;
       _viewTracked = true;
-      ref.read(analyticsServiceProvider).track(
+      ref
+          .read(analyticsServiceProvider)
+          .track(
             AnalyticsEvents.productViewed,
             entityType: 'product',
             entityId: widget.productId,
@@ -132,7 +139,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                       width: 40,
                       height: 40,
                       fit: BoxFit.cover,
-                      errorBuilder: (_, __, ___) =>
+                      errorBuilder: (_, _, _) =>
                           const Icon(Icons.inventory_2_outlined),
                     ),
                   ),
@@ -215,11 +222,19 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                         IconButton(
                           tooltip: 'Share',
                           onPressed: () {
-                            Share.share(
-                              '${product.name} ${selectedPack?.packageLabel ?? ''}  '
-                              '${MoneyKobo.formatNaira(selectedPack?.priceKobo ?? product.fromPriceKobo)} on Pantri\n'
-                              '${AppConfig.shareBaseUrl}/products/${product.id}',
-                              subject: product.name,
+                            final box =
+                                context.findRenderObject() as RenderBox?;
+                            SharePlus.instance.share(
+                              ShareParams(
+                                text:
+                                    '${product.name} ${selectedPack?.packageLabel ?? ''}  '
+                                    '${MoneyKobo.formatNaira(selectedPack?.priceKobo ?? product.fromPriceKobo)} on Pantri\n'
+                                    '${AppConfig.shareBaseUrl}/app/food/${product.id}',
+                                subject: product.name,
+                                sharePositionOrigin: box == null
+                                    ? null
+                                    : box.localToGlobal(Offset.zero) & box.size,
+                              ),
                             );
                           },
                           icon: const Icon(Icons.ios_share_outlined),
@@ -305,7 +320,11 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                               ],
                             ],
                             const SizedBox(height: AppSpacing.lg),
-                            _PriceCard(product: product, pack: selectedPack),
+                            _PriceCard(
+                              product: product,
+                              pack: selectedPack,
+                              quantity: _quantity,
+                            ),
                             const SizedBox(height: AppSpacing.md),
                             _MetaChips(product: product),
                             if (product.description.isNotEmpty) ...[
@@ -425,6 +444,11 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
               ),
               _StickyCartBar(
                 quantity: _quantity,
+                unitPriceKobo:
+                    selectedPack?.priceKobo ?? product.fromPriceKobo,
+                unitRetailPriceKobo:
+                    selectedPack?.retailPriceKobo ??
+                    product.fromRetailPriceKobo,
                 loading: _adding,
                 onMinus: _quantity > 1
                     ? () => setState(() => _quantity -= 1)
@@ -515,7 +539,7 @@ class _ProductHero extends StatelessWidget {
         imageUrl,
         fit: BoxFit.cover,
         width: double.infinity,
-        errorBuilder: (_, __, ___) => ColoredBox(
+        errorBuilder: (_, _, _) => ColoredBox(
           color: Theme.of(context).colorScheme.surfaceContainerHighest,
           child: const Icon(Icons.inventory_2_outlined, size: 64),
         ),
@@ -560,10 +584,11 @@ class _RatingRow extends StatelessWidget {
 }
 
 class _PriceCard extends StatelessWidget {
-  const _PriceCard({required this.product, this.pack});
+  const _PriceCard({required this.product, this.pack, this.quantity = 1});
 
   final MarketplaceProduct product;
   final ProductPack? pack;
+  final int quantity;
 
   @override
   Widget build(BuildContext context) {
@@ -571,7 +596,9 @@ class _PriceCard extends StatelessWidget {
     final priceKobo = pack?.priceKobo ?? product.fromPriceKobo;
     final retailPriceKobo =
         pack?.retailPriceKobo ?? product.fromRetailPriceKobo;
-    final savings = retailPriceKobo - priceKobo;
+    final totalKobo = priceKobo * quantity;
+    final retailTotalKobo = retailPriceKobo * quantity;
+    final savings = retailTotalKobo - totalKobo;
     final claimed = product.bulkAllocationClaimedPercent.clamp(0, 100);
 
     return AppCard(
@@ -579,27 +606,40 @@ class _PriceCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'WHOLESALE PRICE',
+            quantity > 1 ? 'TOTAL FOR $quantity' : 'WHOLESALE PRICE',
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
               letterSpacing: 0.8,
               color: colorScheme.onSurfaceVariant,
             ),
           ),
           const SizedBox(height: AppSpacing.xs),
-          Text(
-            MoneyKobo.formatNaira(priceKobo),
-            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-              color: colorScheme.tertiary,
-              fontWeight: FontWeight.w800,
+          AnimatedSwitcher(
+            duration: const Duration(milliseconds: 180),
+            child: Text(
+              MoneyKobo.formatNaira(totalKobo),
+              key: ValueKey(totalKobo),
+              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                color: colorScheme.tertiary,
+                fontWeight: FontWeight.w800,
+              ),
             ),
           ),
+          if (quantity > 1) ...[
+            const SizedBox(height: AppSpacing.xs),
+            Text(
+              '${MoneyKobo.formatNaira(priceKobo)} each',
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: colorScheme.onSurfaceVariant,
+              ),
+            ),
+          ],
           const SizedBox(height: AppSpacing.sm),
           Wrap(
             spacing: AppSpacing.sm,
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               Text(
-                'Retail: ${MoneyKobo.formatNaira(retailPriceKobo)}',
+                'Retail: ${MoneyKobo.formatNaira(retailTotalKobo)}',
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   decoration: TextDecoration.lineThrough,
                   color: colorScheme.onSurfaceVariant,
@@ -818,18 +858,25 @@ class _PerfectForSection extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ClipOval(
-                child: Image.network(
-                  item.imageUrl,
-                  width: 48,
-                  height: 48,
-                  fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) => CircleAvatar(
-                    backgroundColor: Theme.of(
-                      context,
-                    ).colorScheme.surfaceContainerHighest,
-                    child: const Icon(Icons.restaurant, size: 20),
-                  ),
-                ),
+                child: item.imageUrl.isEmpty
+                    ? CircleAvatar(
+                        backgroundColor: Theme.of(
+                          context,
+                        ).colorScheme.surfaceContainerHighest,
+                        child: const Icon(Icons.restaurant, size: 20),
+                      )
+                    : Image.network(
+                        item.imageUrl,
+                        width: 48,
+                        height: 48,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, _, _) => CircleAvatar(
+                          backgroundColor: Theme.of(
+                            context,
+                          ).colorScheme.surfaceContainerHighest,
+                          child: const Icon(Icons.restaurant, size: 20),
+                        ),
+                      ),
               ),
               const SizedBox(width: AppSpacing.md),
               Expanded(
@@ -842,10 +889,11 @@ class _PerfectForSection extends StatelessWidget {
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    Text(
-                      item.description,
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
+                    if (item.description.isNotEmpty)
+                      Text(
+                        item.description,
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
                   ],
                 ),
               ),
@@ -1135,6 +1183,8 @@ class _ReviewCard extends StatelessWidget {
 class _StickyCartBar extends StatelessWidget {
   const _StickyCartBar({
     required this.quantity,
+    required this.unitPriceKobo,
+    required this.unitRetailPriceKobo,
     required this.loading,
     required this.onMinus,
     required this.onPlus,
@@ -1142,6 +1192,8 @@ class _StickyCartBar extends StatelessWidget {
   });
 
   final int quantity;
+  final int unitPriceKobo;
+  final int unitRetailPriceKobo;
   final bool loading;
   final VoidCallback? onMinus;
   final VoidCallback onPlus;
@@ -1150,6 +1202,8 @@ class _StickyCartBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final totalKobo = unitPriceKobo * quantity;
+    final savings = (unitRetailPriceKobo * quantity) - totalKobo;
     return Material(
       elevation: 8,
       color: colorScheme.surface,
@@ -1162,47 +1216,82 @@ class _StickyCartBar extends StatelessWidget {
             AppSpacing.lg,
             AppSpacing.md,
           ),
-          child: Row(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: colorScheme.surfaceContainerHighest,
-                  borderRadius: AppRadius.borderLg,
-                ),
-                child: Row(
-                  children: [
-                    IconButton(
-                      onPressed: onMinus,
-                      icon: const Icon(Icons.remove),
-                    ),
-                    Text(
-                      '$quantity',
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    IconButton(onPressed: onPlus, icon: const Icon(Icons.add)),
-                  ],
-                ),
-              ),
-              const SizedBox(width: AppSpacing.md),
-              Expanded(
-                child: FilledButton.icon(
-                  onPressed: loading ? null : onAdd,
-                  icon: loading
-                      ? const SizedBox(
-                          width: 18,
-                          height: 18,
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        )
-                      : const Icon(Icons.shopping_cart_outlined),
-                  label: const Text('Add to Cart'),
-                  style: FilledButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: AppSpacing.md,
+              Align(
+                alignment: Alignment.centerRight,
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 180),
+                  child: Text(
+                    MoneyKobo.formatNaira(totalKobo),
+                    key: ValueKey(totalKobo),
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      color: colorScheme.tertiary,
+                      fontWeight: FontWeight.w800,
                     ),
                   ),
                 ),
+              ),
+              if (savings > 0) ...[
+                const SizedBox(height: 2),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    'Save ${MoneyKobo.formatNaira(savings)}',
+                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                      color: const Color(0xFF1B7A4E),
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+              ],
+              const SizedBox(height: AppSpacing.sm),
+              Row(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: colorScheme.surfaceContainerHighest,
+                      borderRadius: AppRadius.borderLg,
+                    ),
+                    child: Row(
+                      children: [
+                        IconButton(
+                          onPressed: onMinus,
+                          icon: const Icon(Icons.remove),
+                        ),
+                        Text(
+                          '$quantity',
+                          style: Theme.of(context).textTheme.titleMedium
+                              ?.copyWith(fontWeight: FontWeight.w700),
+                        ),
+                        IconButton(
+                          onPressed: onPlus,
+                          icon: const Icon(Icons.add),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: AppSpacing.md),
+                  Expanded(
+                    child: FilledButton.icon(
+                      onPressed: loading ? null : onAdd,
+                      icon: loading
+                          ? const SizedBox(
+                              width: 18,
+                              height: 18,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            )
+                          : const Icon(Icons.shopping_cart_outlined),
+                      label: const Text('Add to Cart'),
+                      style: FilledButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: AppSpacing.md,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

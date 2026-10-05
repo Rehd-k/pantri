@@ -339,7 +339,7 @@ class _DailyMealPlanScreenState extends ConsumerState<DailyMealPlanScreen> {
                     child: ListView.separated(
                       scrollDirection: Axis.horizontal,
                       itemCount: detail.days.length,
-                      separatorBuilder: (_, __) =>
+                      separatorBuilder: (_, _) =>
                           const SizedBox(width: AppSpacing.sm),
                       itemBuilder: (context, index) {
                         final planDay = detail.days[index];

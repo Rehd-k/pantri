@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'marketplace_product.dart';
@@ -9,6 +9,7 @@ part of 'marketplace_product.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $CanonicalNutritionCopyWith<CanonicalNutrition> get copyWith => _$CanonicalNutri
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CanonicalNutrition&&(identical(other.energyKcal, energyKcal) || other.energyKcal == energyKcal)&&(identical(other.proteinMg, proteinMg) || other.proteinMg == proteinMg)&&(identical(other.carbsMg, carbsMg) || other.carbsMg == carbsMg)&&(identical(other.fatMg, fatMg) || other.fatMg == fatMg)&&(identical(other.fiberMg, fiberMg) || other.fiberMg == fiberMg)&&(identical(other.sugarMg, sugarMg) || other.sugarMg == sugarMg)&&(identical(other.sodiumMg, sodiumMg) || other.sodiumMg == sodiumMg)&&(identical(other.ironUg, ironUg) || other.ironUg == ironUg));
+  final _this = this as CanonicalNutrition;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CanonicalNutrition&&(identical(other.energyKcal, _this.energyKcal) || other.energyKcal == _this.energyKcal)&&(identical(other.proteinMg, _this.proteinMg) || other.proteinMg == _this.proteinMg)&&(identical(other.carbsMg, _this.carbsMg) || other.carbsMg == _this.carbsMg)&&(identical(other.fatMg, _this.fatMg) || other.fatMg == _this.fatMg)&&(identical(other.fiberMg, _this.fiberMg) || other.fiberMg == _this.fiberMg)&&(identical(other.sugarMg, _this.sugarMg) || other.sugarMg == _this.sugarMg)&&(identical(other.sodiumMg, _this.sodiumMg) || other.sodiumMg == _this.sodiumMg)&&(identical(other.ironUg, _this.ironUg) || other.ironUg == _this.ironUg));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,energyKcal,proteinMg,carbsMg,fatMg,fiberMg,sugarMg,sodiumMg,ironUg);
+int get hashCode {
+  final _this = this as CanonicalNutrition;
+  return Object.hash(runtimeType,_this.energyKcal,_this.proteinMg,_this.carbsMg,_this.fatMg,_this.fiberMg,_this.sugarMg,_this.sodiumMg,_this.ironUg);
+}
 
 @override
 String toString() {
-  return 'CanonicalNutrition(energyKcal: $energyKcal, proteinMg: $proteinMg, carbsMg: $carbsMg, fatMg: $fatMg, fiberMg: $fiberMg, sugarMg: $sugarMg, sodiumMg: $sodiumMg, ironUg: $ironUg)';
+  final _this = this as CanonicalNutrition;
+  return 'CanonicalNutrition(energyKcal: ${_this.energyKcal}, proteinMg: ${_this.proteinMg}, carbsMg: ${_this.carbsMg}, fatMg: ${_this.fatMg}, fiberMg: ${_this.fiberMg}, sugarMg: ${_this.sugarMg}, sodiumMg: ${_this.sodiumMg}, ironUg: ${_this.ironUg})';
 }
 
 
@@ -66,7 +72,7 @@ class _$CanonicalNutritionCopyWithImpl<$Res>
 /// Create a copy of CanonicalNutrition
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? energyKcal = null,Object? proteinMg = null,Object? carbsMg = null,Object? fatMg = null,Object? fiberMg = null,Object? sugarMg = null,Object? sodiumMg = null,Object? ironUg = null,}) {
-  return _then(_self.copyWith(
+  return _then(CanonicalNutrition(
 energyKcal: null == energyKcal ? _self.energyKcal : energyKcal // ignore: cast_nullable_to_non_nullable
 as int,proteinMg: null == proteinMg ? _self.proteinMg : proteinMg // ignore: cast_nullable_to_non_nullable
 as int,carbsMg: null == carbsMg ? _self.carbsMg : carbsMg // ignore: cast_nullable_to_non_nullable
@@ -241,16 +247,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CanonicalNutrition&&(identical(other.energyKcal, energyKcal) || other.energyKcal == energyKcal)&&(identical(other.proteinMg, proteinMg) || other.proteinMg == proteinMg)&&(identical(other.carbsMg, carbsMg) || other.carbsMg == carbsMg)&&(identical(other.fatMg, fatMg) || other.fatMg == fatMg)&&(identical(other.fiberMg, fiberMg) || other.fiberMg == fiberMg)&&(identical(other.sugarMg, sugarMg) || other.sugarMg == sugarMg)&&(identical(other.sodiumMg, sodiumMg) || other.sodiumMg == sodiumMg)&&(identical(other.ironUg, ironUg) || other.ironUg == ironUg));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _CanonicalNutrition&&(identical(other.energyKcal, energyKcal) || other.energyKcal == energyKcal)&&(identical(other.proteinMg, proteinMg) || other.proteinMg == proteinMg)&&(identical(other.carbsMg, carbsMg) || other.carbsMg == carbsMg)&&(identical(other.fatMg, fatMg) || other.fatMg == fatMg)&&(identical(other.fiberMg, fiberMg) || other.fiberMg == fiberMg)&&(identical(other.sugarMg, sugarMg) || other.sugarMg == sugarMg)&&(identical(other.sodiumMg, sodiumMg) || other.sodiumMg == sodiumMg)&&(identical(other.ironUg, ironUg) || other.ironUg == ironUg));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,energyKcal,proteinMg,carbsMg,fatMg,fiberMg,sugarMg,sodiumMg,ironUg);
+int get hashCode {
+    return Object.hash(runtimeType,energyKcal,proteinMg,carbsMg,fatMg,fiberMg,sugarMg,sodiumMg,ironUg);
+}
 
 @override
 String toString() {
-  return 'CanonicalNutrition(energyKcal: $energyKcal, proteinMg: $proteinMg, carbsMg: $carbsMg, fatMg: $fatMg, fiberMg: $fiberMg, sugarMg: $sugarMg, sodiumMg: $sodiumMg, ironUg: $ironUg)';
+    return 'CanonicalNutrition(energyKcal: $energyKcal, proteinMg: $proteinMg, carbsMg: $carbsMg, fatMg: $fatMg, fiberMg: $fiberMg, sugarMg: $sugarMg, sodiumMg: $sodiumMg, ironUg: $ironUg)';
 }
 
 
@@ -312,16 +320,21 @@ $ProductAllergenCopyWith<ProductAllergen> get copyWith => _$ProductAllergenCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProductAllergen&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name));
+  final _this = this as ProductAllergen;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProductAllergen&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.name, _this.name) || other.name == _this.name));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name);
+int get hashCode {
+  final _this = this as ProductAllergen;
+  return Object.hash(runtimeType,_this.id,_this.name);
+}
 
 @override
 String toString() {
-  return 'ProductAllergen(id: $id, name: $name)';
+  final _this = this as ProductAllergen;
+  return 'ProductAllergen(id: ${_this.id}, name: ${_this.name})';
 }
 
 
@@ -350,7 +363,7 @@ class _$ProductAllergenCopyWithImpl<$Res>
 /// Create a copy of ProductAllergen
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,}) {
-  return _then(_self.copyWith(
+  return _then(ProductAllergen(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,
@@ -513,16 +526,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProductAllergen&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProductAllergen&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name);
+int get hashCode {
+    return Object.hash(runtimeType,id,name);
+}
 
 @override
 String toString() {
-  return 'ProductAllergen(id: $id, name: $name)';
+    return 'ProductAllergen(id: $id, name: $name)';
 }
 
 
@@ -565,7 +580,7 @@ as String,
 /// @nodoc
 mixin _$MarketplaceProduct {
 
- String get id; String get slug; String get categoryId; String get categoryName; String get subcategoryId; String get subcategoryName; String get measureFamilyId; MeasureFamily? get measureFamily; String? get recipeUnitId; MeasureUnit? get recipeUnit; String get name; String get imageUrl; int get fromPriceKobo; int get fromRetailPriceKobo; int get discountPercent; String get description; String get origin; int? get recipeUnitOverrideMg; int? get recipeUnitOverrideMl; String? get expiresAt; bool get isVerified; int get bulkAllocationClaimedPercent; Map<String, String> get nutritionFacts; CanonicalNutrition get nutrition; List<ProductAllergen> get allergens; List<PerfectForItem> get perfectFor; List<String> get tags; List<ProductPack> get packs; int get sortOrder; bool get isActive; double get averageRating; int get reviewCount; RatingDistribution get ratingDistribution; String get createdAt; String get updatedAt;
+ String get id; String get slug; String get categoryId; String get categoryName; String get subcategoryId; String get subcategoryName; String get measureFamilyId; MeasureFamily? get measureFamily; String? get recipeUnitId; MeasureUnit? get recipeUnit; String get name; String get imageUrl; int get fromPriceKobo; int get fromRetailPriceKobo; int get discountPercent; String get description; String get origin; int? get recipeUnitOverrideMg; int? get recipeUnitOverrideMl; String? get expiresAt; bool get isVerified; int get bulkAllocationClaimedPercent; Map<String, String> get nutritionFacts; CanonicalNutrition get nutrition; List<ProductAllergen> get allergens;@JsonKey(fromJson: perfectForFromJson) List<PerfectForItem> get perfectFor; List<String> get tags; List<ProductPack> get packs; int get sortOrder; bool get isActive; double get averageRating; int get reviewCount; RatingDistribution get ratingDistribution; String get createdAt; String get updatedAt;
 /// Create a copy of MarketplaceProduct
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -578,16 +593,21 @@ $MarketplaceProductCopyWith<MarketplaceProduct> get copyWith => _$MarketplacePro
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MarketplaceProduct&&(identical(other.id, id) || other.id == id)&&(identical(other.slug, slug) || other.slug == slug)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.categoryName, categoryName) || other.categoryName == categoryName)&&(identical(other.subcategoryId, subcategoryId) || other.subcategoryId == subcategoryId)&&(identical(other.subcategoryName, subcategoryName) || other.subcategoryName == subcategoryName)&&(identical(other.measureFamilyId, measureFamilyId) || other.measureFamilyId == measureFamilyId)&&(identical(other.measureFamily, measureFamily) || other.measureFamily == measureFamily)&&(identical(other.recipeUnitId, recipeUnitId) || other.recipeUnitId == recipeUnitId)&&(identical(other.recipeUnit, recipeUnit) || other.recipeUnit == recipeUnit)&&(identical(other.name, name) || other.name == name)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.fromPriceKobo, fromPriceKobo) || other.fromPriceKobo == fromPriceKobo)&&(identical(other.fromRetailPriceKobo, fromRetailPriceKobo) || other.fromRetailPriceKobo == fromRetailPriceKobo)&&(identical(other.discountPercent, discountPercent) || other.discountPercent == discountPercent)&&(identical(other.description, description) || other.description == description)&&(identical(other.origin, origin) || other.origin == origin)&&(identical(other.recipeUnitOverrideMg, recipeUnitOverrideMg) || other.recipeUnitOverrideMg == recipeUnitOverrideMg)&&(identical(other.recipeUnitOverrideMl, recipeUnitOverrideMl) || other.recipeUnitOverrideMl == recipeUnitOverrideMl)&&(identical(other.expiresAt, expiresAt) || other.expiresAt == expiresAt)&&(identical(other.isVerified, isVerified) || other.isVerified == isVerified)&&(identical(other.bulkAllocationClaimedPercent, bulkAllocationClaimedPercent) || other.bulkAllocationClaimedPercent == bulkAllocationClaimedPercent)&&const DeepCollectionEquality().equals(other.nutritionFacts, nutritionFacts)&&(identical(other.nutrition, nutrition) || other.nutrition == nutrition)&&const DeepCollectionEquality().equals(other.allergens, allergens)&&const DeepCollectionEquality().equals(other.perfectFor, perfectFor)&&const DeepCollectionEquality().equals(other.tags, tags)&&const DeepCollectionEquality().equals(other.packs, packs)&&(identical(other.sortOrder, sortOrder) || other.sortOrder == sortOrder)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&(identical(other.averageRating, averageRating) || other.averageRating == averageRating)&&(identical(other.reviewCount, reviewCount) || other.reviewCount == reviewCount)&&(identical(other.ratingDistribution, ratingDistribution) || other.ratingDistribution == ratingDistribution)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  final _this = this as MarketplaceProduct;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MarketplaceProduct&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.slug, _this.slug) || other.slug == _this.slug)&&(identical(other.categoryId, _this.categoryId) || other.categoryId == _this.categoryId)&&(identical(other.categoryName, _this.categoryName) || other.categoryName == _this.categoryName)&&(identical(other.subcategoryId, _this.subcategoryId) || other.subcategoryId == _this.subcategoryId)&&(identical(other.subcategoryName, _this.subcategoryName) || other.subcategoryName == _this.subcategoryName)&&(identical(other.measureFamilyId, _this.measureFamilyId) || other.measureFamilyId == _this.measureFamilyId)&&(identical(other.measureFamily, _this.measureFamily) || other.measureFamily == _this.measureFamily)&&(identical(other.recipeUnitId, _this.recipeUnitId) || other.recipeUnitId == _this.recipeUnitId)&&(identical(other.recipeUnit, _this.recipeUnit) || other.recipeUnit == _this.recipeUnit)&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.imageUrl, _this.imageUrl) || other.imageUrl == _this.imageUrl)&&(identical(other.fromPriceKobo, _this.fromPriceKobo) || other.fromPriceKobo == _this.fromPriceKobo)&&(identical(other.fromRetailPriceKobo, _this.fromRetailPriceKobo) || other.fromRetailPriceKobo == _this.fromRetailPriceKobo)&&(identical(other.discountPercent, _this.discountPercent) || other.discountPercent == _this.discountPercent)&&(identical(other.description, _this.description) || other.description == _this.description)&&(identical(other.origin, _this.origin) || other.origin == _this.origin)&&(identical(other.recipeUnitOverrideMg, _this.recipeUnitOverrideMg) || other.recipeUnitOverrideMg == _this.recipeUnitOverrideMg)&&(identical(other.recipeUnitOverrideMl, _this.recipeUnitOverrideMl) || other.recipeUnitOverrideMl == _this.recipeUnitOverrideMl)&&(identical(other.expiresAt, _this.expiresAt) || other.expiresAt == _this.expiresAt)&&(identical(other.isVerified, _this.isVerified) || other.isVerified == _this.isVerified)&&(identical(other.bulkAllocationClaimedPercent, _this.bulkAllocationClaimedPercent) || other.bulkAllocationClaimedPercent == _this.bulkAllocationClaimedPercent)&&const DeepCollectionEquality().equals(other.nutritionFacts, _this.nutritionFacts)&&(identical(other.nutrition, _this.nutrition) || other.nutrition == _this.nutrition)&&const DeepCollectionEquality().equals(other.allergens, _this.allergens)&&const DeepCollectionEquality().equals(other.perfectFor, _this.perfectFor)&&const DeepCollectionEquality().equals(other.tags, _this.tags)&&const DeepCollectionEquality().equals(other.packs, _this.packs)&&(identical(other.sortOrder, _this.sortOrder) || other.sortOrder == _this.sortOrder)&&(identical(other.isActive, _this.isActive) || other.isActive == _this.isActive)&&(identical(other.averageRating, _this.averageRating) || other.averageRating == _this.averageRating)&&(identical(other.reviewCount, _this.reviewCount) || other.reviewCount == _this.reviewCount)&&(identical(other.ratingDistribution, _this.ratingDistribution) || other.ratingDistribution == _this.ratingDistribution)&&(identical(other.createdAt, _this.createdAt) || other.createdAt == _this.createdAt)&&(identical(other.updatedAt, _this.updatedAt) || other.updatedAt == _this.updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hashAll([runtimeType,id,slug,categoryId,categoryName,subcategoryId,subcategoryName,measureFamilyId,measureFamily,recipeUnitId,recipeUnit,name,imageUrl,fromPriceKobo,fromRetailPriceKobo,discountPercent,description,origin,recipeUnitOverrideMg,recipeUnitOverrideMl,expiresAt,isVerified,bulkAllocationClaimedPercent,const DeepCollectionEquality().hash(nutritionFacts),nutrition,const DeepCollectionEquality().hash(allergens),const DeepCollectionEquality().hash(perfectFor),const DeepCollectionEquality().hash(tags),const DeepCollectionEquality().hash(packs),sortOrder,isActive,averageRating,reviewCount,ratingDistribution,createdAt,updatedAt]);
+int get hashCode {
+  final _this = this as MarketplaceProduct;
+  return Object.hashAll([runtimeType,_this.id,_this.slug,_this.categoryId,_this.categoryName,_this.subcategoryId,_this.subcategoryName,_this.measureFamilyId,_this.measureFamily,_this.recipeUnitId,_this.recipeUnit,_this.name,_this.imageUrl,_this.fromPriceKobo,_this.fromRetailPriceKobo,_this.discountPercent,_this.description,_this.origin,_this.recipeUnitOverrideMg,_this.recipeUnitOverrideMl,_this.expiresAt,_this.isVerified,_this.bulkAllocationClaimedPercent,const DeepCollectionEquality().hash(_this.nutritionFacts),_this.nutrition,const DeepCollectionEquality().hash(_this.allergens),const DeepCollectionEquality().hash(_this.perfectFor),const DeepCollectionEquality().hash(_this.tags),const DeepCollectionEquality().hash(_this.packs),_this.sortOrder,_this.isActive,_this.averageRating,_this.reviewCount,_this.ratingDistribution,_this.createdAt,_this.updatedAt]);
+}
 
 @override
 String toString() {
-  return 'MarketplaceProduct(id: $id, slug: $slug, categoryId: $categoryId, categoryName: $categoryName, subcategoryId: $subcategoryId, subcategoryName: $subcategoryName, measureFamilyId: $measureFamilyId, measureFamily: $measureFamily, recipeUnitId: $recipeUnitId, recipeUnit: $recipeUnit, name: $name, imageUrl: $imageUrl, fromPriceKobo: $fromPriceKobo, fromRetailPriceKobo: $fromRetailPriceKobo, discountPercent: $discountPercent, description: $description, origin: $origin, recipeUnitOverrideMg: $recipeUnitOverrideMg, recipeUnitOverrideMl: $recipeUnitOverrideMl, expiresAt: $expiresAt, isVerified: $isVerified, bulkAllocationClaimedPercent: $bulkAllocationClaimedPercent, nutritionFacts: $nutritionFacts, nutrition: $nutrition, allergens: $allergens, perfectFor: $perfectFor, tags: $tags, packs: $packs, sortOrder: $sortOrder, isActive: $isActive, averageRating: $averageRating, reviewCount: $reviewCount, ratingDistribution: $ratingDistribution, createdAt: $createdAt, updatedAt: $updatedAt)';
+  final _this = this as MarketplaceProduct;
+  return 'MarketplaceProduct(id: ${_this.id}, slug: ${_this.slug}, categoryId: ${_this.categoryId}, categoryName: ${_this.categoryName}, subcategoryId: ${_this.subcategoryId}, subcategoryName: ${_this.subcategoryName}, measureFamilyId: ${_this.measureFamilyId}, measureFamily: ${_this.measureFamily}, recipeUnitId: ${_this.recipeUnitId}, recipeUnit: ${_this.recipeUnit}, name: ${_this.name}, imageUrl: ${_this.imageUrl}, fromPriceKobo: ${_this.fromPriceKobo}, fromRetailPriceKobo: ${_this.fromRetailPriceKobo}, discountPercent: ${_this.discountPercent}, description: ${_this.description}, origin: ${_this.origin}, recipeUnitOverrideMg: ${_this.recipeUnitOverrideMg}, recipeUnitOverrideMl: ${_this.recipeUnitOverrideMl}, expiresAt: ${_this.expiresAt}, isVerified: ${_this.isVerified}, bulkAllocationClaimedPercent: ${_this.bulkAllocationClaimedPercent}, nutritionFacts: ${_this.nutritionFacts}, nutrition: ${_this.nutrition}, allergens: ${_this.allergens}, perfectFor: ${_this.perfectFor}, tags: ${_this.tags}, packs: ${_this.packs}, sortOrder: ${_this.sortOrder}, isActive: ${_this.isActive}, averageRating: ${_this.averageRating}, reviewCount: ${_this.reviewCount}, ratingDistribution: ${_this.ratingDistribution}, createdAt: ${_this.createdAt}, updatedAt: ${_this.updatedAt})';
 }
 
 
@@ -598,7 +618,7 @@ abstract mixin class $MarketplaceProductCopyWith<$Res>  {
   factory $MarketplaceProductCopyWith(MarketplaceProduct value, $Res Function(MarketplaceProduct) _then) = _$MarketplaceProductCopyWithImpl;
 @useResult
 $Res call({
- String id, String slug, String categoryId, String categoryName, String subcategoryId, String subcategoryName, String measureFamilyId, MeasureFamily? measureFamily, String? recipeUnitId, MeasureUnit? recipeUnit, String name, String imageUrl, int fromPriceKobo, int fromRetailPriceKobo, int discountPercent, String description, String origin, int? recipeUnitOverrideMg, int? recipeUnitOverrideMl, String? expiresAt, bool isVerified, int bulkAllocationClaimedPercent, Map<String, String> nutritionFacts, CanonicalNutrition nutrition, List<ProductAllergen> allergens, List<PerfectForItem> perfectFor, List<String> tags, List<ProductPack> packs, int sortOrder, bool isActive, double averageRating, int reviewCount, RatingDistribution ratingDistribution, String createdAt, String updatedAt
+ String id, String slug, String categoryId, String categoryName, String subcategoryId, String subcategoryName, String measureFamilyId, MeasureFamily? measureFamily, String? recipeUnitId, MeasureUnit? recipeUnit, String name, String imageUrl, int fromPriceKobo, int fromRetailPriceKobo, int discountPercent, String description, String origin, int? recipeUnitOverrideMg, int? recipeUnitOverrideMl, String? expiresAt, bool isVerified, int bulkAllocationClaimedPercent, Map<String, String> nutritionFacts, CanonicalNutrition nutrition, List<ProductAllergen> allergens,@JsonKey(fromJson: perfectForFromJson) List<PerfectForItem> perfectFor, List<String> tags, List<ProductPack> packs, int sortOrder, bool isActive, double averageRating, int reviewCount, RatingDistribution ratingDistribution, String createdAt, String updatedAt
 });
 
 
@@ -616,7 +636,7 @@ class _$MarketplaceProductCopyWithImpl<$Res>
 /// Create a copy of MarketplaceProduct
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? slug = null,Object? categoryId = null,Object? categoryName = null,Object? subcategoryId = null,Object? subcategoryName = null,Object? measureFamilyId = null,Object? measureFamily = freezed,Object? recipeUnitId = freezed,Object? recipeUnit = freezed,Object? name = null,Object? imageUrl = null,Object? fromPriceKobo = null,Object? fromRetailPriceKobo = null,Object? discountPercent = null,Object? description = null,Object? origin = null,Object? recipeUnitOverrideMg = freezed,Object? recipeUnitOverrideMl = freezed,Object? expiresAt = freezed,Object? isVerified = null,Object? bulkAllocationClaimedPercent = null,Object? nutritionFacts = null,Object? nutrition = null,Object? allergens = null,Object? perfectFor = null,Object? tags = null,Object? packs = null,Object? sortOrder = null,Object? isActive = null,Object? averageRating = null,Object? reviewCount = null,Object? ratingDistribution = null,Object? createdAt = null,Object? updatedAt = null,}) {
-  return _then(_self.copyWith(
+  return _then(MarketplaceProduct(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,slug: null == slug ? _self.slug : slug // ignore: cast_nullable_to_non_nullable
 as String,categoryId: null == categoryId ? _self.categoryId : categoryId // ignore: cast_nullable_to_non_nullable
@@ -779,7 +799,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String slug,  String categoryId,  String categoryName,  String subcategoryId,  String subcategoryName,  String measureFamilyId,  MeasureFamily? measureFamily,  String? recipeUnitId,  MeasureUnit? recipeUnit,  String name,  String imageUrl,  int fromPriceKobo,  int fromRetailPriceKobo,  int discountPercent,  String description,  String origin,  int? recipeUnitOverrideMg,  int? recipeUnitOverrideMl,  String? expiresAt,  bool isVerified,  int bulkAllocationClaimedPercent,  Map<String, String> nutritionFacts,  CanonicalNutrition nutrition,  List<ProductAllergen> allergens,  List<PerfectForItem> perfectFor,  List<String> tags,  List<ProductPack> packs,  int sortOrder,  bool isActive,  double averageRating,  int reviewCount,  RatingDistribution ratingDistribution,  String createdAt,  String updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String slug,  String categoryId,  String categoryName,  String subcategoryId,  String subcategoryName,  String measureFamilyId,  MeasureFamily? measureFamily,  String? recipeUnitId,  MeasureUnit? recipeUnit,  String name,  String imageUrl,  int fromPriceKobo,  int fromRetailPriceKobo,  int discountPercent,  String description,  String origin,  int? recipeUnitOverrideMg,  int? recipeUnitOverrideMl,  String? expiresAt,  bool isVerified,  int bulkAllocationClaimedPercent,  Map<String, String> nutritionFacts,  CanonicalNutrition nutrition,  List<ProductAllergen> allergens, @JsonKey(fromJson: perfectForFromJson)  List<PerfectForItem> perfectFor,  List<String> tags,  List<ProductPack> packs,  int sortOrder,  bool isActive,  double averageRating,  int reviewCount,  RatingDistribution ratingDistribution,  String createdAt,  String updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _MarketplaceProduct() when $default != null:
 return $default(_that.id,_that.slug,_that.categoryId,_that.categoryName,_that.subcategoryId,_that.subcategoryName,_that.measureFamilyId,_that.measureFamily,_that.recipeUnitId,_that.recipeUnit,_that.name,_that.imageUrl,_that.fromPriceKobo,_that.fromRetailPriceKobo,_that.discountPercent,_that.description,_that.origin,_that.recipeUnitOverrideMg,_that.recipeUnitOverrideMl,_that.expiresAt,_that.isVerified,_that.bulkAllocationClaimedPercent,_that.nutritionFacts,_that.nutrition,_that.allergens,_that.perfectFor,_that.tags,_that.packs,_that.sortOrder,_that.isActive,_that.averageRating,_that.reviewCount,_that.ratingDistribution,_that.createdAt,_that.updatedAt);case _:
@@ -800,7 +820,7 @@ return $default(_that.id,_that.slug,_that.categoryId,_that.categoryName,_that.su
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String slug,  String categoryId,  String categoryName,  String subcategoryId,  String subcategoryName,  String measureFamilyId,  MeasureFamily? measureFamily,  String? recipeUnitId,  MeasureUnit? recipeUnit,  String name,  String imageUrl,  int fromPriceKobo,  int fromRetailPriceKobo,  int discountPercent,  String description,  String origin,  int? recipeUnitOverrideMg,  int? recipeUnitOverrideMl,  String? expiresAt,  bool isVerified,  int bulkAllocationClaimedPercent,  Map<String, String> nutritionFacts,  CanonicalNutrition nutrition,  List<ProductAllergen> allergens,  List<PerfectForItem> perfectFor,  List<String> tags,  List<ProductPack> packs,  int sortOrder,  bool isActive,  double averageRating,  int reviewCount,  RatingDistribution ratingDistribution,  String createdAt,  String updatedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String slug,  String categoryId,  String categoryName,  String subcategoryId,  String subcategoryName,  String measureFamilyId,  MeasureFamily? measureFamily,  String? recipeUnitId,  MeasureUnit? recipeUnit,  String name,  String imageUrl,  int fromPriceKobo,  int fromRetailPriceKobo,  int discountPercent,  String description,  String origin,  int? recipeUnitOverrideMg,  int? recipeUnitOverrideMl,  String? expiresAt,  bool isVerified,  int bulkAllocationClaimedPercent,  Map<String, String> nutritionFacts,  CanonicalNutrition nutrition,  List<ProductAllergen> allergens, @JsonKey(fromJson: perfectForFromJson)  List<PerfectForItem> perfectFor,  List<String> tags,  List<ProductPack> packs,  int sortOrder,  bool isActive,  double averageRating,  int reviewCount,  RatingDistribution ratingDistribution,  String createdAt,  String updatedAt)  $default,) {final _that = this;
 switch (_that) {
 case _MarketplaceProduct():
 return $default(_that.id,_that.slug,_that.categoryId,_that.categoryName,_that.subcategoryId,_that.subcategoryName,_that.measureFamilyId,_that.measureFamily,_that.recipeUnitId,_that.recipeUnit,_that.name,_that.imageUrl,_that.fromPriceKobo,_that.fromRetailPriceKobo,_that.discountPercent,_that.description,_that.origin,_that.recipeUnitOverrideMg,_that.recipeUnitOverrideMl,_that.expiresAt,_that.isVerified,_that.bulkAllocationClaimedPercent,_that.nutritionFacts,_that.nutrition,_that.allergens,_that.perfectFor,_that.tags,_that.packs,_that.sortOrder,_that.isActive,_that.averageRating,_that.reviewCount,_that.ratingDistribution,_that.createdAt,_that.updatedAt);case _:
@@ -820,7 +840,7 @@ return $default(_that.id,_that.slug,_that.categoryId,_that.categoryName,_that.su
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String slug,  String categoryId,  String categoryName,  String subcategoryId,  String subcategoryName,  String measureFamilyId,  MeasureFamily? measureFamily,  String? recipeUnitId,  MeasureUnit? recipeUnit,  String name,  String imageUrl,  int fromPriceKobo,  int fromRetailPriceKobo,  int discountPercent,  String description,  String origin,  int? recipeUnitOverrideMg,  int? recipeUnitOverrideMl,  String? expiresAt,  bool isVerified,  int bulkAllocationClaimedPercent,  Map<String, String> nutritionFacts,  CanonicalNutrition nutrition,  List<ProductAllergen> allergens,  List<PerfectForItem> perfectFor,  List<String> tags,  List<ProductPack> packs,  int sortOrder,  bool isActive,  double averageRating,  int reviewCount,  RatingDistribution ratingDistribution,  String createdAt,  String updatedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String slug,  String categoryId,  String categoryName,  String subcategoryId,  String subcategoryName,  String measureFamilyId,  MeasureFamily? measureFamily,  String? recipeUnitId,  MeasureUnit? recipeUnit,  String name,  String imageUrl,  int fromPriceKobo,  int fromRetailPriceKobo,  int discountPercent,  String description,  String origin,  int? recipeUnitOverrideMg,  int? recipeUnitOverrideMl,  String? expiresAt,  bool isVerified,  int bulkAllocationClaimedPercent,  Map<String, String> nutritionFacts,  CanonicalNutrition nutrition,  List<ProductAllergen> allergens, @JsonKey(fromJson: perfectForFromJson)  List<PerfectForItem> perfectFor,  List<String> tags,  List<ProductPack> packs,  int sortOrder,  bool isActive,  double averageRating,  int reviewCount,  RatingDistribution ratingDistribution,  String createdAt,  String updatedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _MarketplaceProduct() when $default != null:
 return $default(_that.id,_that.slug,_that.categoryId,_that.categoryName,_that.subcategoryId,_that.subcategoryName,_that.measureFamilyId,_that.measureFamily,_that.recipeUnitId,_that.recipeUnit,_that.name,_that.imageUrl,_that.fromPriceKobo,_that.fromRetailPriceKobo,_that.discountPercent,_that.description,_that.origin,_that.recipeUnitOverrideMg,_that.recipeUnitOverrideMl,_that.expiresAt,_that.isVerified,_that.bulkAllocationClaimedPercent,_that.nutritionFacts,_that.nutrition,_that.allergens,_that.perfectFor,_that.tags,_that.packs,_that.sortOrder,_that.isActive,_that.averageRating,_that.reviewCount,_that.ratingDistribution,_that.createdAt,_that.updatedAt);case _:
@@ -835,7 +855,7 @@ return $default(_that.id,_that.slug,_that.categoryId,_that.categoryName,_that.su
 @JsonSerializable()
 
 class _MarketplaceProduct extends MarketplaceProduct {
-  const _MarketplaceProduct({required this.id, required this.slug, required this.categoryId, required this.categoryName, required this.subcategoryId, required this.subcategoryName, required this.measureFamilyId, this.measureFamily, this.recipeUnitId, this.recipeUnit, required this.name, required this.imageUrl, required this.fromPriceKobo, required this.fromRetailPriceKobo, required this.discountPercent, this.description = '', this.origin = '', this.recipeUnitOverrideMg, this.recipeUnitOverrideMl, this.expiresAt, this.isVerified = false, this.bulkAllocationClaimedPercent = 0, final  Map<String, String> nutritionFacts = const <String, String>{}, this.nutrition = const CanonicalNutrition(), final  List<ProductAllergen> allergens = const <ProductAllergen>[], final  List<PerfectForItem> perfectFor = const <PerfectForItem>[], required final  List<String> tags, final  List<ProductPack> packs = const <ProductPack>[], required this.sortOrder, required this.isActive, this.averageRating = 0, this.reviewCount = 0, this.ratingDistribution = const RatingDistribution(), required this.createdAt, required this.updatedAt}): _nutritionFacts = nutritionFacts,_allergens = allergens,_perfectFor = perfectFor,_tags = tags,_packs = packs,super._();
+  const _MarketplaceProduct({required this.id, required this.slug, required this.categoryId, required this.categoryName, required this.subcategoryId, required this.subcategoryName, required this.measureFamilyId, this.measureFamily, this.recipeUnitId, this.recipeUnit, required this.name, required this.imageUrl, required this.fromPriceKobo, required this.fromRetailPriceKobo, required this.discountPercent, this.description = '', this.origin = '', this.recipeUnitOverrideMg, this.recipeUnitOverrideMl, this.expiresAt, this.isVerified = false, this.bulkAllocationClaimedPercent = 0,  Map<String, String> nutritionFacts = const <String, String>{}, this.nutrition = const CanonicalNutrition(),  List<ProductAllergen> allergens = const <ProductAllergen>[], @JsonKey(fromJson: perfectForFromJson)  List<PerfectForItem> perfectFor = const <PerfectForItem>[], required  List<String> tags,  List<ProductPack> packs = const <ProductPack>[], required this.sortOrder, required this.isActive, this.averageRating = 0, this.reviewCount = 0, this.ratingDistribution = const RatingDistribution(), required this.createdAt, required this.updatedAt}): _nutritionFacts = nutritionFacts,_allergens = allergens,_perfectFor = perfectFor,_tags = tags,_packs = packs,super._();
   factory _MarketplaceProduct.fromJson(Map<String, dynamic> json) => _$MarketplaceProductFromJson(json);
 
 @override final  String id;
@@ -876,7 +896,7 @@ class _MarketplaceProduct extends MarketplaceProduct {
 }
 
  final  List<PerfectForItem> _perfectFor;
-@override@JsonKey() List<PerfectForItem> get perfectFor {
+@override@JsonKey(fromJson: perfectForFromJson) List<PerfectForItem> get perfectFor {
   if (_perfectFor is EqualUnmodifiableListView) return _perfectFor;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_perfectFor);
@@ -917,16 +937,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MarketplaceProduct&&(identical(other.id, id) || other.id == id)&&(identical(other.slug, slug) || other.slug == slug)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.categoryName, categoryName) || other.categoryName == categoryName)&&(identical(other.subcategoryId, subcategoryId) || other.subcategoryId == subcategoryId)&&(identical(other.subcategoryName, subcategoryName) || other.subcategoryName == subcategoryName)&&(identical(other.measureFamilyId, measureFamilyId) || other.measureFamilyId == measureFamilyId)&&(identical(other.measureFamily, measureFamily) || other.measureFamily == measureFamily)&&(identical(other.recipeUnitId, recipeUnitId) || other.recipeUnitId == recipeUnitId)&&(identical(other.recipeUnit, recipeUnit) || other.recipeUnit == recipeUnit)&&(identical(other.name, name) || other.name == name)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.fromPriceKobo, fromPriceKobo) || other.fromPriceKobo == fromPriceKobo)&&(identical(other.fromRetailPriceKobo, fromRetailPriceKobo) || other.fromRetailPriceKobo == fromRetailPriceKobo)&&(identical(other.discountPercent, discountPercent) || other.discountPercent == discountPercent)&&(identical(other.description, description) || other.description == description)&&(identical(other.origin, origin) || other.origin == origin)&&(identical(other.recipeUnitOverrideMg, recipeUnitOverrideMg) || other.recipeUnitOverrideMg == recipeUnitOverrideMg)&&(identical(other.recipeUnitOverrideMl, recipeUnitOverrideMl) || other.recipeUnitOverrideMl == recipeUnitOverrideMl)&&(identical(other.expiresAt, expiresAt) || other.expiresAt == expiresAt)&&(identical(other.isVerified, isVerified) || other.isVerified == isVerified)&&(identical(other.bulkAllocationClaimedPercent, bulkAllocationClaimedPercent) || other.bulkAllocationClaimedPercent == bulkAllocationClaimedPercent)&&const DeepCollectionEquality().equals(other._nutritionFacts, _nutritionFacts)&&(identical(other.nutrition, nutrition) || other.nutrition == nutrition)&&const DeepCollectionEquality().equals(other._allergens, _allergens)&&const DeepCollectionEquality().equals(other._perfectFor, _perfectFor)&&const DeepCollectionEquality().equals(other._tags, _tags)&&const DeepCollectionEquality().equals(other._packs, _packs)&&(identical(other.sortOrder, sortOrder) || other.sortOrder == sortOrder)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&(identical(other.averageRating, averageRating) || other.averageRating == averageRating)&&(identical(other.reviewCount, reviewCount) || other.reviewCount == reviewCount)&&(identical(other.ratingDistribution, ratingDistribution) || other.ratingDistribution == ratingDistribution)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _MarketplaceProduct&&(identical(other.id, id) || other.id == id)&&(identical(other.slug, slug) || other.slug == slug)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.categoryName, categoryName) || other.categoryName == categoryName)&&(identical(other.subcategoryId, subcategoryId) || other.subcategoryId == subcategoryId)&&(identical(other.subcategoryName, subcategoryName) || other.subcategoryName == subcategoryName)&&(identical(other.measureFamilyId, measureFamilyId) || other.measureFamilyId == measureFamilyId)&&(identical(other.measureFamily, measureFamily) || other.measureFamily == measureFamily)&&(identical(other.recipeUnitId, recipeUnitId) || other.recipeUnitId == recipeUnitId)&&(identical(other.recipeUnit, recipeUnit) || other.recipeUnit == recipeUnit)&&(identical(other.name, name) || other.name == name)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.fromPriceKobo, fromPriceKobo) || other.fromPriceKobo == fromPriceKobo)&&(identical(other.fromRetailPriceKobo, fromRetailPriceKobo) || other.fromRetailPriceKobo == fromRetailPriceKobo)&&(identical(other.discountPercent, discountPercent) || other.discountPercent == discountPercent)&&(identical(other.description, description) || other.description == description)&&(identical(other.origin, origin) || other.origin == origin)&&(identical(other.recipeUnitOverrideMg, recipeUnitOverrideMg) || other.recipeUnitOverrideMg == recipeUnitOverrideMg)&&(identical(other.recipeUnitOverrideMl, recipeUnitOverrideMl) || other.recipeUnitOverrideMl == recipeUnitOverrideMl)&&(identical(other.expiresAt, expiresAt) || other.expiresAt == expiresAt)&&(identical(other.isVerified, isVerified) || other.isVerified == isVerified)&&(identical(other.bulkAllocationClaimedPercent, bulkAllocationClaimedPercent) || other.bulkAllocationClaimedPercent == bulkAllocationClaimedPercent)&&const DeepCollectionEquality().equals(other.nutritionFacts, _nutritionFacts)&&(identical(other.nutrition, nutrition) || other.nutrition == nutrition)&&const DeepCollectionEquality().equals(other.allergens, _allergens)&&const DeepCollectionEquality().equals(other.perfectFor, _perfectFor)&&const DeepCollectionEquality().equals(other.tags, _tags)&&const DeepCollectionEquality().equals(other.packs, _packs)&&(identical(other.sortOrder, sortOrder) || other.sortOrder == sortOrder)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&(identical(other.averageRating, averageRating) || other.averageRating == averageRating)&&(identical(other.reviewCount, reviewCount) || other.reviewCount == reviewCount)&&(identical(other.ratingDistribution, ratingDistribution) || other.ratingDistribution == ratingDistribution)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hashAll([runtimeType,id,slug,categoryId,categoryName,subcategoryId,subcategoryName,measureFamilyId,measureFamily,recipeUnitId,recipeUnit,name,imageUrl,fromPriceKobo,fromRetailPriceKobo,discountPercent,description,origin,recipeUnitOverrideMg,recipeUnitOverrideMl,expiresAt,isVerified,bulkAllocationClaimedPercent,const DeepCollectionEquality().hash(_nutritionFacts),nutrition,const DeepCollectionEquality().hash(_allergens),const DeepCollectionEquality().hash(_perfectFor),const DeepCollectionEquality().hash(_tags),const DeepCollectionEquality().hash(_packs),sortOrder,isActive,averageRating,reviewCount,ratingDistribution,createdAt,updatedAt]);
+int get hashCode {
+    return Object.hashAll([runtimeType,id,slug,categoryId,categoryName,subcategoryId,subcategoryName,measureFamilyId,measureFamily,recipeUnitId,recipeUnit,name,imageUrl,fromPriceKobo,fromRetailPriceKobo,discountPercent,description,origin,recipeUnitOverrideMg,recipeUnitOverrideMl,expiresAt,isVerified,bulkAllocationClaimedPercent,const DeepCollectionEquality().hash(_nutritionFacts),nutrition,const DeepCollectionEquality().hash(_allergens),const DeepCollectionEquality().hash(_perfectFor),const DeepCollectionEquality().hash(_tags),const DeepCollectionEquality().hash(_packs),sortOrder,isActive,averageRating,reviewCount,ratingDistribution,createdAt,updatedAt]);
+}
 
 @override
 String toString() {
-  return 'MarketplaceProduct(id: $id, slug: $slug, categoryId: $categoryId, categoryName: $categoryName, subcategoryId: $subcategoryId, subcategoryName: $subcategoryName, measureFamilyId: $measureFamilyId, measureFamily: $measureFamily, recipeUnitId: $recipeUnitId, recipeUnit: $recipeUnit, name: $name, imageUrl: $imageUrl, fromPriceKobo: $fromPriceKobo, fromRetailPriceKobo: $fromRetailPriceKobo, discountPercent: $discountPercent, description: $description, origin: $origin, recipeUnitOverrideMg: $recipeUnitOverrideMg, recipeUnitOverrideMl: $recipeUnitOverrideMl, expiresAt: $expiresAt, isVerified: $isVerified, bulkAllocationClaimedPercent: $bulkAllocationClaimedPercent, nutritionFacts: $nutritionFacts, nutrition: $nutrition, allergens: $allergens, perfectFor: $perfectFor, tags: $tags, packs: $packs, sortOrder: $sortOrder, isActive: $isActive, averageRating: $averageRating, reviewCount: $reviewCount, ratingDistribution: $ratingDistribution, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'MarketplaceProduct(id: $id, slug: $slug, categoryId: $categoryId, categoryName: $categoryName, subcategoryId: $subcategoryId, subcategoryName: $subcategoryName, measureFamilyId: $measureFamilyId, measureFamily: $measureFamily, recipeUnitId: $recipeUnitId, recipeUnit: $recipeUnit, name: $name, imageUrl: $imageUrl, fromPriceKobo: $fromPriceKobo, fromRetailPriceKobo: $fromRetailPriceKobo, discountPercent: $discountPercent, description: $description, origin: $origin, recipeUnitOverrideMg: $recipeUnitOverrideMg, recipeUnitOverrideMl: $recipeUnitOverrideMl, expiresAt: $expiresAt, isVerified: $isVerified, bulkAllocationClaimedPercent: $bulkAllocationClaimedPercent, nutritionFacts: $nutritionFacts, nutrition: $nutrition, allergens: $allergens, perfectFor: $perfectFor, tags: $tags, packs: $packs, sortOrder: $sortOrder, isActive: $isActive, averageRating: $averageRating, reviewCount: $reviewCount, ratingDistribution: $ratingDistribution, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -937,7 +959,7 @@ abstract mixin class _$MarketplaceProductCopyWith<$Res> implements $MarketplaceP
   factory _$MarketplaceProductCopyWith(_MarketplaceProduct value, $Res Function(_MarketplaceProduct) _then) = __$MarketplaceProductCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String slug, String categoryId, String categoryName, String subcategoryId, String subcategoryName, String measureFamilyId, MeasureFamily? measureFamily, String? recipeUnitId, MeasureUnit? recipeUnit, String name, String imageUrl, int fromPriceKobo, int fromRetailPriceKobo, int discountPercent, String description, String origin, int? recipeUnitOverrideMg, int? recipeUnitOverrideMl, String? expiresAt, bool isVerified, int bulkAllocationClaimedPercent, Map<String, String> nutritionFacts, CanonicalNutrition nutrition, List<ProductAllergen> allergens, List<PerfectForItem> perfectFor, List<String> tags, List<ProductPack> packs, int sortOrder, bool isActive, double averageRating, int reviewCount, RatingDistribution ratingDistribution, String createdAt, String updatedAt
+ String id, String slug, String categoryId, String categoryName, String subcategoryId, String subcategoryName, String measureFamilyId, MeasureFamily? measureFamily, String? recipeUnitId, MeasureUnit? recipeUnit, String name, String imageUrl, int fromPriceKobo, int fromRetailPriceKobo, int discountPercent, String description, String origin, int? recipeUnitOverrideMg, int? recipeUnitOverrideMl, String? expiresAt, bool isVerified, int bulkAllocationClaimedPercent, Map<String, String> nutritionFacts, CanonicalNutrition nutrition, List<ProductAllergen> allergens,@JsonKey(fromJson: perfectForFromJson) List<PerfectForItem> perfectFor, List<String> tags, List<ProductPack> packs, int sortOrder, bool isActive, double averageRating, int reviewCount, RatingDistribution ratingDistribution, String createdAt, String updatedAt
 });
 
 

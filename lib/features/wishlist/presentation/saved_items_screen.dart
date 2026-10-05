@@ -133,7 +133,15 @@ class _SavedItemsScreenState extends ConsumerState<SavedItemsScreen> {
                                   '${i.name} ${i.packageLabel}  ${MoneyKobo.formatNaira(i.priceKobo)}',
                             )
                             .join('\n');
-                        Share.share('My Pantri wishlist:\n$lines');
+                        final box = context.findRenderObject() as RenderBox?;
+                        SharePlus.instance.share(
+                          ShareParams(
+                            text: 'My Pantri wishlist:\n$lines',
+                            sharePositionOrigin: box == null
+                                ? null
+                                : box.localToGlobal(Offset.zero) & box.size,
+                          ),
+                        );
                       },
                       icon: const Icon(Icons.ios_share_outlined, size: 18),
                       label: const Text('Share'),
@@ -312,7 +320,7 @@ class _SavedItemCard extends StatelessWidget {
                         child: Image.network(
                           item.imageUrl,
                           fit: BoxFit.cover,
-                          errorBuilder: (_, __, ___) => ColoredBox(
+                          errorBuilder: (_, _, _) => ColoredBox(
                             color: colorScheme.surfaceContainerHighest,
                             child: const Icon(Icons.inventory_2_outlined),
                           ),

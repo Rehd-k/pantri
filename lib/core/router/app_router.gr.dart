@@ -131,6 +131,143 @@ class OnboardingRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [OrderDetailScreen]
+class OrderDetailRoute extends PageRouteInfo<OrderDetailRouteArgs> {
+  OrderDetailRoute({
+    Key? key,
+    required String orderId,
+    List<PageRouteInfo>? children,
+  }) : super(
+         OrderDetailRoute.name,
+         args: OrderDetailRouteArgs(key: key, orderId: orderId),
+         rawPathParams: {'orderId': orderId},
+         initialChildren: children,
+       );
+
+  static const String name = 'OrderDetailRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final pathParams = data.inheritedPathParams;
+      final args = data.argsAs<OrderDetailRouteArgs>(
+        orElse: () =>
+            OrderDetailRouteArgs(orderId: pathParams.getString('orderId')),
+      );
+      return OrderDetailScreen(key: args.key, orderId: args.orderId);
+    },
+  );
+}
+
+class OrderDetailRouteArgs {
+  const OrderDetailRouteArgs({this.key, required this.orderId});
+
+  final Key? key;
+
+  final String orderId;
+
+  @override
+  String toString() {
+    return 'OrderDetailRouteArgs{key: $key, orderId: $orderId}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! OrderDetailRouteArgs) return false;
+    return key == other.key && orderId == other.orderId;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ orderId.hashCode;
+}
+
+/// generated route for
+/// [OrdersScreen]
+class OrdersRoute extends PageRouteInfo<void> {
+  const OrdersRoute({List<PageRouteInfo>? children})
+    : super(OrdersRoute.name, initialChildren: children);
+
+  static const String name = 'OrdersRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const OrdersScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [PackageDetailsScreen]
+class PackageDetailsRoute extends PageRouteInfo<PackageDetailsRouteArgs> {
+  PackageDetailsRoute({
+    Key? key,
+    required String packageId,
+    List<PageRouteInfo>? children,
+  }) : super(
+         PackageDetailsRoute.name,
+         args: PackageDetailsRouteArgs(key: key, packageId: packageId),
+         rawPathParams: {'packageId': packageId},
+         initialChildren: children,
+       );
+
+  static const String name = 'PackageDetailsRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final pathParams = data.inheritedPathParams;
+      final args = data.argsAs<PackageDetailsRouteArgs>(
+        orElse: () => PackageDetailsRouteArgs(
+          packageId: pathParams.getString('packageId'),
+        ),
+      );
+      return PackageDetailsScreen(key: args.key, packageId: args.packageId);
+    },
+  );
+}
+
+class PackageDetailsRouteArgs {
+  const PackageDetailsRouteArgs({this.key, required this.packageId});
+
+  final Key? key;
+
+  final String packageId;
+
+  @override
+  String toString() {
+    return 'PackageDetailsRouteArgs{key: $key, packageId: $packageId}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! PackageDetailsRouteArgs) return false;
+    return key == other.key && packageId == other.packageId;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ packageId.hashCode;
+}
+
+/// generated route for
+/// [PackagesScreen]
+class PackagesRoute extends PageRouteInfo<void> {
+  const PackagesRoute({List<PageRouteInfo>? children})
+    : super(PackagesRoute.name, initialChildren: children);
+
+  static const String name = 'PackagesRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const PackagesScreen();
+    },
+  );
+}
+
+/// generated route for
 /// [PendingApprovalScreen]
 class PendingApprovalRoute extends PageRouteInfo<void> {
   const PendingApprovalRoute({List<PageRouteInfo>? children})
@@ -163,19 +300,104 @@ class PreferenceQuizRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [ProductDetailsScreen]
+class ProductDetailsRoute extends PageRouteInfo<ProductDetailsRouteArgs> {
+  ProductDetailsRoute({
+    Key? key,
+    required String productId,
+    List<PageRouteInfo>? children,
+  }) : super(
+         ProductDetailsRoute.name,
+         args: ProductDetailsRouteArgs(key: key, productId: productId),
+         rawPathParams: {'foodId': productId},
+         initialChildren: children,
+       );
+
+  static const String name = 'ProductDetailsRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final pathParams = data.inheritedPathParams;
+      final args = data.argsAs<ProductDetailsRouteArgs>(
+        orElse: () =>
+            ProductDetailsRouteArgs(productId: pathParams.getString('foodId')),
+      );
+      return ProductDetailsScreen(key: args.key, productId: args.productId);
+    },
+  );
+}
+
+class ProductDetailsRouteArgs {
+  const ProductDetailsRouteArgs({this.key, required this.productId});
+
+  final Key? key;
+
+  final String productId;
+
+  @override
+  String toString() {
+    return 'ProductDetailsRouteArgs{key: $key, productId: $productId}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! ProductDetailsRouteArgs) return false;
+    return key == other.key && productId == other.productId;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ productId.hashCode;
+}
+
+/// generated route for
 /// [RegisterEmployeeScreen]
-class RegisterEmployeeRoute extends PageRouteInfo<void> {
-  const RegisterEmployeeRoute({List<PageRouteInfo>? children})
-    : super(RegisterEmployeeRoute.name, initialChildren: children);
+class RegisterEmployeeRoute extends PageRouteInfo<RegisterEmployeeRouteArgs> {
+  RegisterEmployeeRoute({
+    Key? key,
+    String? inviteCode,
+    List<PageRouteInfo>? children,
+  }) : super(
+         RegisterEmployeeRoute.name,
+         args: RegisterEmployeeRouteArgs(key: key, inviteCode: inviteCode),
+         initialChildren: children,
+       );
 
   static const String name = 'RegisterEmployeeRoute';
 
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const RegisterEmployeeScreen();
+      final args = data.argsAs<RegisterEmployeeRouteArgs>(
+        orElse: () => const RegisterEmployeeRouteArgs(),
+      );
+      return RegisterEmployeeScreen(key: args.key, inviteCode: args.inviteCode);
     },
   );
+}
+
+class RegisterEmployeeRouteArgs {
+  const RegisterEmployeeRouteArgs({this.key, this.inviteCode});
+
+  final Key? key;
+
+  final String? inviteCode;
+
+  @override
+  String toString() {
+    return 'RegisterEmployeeRouteArgs{key: $key, inviteCode: $inviteCode}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! RegisterEmployeeRouteArgs) return false;
+    return key == other.key && inviteCode == other.inviteCode;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ inviteCode.hashCode;
 }
 
 /// generated route for

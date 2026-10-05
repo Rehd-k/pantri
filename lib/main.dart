@@ -6,10 +6,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'core/analytics/analytics_service.dart';
 import 'core/router/app_router.dart';
+import 'core/router/deep_link.dart';
 import 'core/theme/app_theme.dart';
+import 'features/auth/domain/user_role.dart';
+import 'features/shell/employee_bottom_nav.dart';
 import 'features/auth/providers/auth_notifier.dart';
 import 'features/auth/providers/auth_state.dart';
-import 'features/marketplace/presentation/product_details_screen.dart';
+import 'features/home/providers/home_providers.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +29,9 @@ class MainApp extends ConsumerStatefulWidget {
 class _MainAppState extends ConsumerState<MainApp> with WidgetsBindingObserver {
   final _appLinks = AppLinks();
   StreamSubscription<Uri>? _linkSubscription;
-  String? _pendingProductId;
+  DeepLink? _pendingLink;
+  String? _lastUri;
+  DateTime? _lastUriAt;
 
   @override
   void initState() {
@@ -51,35 +56,56 @@ class _MainAppState extends ConsumerState<MainApp> with WidgetsBindingObserver {
 
   Future<void> _listenForLinks() async {
     final initial = await _appLinks.getInitialLink();
-    if (initial != null) _openLink(initial);
-    _linkSubscription = _appLinks.uriLinkStream.listen(_openLink);
+    if (initial != null) _onLink(initial);
+    _linkSubscription = _appLinks.uriLinkStream.listen(_onLink);
   }
 
-  void _openLink(Uri uri) {
-    final productId = switch ((uri.scheme, uri.host, uri.pathSegments)) {
-      ('https', 'pantri.app', ['products', final id]) => id,
-      ('pantri', 'products', [final id]) => id,
-      _ => null,
-    };
-    if (productId == null || productId.isEmpty) return;
-    _pendingProductId = productId;
-    _openPendingProduct();
-  }
-
-  void _openPendingProduct() {
-    final productId = _pendingProductId;
-    if (productId == null ||
-        ref.read(authNotifierProvider) is! AuthAuthenticated) {
+  void _onLink(Uri uri) {
+    final serialized = uri.toString();
+    final now = DateTime.now();
+    if (_lastUri == serialized &&
+        _lastUriAt != null &&
+        now.difference(_lastUriAt!) < const Duration(seconds: 1)) {
       return;
     }
-    _pendingProductId = null;
+    _lastUri = serialized;
+    _lastUriAt = now;
+
+    final link = parseDeepLink(uri);
+    if (link == null || link is PromoDeepLink) return;
+    if (link is TabDeepLink) {
+      ref.read(requestedEmployeeTabProvider.notifier).request(link.tabIndex);
+    }
+    _pendingLink = link;
+    _tryApplyPending();
+  }
+
+  void _tryApplyPending() {
+    final link = _pendingLink;
+    if (link == null) return;
+    final auth = ref.read(authNotifierProvider);
+    if (auth is AuthInitial || auth is AuthLoading) return;
+
+    if (link is InviteDeepLink) {
+      _pendingLink = null;
+      if (auth is AuthAuthenticated || auth is AuthPendingApproval) return;
+      _schedule(() => openInviteLink(ref.read(appRouterProvider), link.code));
+      return;
+    }
+
+    if (auth is! AuthAuthenticated) return;
+    _pendingLink = null;
+    if (auth.user.role != UserRole.employee) {
+      ref.read(requestedEmployeeTabProvider.notifier).clear();
+      return;
+    }
+    _schedule(() => openEmployeeDeepLink(ref, link));
+  }
+
+  void _schedule(VoidCallback action) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final navigator = ref.read(appRouterProvider).navigatorKey.currentState;
-      navigator?.push(
-        MaterialPageRoute<void>(
-          builder: (_) => ProductDetailsScreen(productId: productId),
-        ),
-      );
+      if (!mounted) return;
+      action();
     });
   }
 
@@ -92,8 +118,12 @@ class _MainAppState extends ConsumerState<MainApp> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen<AuthState>(authNotifierProvider, (_, next) {
-      if (next is AuthAuthenticated) _openPendingProduct();
+    ref.listen<AuthState>(authNotifierProvider, (previous, next) {
+      if (previous is AuthAuthenticated && next is! AuthAuthenticated) {
+        ref.read(employeeTabIndexProvider.notifier).setIndex(EmployeeTabs.home);
+        ref.read(requestedEmployeeTabProvider.notifier).clear();
+      }
+      _tryApplyPending();
     });
     final router = ref.watch(appRouterProvider);
     final authRefresh = ref.watch(authRouteRefreshProvider);

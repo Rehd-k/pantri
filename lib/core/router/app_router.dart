@@ -13,7 +13,12 @@ import '../../features/auth/presentation/splash_screen.dart';
 import '../../features/auth/presentation/welcome_screen.dart';
 import '../../features/auth/providers/auth_notifier.dart';
 import '../../features/auth/providers/auth_state.dart';
+import '../../features/marketplace/presentation/product_details_screen.dart';
 import '../../features/nutrition/presentation/health_questionnaire_screen.dart';
+import '../../features/orders/presentation/order_detail_screen.dart';
+import '../../features/packages/presentation/package_details_screen.dart';
+import '../../features/packages/presentation/packages_screen.dart';
+import '../../features/orders/presentation/orders_screen.dart';
 import '../../features/onboarding/presentation/onboarding_screen.dart';
 import '../../features/onboarding/presentation/preference_quiz_screen.dart';
 import '../../features/onboarding/providers/first_launch_provider.dart';
@@ -37,7 +42,14 @@ class AuthRouteGuard extends AutoRouteGuard {
     RegisterLogisticsRoute.name,
   };
 
-  static const _employeeRoutes = {HealthQuestionnaireRoute.name};
+  static const _employeeRoutes = {
+    HealthQuestionnaireRoute.name,
+    ProductDetailsRoute.name,
+    OrderDetailRoute.name,
+    OrdersRoute.name,
+    PackagesRoute.name,
+    PackageDetailsRoute.name,
+  };
 
   @override
   void onNavigation(NavigationResolver resolver, StackRouter router) {
@@ -103,7 +115,7 @@ class AuthRouteGuard extends AutoRouteGuard {
       return;
     }
     if (routeName == PreferenceQuizRoute.name && _hasFinishedQuiz()) {
-      _replaceStack(resolver, router, const RegisterHubRoute());
+      _replaceStack(resolver, router, RegisterEmployeeRoute());
       return;
     }
     if (routeName == PreferenceQuizRoute.name && !_hasSeenIntro()) {
@@ -121,10 +133,10 @@ class AuthRouteGuard extends AutoRouteGuard {
     resolver.next();
   }
 
-  void _replaceStack(
+  void _replaceStack<T>(
     NavigationResolver resolver,
     StackRouter router,
-    PageRouteInfo<void> route,
+    PageRouteInfo<T> route,
   ) {
     router.replaceAll([route]);
     resolver.next(false);
@@ -193,6 +205,11 @@ class AppRouter extends RootStackRouter {
     ),
     AutoRoute(page: SupplierHomeRoute.page, path: '/supplier/home'),
     AutoRoute(page: LogisticsHomeRoute.page, path: '/logistics/home'),
+    AutoRoute(page: ProductDetailsRoute.page, path: '/app/food/:foodId'),
+    AutoRoute(page: OrderDetailRoute.page, path: '/app/order/:orderId'),
+    AutoRoute(page: OrdersRoute.page, path: '/app/orders'),
+    AutoRoute(page: PackagesRoute.page, path: '/app/packages'),
+    AutoRoute(page: PackageDetailsRoute.page, path: '/app/packages/:packageId'),
   ];
 }
 
@@ -209,7 +226,7 @@ final authRouteRefreshProvider = Provider<ValueNotifier<int>>((ref) {
     if (next is AuthLoading) return;
     notifier.value++;
   });
-  ref.listen<FirstLaunchState>(firstLaunchProvider, (_, __) {
+  ref.listen<FirstLaunchState>(firstLaunchProvider, (_, _) {
     notifier.value++;
   });
   ref.onDispose(notifier.dispose);

@@ -27,7 +27,11 @@ class OnboardingIllustration extends StatelessWidget {
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        final size = math.min(constraints.maxWidth, constraints.maxHeight);
+        final available = math.min(
+          constraints.maxWidth,
+          constraints.maxHeight,
+        );
+        final size = available * 0.86;
         return Center(
           child: SizedBox(
             width: size,
@@ -91,18 +95,18 @@ class OnboardingIllustration extends StatelessWidget {
     return switch (kind) {
       OnboardingIllustrationKind.creditShop => [
         Positioned(
-          right: size * 0.12,
-          bottom: size * 0.18,
+          right: size * 0.18,
+          bottom: size * 0.2,
           child: Transform.translate(
-            offset: Offset(floatAlt, -float),
+            offset: Offset(floatAlt * 0.4, -float),
             child: _NairaChip(colorScheme: colorScheme),
           ),
         ),
         Positioned(
-          left: size * 0.08,
-          top: size * 0.18,
+          left: size * 0.16,
+          top: size * 0.2,
           child: Transform.translate(
-            offset: Offset(-floatAlt * 0.6, float),
+            offset: Offset(floatAlt * 0.3, float),
             child: _MiniOrb(
               color: colorScheme.secondaryContainer,
               iconColor: colorScheme.onSecondaryContainer,
@@ -111,10 +115,10 @@ class OnboardingIllustration extends StatelessWidget {
           ),
         ),
         Positioned(
-          left: size * 0.16,
-          bottom: size * 0.22,
+          left: size * 0.22,
+          bottom: size * 0.24,
           child: Transform.translate(
-            offset: Offset(float * 0.4, floatAlt),
+            offset: Offset(float * 0.3, floatAlt * 0.4),
             child: _MiniOrb(
               color: colorScheme.tertiaryContainer,
               iconColor: colorScheme.onTertiaryContainer,
@@ -125,18 +129,18 @@ class OnboardingIllustration extends StatelessWidget {
       ],
       OnboardingIllustrationKind.payroll => [
         Positioned(
-          right: size * 0.1,
-          top: size * 0.2,
+          right: size * 0.16,
+          top: size * 0.22,
           child: Transform.translate(
-            offset: Offset(floatAlt, float * 0.5),
+            offset: Offset(floatAlt * 0.3, float * 0.4),
             child: _MonthPills(colorScheme: colorScheme),
           ),
         ),
         Positioned(
-          left: size * 0.1,
-          bottom: size * 0.2,
+          left: size * 0.16,
+          bottom: size * 0.22,
           child: Transform.translate(
-            offset: Offset(-float, floatAlt),
+            offset: Offset(float * 0.3, floatAlt * 0.4),
             child: _MiniOrb(
               color: colorScheme.secondaryContainer,
               iconColor: colorScheme.onSecondaryContainer,
@@ -145,10 +149,10 @@ class OnboardingIllustration extends StatelessWidget {
           ),
         ),
         Positioned(
-          right: size * 0.18,
-          bottom: size * 0.16,
+          right: size * 0.22,
+          bottom: size * 0.18,
           child: Transform.translate(
-            offset: Offset(float, -floatAlt),
+            offset: Offset(float * 0.3, -floatAlt * 0.4),
             child: _MiniOrb(
               color: colorScheme.primaryContainer,
               iconColor: colorScheme.onPrimaryContainer,
@@ -159,10 +163,10 @@ class OnboardingIllustration extends StatelessWidget {
       ],
       OnboardingIllustrationKind.marketplace => [
         Positioned(
-          right: size * 0.12,
-          top: size * 0.16,
+          right: size * 0.18,
+          top: size * 0.18,
           child: Transform.translate(
-            offset: Offset(floatAlt, float),
+            offset: Offset(floatAlt * 0.3, float * 0.4),
             child: _MiniOrb(
               color: colorScheme.tertiaryContainer,
               iconColor: colorScheme.onTertiaryContainer,
@@ -172,10 +176,10 @@ class OnboardingIllustration extends StatelessWidget {
           ),
         ),
         Positioned(
-          left: size * 0.1,
+          left: size * 0.16,
           top: size * 0.28,
           child: Transform.translate(
-            offset: Offset(-floatAlt, -float * 0.4),
+            offset: Offset(floatAlt * 0.3, -float * 0.3),
             child: _MiniOrb(
               color: colorScheme.secondaryContainer,
               iconColor: colorScheme.onSecondaryContainer,
@@ -184,10 +188,10 @@ class OnboardingIllustration extends StatelessWidget {
           ),
         ),
         Positioned(
-          left: size * 0.18,
-          bottom: size * 0.18,
+          left: size * 0.22,
+          bottom: size * 0.2,
           child: Transform.translate(
-            offset: Offset(float * 0.5, floatAlt),
+            offset: Offset(float * 0.3, floatAlt * 0.4),
             child: _MiniOrb(
               color: colorScheme.primaryContainer,
               iconColor: colorScheme.onPrimaryContainer,
@@ -198,10 +202,10 @@ class OnboardingIllustration extends StatelessWidget {
       ],
       OnboardingIllustrationKind.meals => [
         Positioned(
-          right: size * 0.1,
-          top: size * 0.18,
+          right: size * 0.16,
+          top: size * 0.2,
           child: Transform.translate(
-            offset: Offset(floatAlt, -float),
+            offset: Offset(floatAlt * 0.3, -float * 0.4),
             child: _MiniOrb(
               color: colorScheme.secondaryContainer,
               iconColor: colorScheme.onSecondaryContainer,
@@ -210,10 +214,10 @@ class OnboardingIllustration extends StatelessWidget {
           ),
         ),
         Positioned(
-          left: size * 0.12,
-          top: size * 0.22,
+          left: size * 0.18,
+          top: size * 0.24,
           child: Transform.translate(
-            offset: Offset(-float, floatAlt * 0.6),
+            offset: Offset(float * 0.3, floatAlt * 0.3),
             child: _MiniOrb(
               color: colorScheme.primaryContainer,
               iconColor: colorScheme.onPrimaryContainer,
@@ -222,10 +226,10 @@ class OnboardingIllustration extends StatelessWidget {
           ),
         ),
         Positioned(
-          right: size * 0.16,
-          bottom: size * 0.18,
+          right: size * 0.2,
+          bottom: size * 0.2,
           child: Transform.translate(
-            offset: Offset(float, floatAlt),
+            offset: Offset(float * 0.3, floatAlt * 0.4),
             child: _MiniOrb(
               color: colorScheme.tertiaryContainer,
               iconColor: colorScheme.onTertiaryContainer,
@@ -439,20 +443,20 @@ class _AtmospherePainter extends CustomPainter {
     }
 
     blob(
-      center + Offset(-size.width * 0.18, -size.height * 0.08 + t * 6),
-      size.width * 0.34,
+      center + Offset(-size.width * 0.12, -size.height * 0.06 + t * 6),
+      size.width * 0.26,
       primary,
       0.16,
     );
     blob(
-      center + Offset(size.width * 0.22, size.height * 0.1 - t * 5),
-      size.width * 0.28,
+      center + Offset(size.width * 0.14, size.height * 0.08 - t * 5),
+      size.width * 0.22,
       secondary,
       0.14,
     );
     blob(
-      center + Offset(size.width * 0.04, size.height * 0.26),
-      size.width * 0.18,
+      center + Offset(size.width * 0.02, size.height * 0.18),
+      size.width * 0.14,
       colorScheme.primary,
       0.08,
     );
@@ -461,7 +465,7 @@ class _AtmospherePainter extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.4
       ..color = primary.withValues(alpha: 0.22);
-    canvas.drawCircle(center, size.width * 0.42, ringPaint);
+    canvas.drawCircle(center, size.width * 0.36, ringPaint);
 
     final dashed = Paint()
       ..style = PaintingStyle.stroke
@@ -469,7 +473,7 @@ class _AtmospherePainter extends CustomPainter {
       ..strokeCap = StrokeCap.round
       ..color = secondary.withValues(alpha: 0.35);
 
-    final radius = size.width * 0.36;
+    final radius = size.width * 0.3;
     const dashCount = 28;
     for (var i = 0; i < dashCount; i++) {
       final start = (i / dashCount) * math.pi * 2 + t * 0.6;
@@ -487,7 +491,7 @@ class _AtmospherePainter extends CustomPainter {
     final sparkle = Paint()..color = secondary.withValues(alpha: 0.55);
     for (final i in [0, 1, 2, 3, 4]) {
       final angle = (i / 5) * math.pi * 2 + t * 0.8;
-      final r = size.width * (0.3 + (i.isEven ? 0.08 : 0.02));
+      final r = size.width * (0.24 + (i.isEven ? 0.06 : 0.02));
       canvas.drawCircle(
         Offset(
           center.dx + math.cos(angle) * r,

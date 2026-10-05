@@ -80,7 +80,9 @@ abstract class MarketplaceProduct with _$MarketplaceProduct {
     @Default(<String, String>{}) Map<String, String> nutritionFacts,
     @Default(CanonicalNutrition()) CanonicalNutrition nutrition,
     @Default(<ProductAllergen>[]) List<ProductAllergen> allergens,
-    @Default(<PerfectForItem>[]) List<PerfectForItem> perfectFor,
+    @JsonKey(fromJson: perfectForFromJson)
+    @Default(<PerfectForItem>[])
+    List<PerfectForItem> perfectFor,
     required List<String> tags,
     @Default(<ProductPack>[]) List<ProductPack> packs,
     required int sortOrder,

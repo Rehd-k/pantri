@@ -63,7 +63,9 @@ class _MarketplaceSearchScreenState
       if (!mounted) return;
       setState(() => _query = value.trim());
       if (_query.isNotEmpty) {
-        ref.read(analyticsServiceProvider).track(
+        ref
+            .read(analyticsServiceProvider)
+            .track(
               AnalyticsEvents.searchSubmitted,
               metadata: {'query': _query},
             );
@@ -72,10 +74,10 @@ class _MarketplaceSearchScreenState
   }
 
   ProductSearchParams get _params => ProductSearchParams(
-        q: _query.isEmpty ? null : _query,
-        categoryId: widget.categoryId,
-        subcategoryId: _selectedSubcategoryId,
-      );
+    q: _query.isEmpty ? null : _query,
+    categoryId: widget.categoryId,
+    subcategoryId: _selectedSubcategoryId,
+  );
 
   String get _resultsLabel {
     if (_query.isNotEmpty) return _query;
@@ -110,7 +112,9 @@ class _MarketplaceSearchScreenState
 
     if (widget.categoryId != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        ref.read(analyticsServiceProvider).track(
+        ref
+            .read(analyticsServiceProvider)
+            .track(
               AnalyticsEvents.categoryViewed,
               entityType: 'category',
               entityId: widget.categoryId,
@@ -206,7 +210,7 @@ class _MarketplaceSearchScreenState
                 height: 44,
                 child: subsAsync.when(
                   loading: () => const SizedBox.shrink(),
-                  error: (_, __) => const SizedBox.shrink(),
+                  error: (_, _) => const SizedBox.shrink(),
                   data: (subs) {
                     if (subs.isEmpty) return const SizedBox.shrink();
                     return ListView.separated(
@@ -215,7 +219,7 @@ class _MarketplaceSearchScreenState
                         horizontal: AppSpacing.lg,
                       ),
                       itemCount: subs.length,
-                      separatorBuilder: (_, __) =>
+                      separatorBuilder: (_, _) =>
                           const SizedBox(width: AppSpacing.sm),
                       itemBuilder: (context, index) {
                         final sub = subs[index];
@@ -226,8 +230,7 @@ class _MarketplaceSearchScreenState
                           label: Text(sub.name),
                           onSelected: (value) {
                             setState(() {
-                              _selectedSubcategoryId =
-                                  value ? sub.id : null;
+                              _selectedSubcategoryId = value ? sub.id : null;
                             });
                           },
                           selectedColor: colorScheme.tertiaryContainer,
@@ -236,8 +239,9 @@ class _MarketplaceSearchScreenState
                             color: selected
                                 ? colorScheme.onTertiaryContainer
                                 : colorScheme.onSurface,
-                            fontWeight:
-                                selected ? FontWeight.w700 : FontWeight.w500,
+                            fontWeight: selected
+                                ? FontWeight.w700
+                                : FontWeight.w500,
                           ),
                           backgroundColor: colorScheme.surfaceContainerHighest,
                           side: BorderSide.none,
@@ -260,18 +264,18 @@ class _MarketplaceSearchScreenState
                     child: Text(
                       "Results for '$_resultsLabel'",
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.w800,
-                          ),
+                        fontWeight: FontWeight.w800,
+                      ),
                     ),
                   ),
                   resultsAsync.when(
                     loading: () => const SizedBox.shrink(),
-                    error: (_, __) => const SizedBox.shrink(),
+                    error: (_, _) => const SizedBox.shrink(),
                     data: (data) => Text(
                       '${data.total} items found',
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: colorScheme.onSurfaceVariant,
-                          ),
+                        color: colorScheme.onSurfaceVariant,
+                      ),
                     ),
                   ),
                 ],
@@ -279,15 +283,12 @@ class _MarketplaceSearchScreenState
             ),
             Expanded(
               child: resultsAsync.when(
-                loading: () =>
-                    const Center(child: CircularProgressIndicator()),
+                loading: () => const Center(child: CircularProgressIndicator()),
                 error: (error, _) => Center(
                   child: Padding(
                     padding: const EdgeInsets.all(AppSpacing.lg),
                     child: Text(
-                      error is ApiException
-                          ? error.message
-                          : error.toString(),
+                      error is ApiException ? error.message : error.toString(),
                       style: TextStyle(color: colorScheme.error),
                     ),
                   ),
@@ -309,11 +310,11 @@ class _MarketplaceSearchScreenState
                     ),
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: AppSpacing.md,
-                      crossAxisSpacing: AppSpacing.md,
-                      childAspectRatio: 0.58,
-                    ),
+                          crossAxisCount: 2,
+                          mainAxisSpacing: AppSpacing.md,
+                          crossAxisSpacing: AppSpacing.md,
+                          childAspectRatio: 0.58,
+                        ),
                     itemCount: data.items.length,
                     itemBuilder: (context, index) {
                       final product = data.items[index];
@@ -326,9 +327,8 @@ class _MarketplaceSearchScreenState
                           }
                           Navigator.of(context).push(
                             MaterialPageRoute<void>(
-                              builder: (_) => ProductDetailsScreen(
-                                productId: product.id,
-                              ),
+                              builder: (_) =>
+                                  ProductDetailsScreen(productId: product.id),
                             ),
                           );
                         },
@@ -337,46 +337,46 @@ class _MarketplaceSearchScreenState
                                 widget.onProductPicked?.call(product);
                               }
                             : () async {
-                          final packId = product.cheapestPack?.id;
-                          if (packId == null) {
-                            if (context.mounted) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text(
-                                    'This product has no sellable packs',
-                                  ),
-                                ),
-                              );
-                            }
-                            return;
-                          }
-                          try {
-                            await ref
-                                .read(cartNotifierProvider.notifier)
-                                .addProduct(packId);
-                            if (context.mounted) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    'Added ${product.name} to cart',
-                                  ),
-                                ),
-                              );
-                            }
-                          } catch (e) {
-                            if (context.mounted) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    e is ApiException
-                                        ? e.message
-                                        : e.toString(),
-                                  ),
-                                ),
-                              );
-                            }
-                          }
-                        },
+                                final packId = product.cheapestPack?.id;
+                                if (packId == null) {
+                                  if (context.mounted) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                          'This product has no sellable packs',
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                  return;
+                                }
+                                try {
+                                  await ref
+                                      .read(cartNotifierProvider.notifier)
+                                      .addProduct(packId);
+                                  if (context.mounted) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          'Added ${product.name} to cart',
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                } catch (e) {
+                                  if (context.mounted) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          e is ApiException
+                                              ? e.message
+                                              : e.toString(),
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                }
+                              },
                       );
                     },
                   );

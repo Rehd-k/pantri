@@ -58,9 +58,7 @@ class _CustomizePackageScreenState
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(e is ApiException ? e.message : e.toString()),
-        ),
+        SnackBar(content: Text(e is ApiException ? e.message : e.toString())),
       );
     } finally {
       if (mounted) setState(() => _loading = false);
@@ -69,9 +67,7 @@ class _CustomizePackageScreenState
 
   Future<void> _addProduct() async {
     final product = await Navigator.of(context).push<MarketplaceProduct>(
-      MaterialPageRoute(
-        builder: (_) => const _ProductPickerBridge(),
-      ),
+      MaterialPageRoute(builder: (_) => const _ProductPickerBridge()),
     );
     if (product == null) return;
     if (!mounted) return;
@@ -99,7 +95,9 @@ class _CustomizePackageScreenState
             name: product.name,
             brand: pack.brand,
             packageLabel: pack.packageLabel,
-            imageUrl: pack.imageUrl.isNotEmpty ? pack.imageUrl : product.imageUrl,
+            imageUrl: pack.imageUrl.isNotEmpty
+                ? pack.imageUrl
+                : product.imageUrl,
             priceKobo: pack.priceKobo,
             retailPriceKobo: pack.retailPriceKobo,
             lineWholesaleKobo: pack.priceKobo,
@@ -135,10 +133,9 @@ class _CustomizePackageScreenState
                 padding: const EdgeInsets.all(AppSpacing.lg),
                 child: Text(
                   'Choose pack size',
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleMedium
-                      ?.copyWith(fontWeight: FontWeight.w700),
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
               for (final pack in packs)
@@ -169,8 +166,7 @@ class _CustomizePackageScreenState
             child: ListView.separated(
               padding: const EdgeInsets.all(AppSpacing.lg),
               itemCount: _items.length,
-              separatorBuilder: (_, __) =>
-                  const SizedBox(height: AppSpacing.md),
+              separatorBuilder: (_, _) => const SizedBox(height: AppSpacing.md),
               itemBuilder: (context, index) {
                 final item = _items[index];
                 return ListTile(
@@ -182,7 +178,7 @@ class _CustomizePackageScreenState
                       width: 48,
                       height: 48,
                       fit: BoxFit.cover,
-                      errorBuilder: (_, __, ___) =>
+                      errorBuilder: (_, _, _) =>
                           const Icon(Icons.inventory_2_outlined),
                     ),
                   ),
@@ -212,8 +208,9 @@ class _CustomizePackageScreenState
                       IconButton(
                         onPressed: () async {
                           setState(() {
-                            _items[index] =
-                                item.copyWith(quantity: item.quantity + 1);
+                            _items[index] = item.copyWith(
+                              quantity: item.quantity + 1,
+                            );
                           });
                           await _refreshPreview();
                         },

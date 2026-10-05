@@ -44,7 +44,9 @@ class NutritionApi {
     }
   }
 
-  Future<HealthProfile> upsertProfile(UpsertHealthProfileRequest request) async {
+  Future<HealthProfile> upsertProfile(
+    UpsertHealthProfileRequest request,
+  ) async {
     try {
       final response = await _dio.put<Map<String, dynamic>>(
         '/nutrition/profile',
@@ -58,9 +60,7 @@ class NutritionApi {
 
   Future<List<MealPlanSummary>> listMealPlans() async {
     try {
-      final response = await _dio.get<List<dynamic>>(
-        '/nutrition/meal-plans',
-      );
+      final response = await _dio.get<List<dynamic>>('/nutrition/meal-plans');
       return response.data!
           .map((e) => MealPlanSummary.fromJson(e as Map<String, dynamic>))
           .toList();
@@ -95,9 +95,7 @@ class NutritionApi {
     try {
       final response = await _dio.post<Map<String, dynamic>>(
         '/nutrition/recipes/$recipeId/cook',
-        data: {
-          if (servings != null) 'servings': servings,
-        },
+        data: {'servings': ?servings},
       );
       return CookMealResult.fromJson(response.data!);
     } on DioException catch (e) {
@@ -109,9 +107,7 @@ class NutritionApi {
     try {
       final response = await _dio.post<Map<String, dynamic>>(
         '/nutrition/meal-plans/items/$itemId/cook',
-        data: {
-          if (servings != null) 'servings': servings,
-        },
+        data: {'servings': ?servings},
       );
       return CookMealResult.fromJson(response.data!);
     } on DioException catch (e) {
@@ -179,7 +175,7 @@ class NutritionApi {
           'metricKey': metricKey,
           'value': value,
           'unitLabel': unitLabel,
-          if (note != null) 'note': note,
+          'note': ?note,
         },
       );
       return ProgressCheckpoint.fromJson(response.data!);
@@ -195,10 +191,7 @@ class NutritionApi {
     try {
       final response = await _dio.get<Map<String, dynamic>>(
         '/nutrition/progress',
-        queryParameters: {
-          if (from != null) 'from': from,
-          if (to != null) 'to': to,
-        },
+        queryParameters: {'from': ?from, 'to': ?to},
       );
       return NutritionProgressReport.fromJson(response.data!);
     } on DioException catch (e) {

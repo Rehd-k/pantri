@@ -26,7 +26,7 @@ class RegisterHubScreen extends StatelessWidget {
           const AuthScreenHeader(
             title: 'Create your account',
             subtitle:
-                'Employees join with a company invite. Suppliers and logistics partners need a short admin review.',
+                'Join with the invite your employer sent and shop on payroll credit.',
           ),
           const SizedBox(height: AppSpacing.xxl),
           _RoleCard(
@@ -35,22 +35,7 @@ class RegisterHubScreen extends StatelessWidget {
                 'Join with your company invite code and shop on payroll credit.',
             icon: Icons.badge_rounded,
             featured: true,
-            onTap: () => context.router.push(const RegisterEmployeeRoute()),
-          ),
-          const SizedBox(height: AppSpacing.md),
-          _RoleCard(
-            title: 'Supplier',
-            subtitle: 'List wholesale goods. Requires admin approval.',
-            icon: Icons.inventory_2_rounded,
-            onTap: () => context.router.push(const RegisterSupplierRoute()),
-          ),
-          const SizedBox(height: AppSpacing.md),
-          _RoleCard(
-            title: 'Logistics',
-            subtitle:
-                'Deliver orders to company hubs. Requires admin approval.',
-            icon: Icons.local_shipping_rounded,
-            onTap: () => context.router.push(const RegisterLogisticsRoute()),
+            onTap: () => context.router.push(RegisterEmployeeRoute()),
           ),
           const SizedBox(height: AppSpacing.xl),
           AppButton(

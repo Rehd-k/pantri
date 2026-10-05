@@ -161,8 +161,15 @@ class _CreatePackageScreenState extends ConsumerState<CreatePackageScreen> {
       ref.invalidate(minePackagesProvider);
       if (!mounted) return;
 
-      await Share.share(
-        '${created.name}\n${created.description}\n${created.shareUrl}\n${created.shareBannerUrl}',
+      final box = context.findRenderObject() as RenderBox?;
+      await SharePlus.instance.share(
+        ShareParams(
+          text:
+              '${created.name}\n${created.description}\n${created.shareUrl}\n${created.shareBannerUrl}',
+          sharePositionOrigin: box == null
+              ? null
+              : box.localToGlobal(Offset.zero) & box.size,
+        ),
       );
 
       if (!mounted) return;

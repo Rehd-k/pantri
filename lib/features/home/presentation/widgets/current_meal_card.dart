@@ -286,7 +286,7 @@ class _MealHero extends StatelessWidget {
           height: 140,
           width: double.infinity,
           fit: BoxFit.cover,
-          errorBuilder: (_, __, ___) => _FallbackHero(slot: slot, tagColor: tagColor),
+          errorBuilder: (_, _, _) => _FallbackHero(slot: slot, tagColor: tagColor),
         ),
       );
     }
