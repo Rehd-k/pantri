@@ -260,7 +260,7 @@ class _CompareProductCard extends StatelessWidget {
               ),
               const SizedBox(height: AppSpacing.sm),
               Text(
-                product.brand,
+                product.sellablePackLabel,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.labelMedium,

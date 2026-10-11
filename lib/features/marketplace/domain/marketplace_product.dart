@@ -108,6 +108,13 @@ abstract class MarketplaceProduct with _$MarketplaceProduct {
 
   int get priceKobo => fromPriceKobo;
   int get retailPriceKobo => fromRetailPriceKobo;
+  int get sellablePackCount => activePacks.length;
+  String get sellablePackLabel {
+    final count = sellablePackCount;
+    if (count == 1) return '1 sellable pack';
+    return '$count sellable packs';
+  }
+
   String get brand => cheapestPack?.brand ?? '';
   String get packageLabel {
     final pack = cheapestPack;

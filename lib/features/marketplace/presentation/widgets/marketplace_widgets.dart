@@ -260,7 +260,7 @@ class MarketplaceProductCard extends StatelessWidget {
                 ),
               ),
               Text(
-                product.brand,
+                product.sellablePackLabel,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: textTheme.bodySmall?.copyWith(

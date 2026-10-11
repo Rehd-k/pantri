@@ -145,7 +145,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                   ),
                   title: Text('${item.name} ${item.packageLabel}'.trim()),
                   subtitle: Text(
-                    '${item.brand} · ${MoneyKobo.formatNaira(item.priceKobo)}',
+                    '${item.sellablePackLabel} · ${MoneyKobo.formatNaira(item.priceKobo)}',
                   ),
                   onTap: () => Navigator.of(context).pop(item.id),
                 ),
@@ -271,6 +271,21 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                               product.name,
                               style: Theme.of(context).textTheme.headlineSmall
                                   ?.copyWith(fontWeight: FontWeight.w800),
+                            ),
+                            const SizedBox(height: AppSpacing.xs),
+                            Text(
+                              packs.isEmpty
+                                  ? 'No sellable packs'
+                                  : packs.length == 1
+                                  ? '1 sellable pack'
+                                  : '${packs.length} sellable packs',
+                              style: Theme.of(context).textTheme.bodyMedium
+                                  ?.copyWith(
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onSurfaceVariant,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                             ),
                             const SizedBox(height: AppSpacing.sm),
                             _RatingRow(
